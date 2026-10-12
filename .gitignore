@@ -1,7 +1,9 @@
 # --- Data, models and run outputs (too large / regenerable; live on Google Drive) ---
-data/
-datasets/
-runs/
+# Leading "/" anchors to the repo root. An unanchored "data/" also ignored the
+# package folder src/porkqc/data/ — caught by CI on the first push.
+/data/
+/datasets/
+/runs/
 *.pt
 *.pth
 *.onnx
