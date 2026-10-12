@@ -1,18 +1,17 @@
 """
-Detection metrics.
+Detection metrics, implemented explicitly and unit-tested (WP2).
 
-Implemented
------------
 porkqc.metrics.iou
     Box area and pairwise IoU.
-
-Planned (WP2)
--------------
-Prediction-to-ground-truth matching, precision-recall curves, average precision
-computed with several numerical-integration rules (and verified against
-Ultralytics), and bootstrap confidence intervals.
+porkqc.metrics.matching
+    True/false positives per image (confidence-ordered or Ultralytics rule).
+porkqc.metrics.ap
+    Precision–recall curves and average precision under several integration
+    rules (exact step area, COCO 101-point, VOC 11-point, Ultralytics).
+porkqc.metrics.quadrature
+    Generic quadrature rules (midpoint, trapezoid, Simpson, Gauss–Legendre,
+    Romberg) and observed order of convergence, for the AP-as-integral study.
+porkqc.metrics.evaluate
+    Dataset-level matching, mAP summaries, operating-point counts and
+    bootstrap confidence intervals.
 """
-
-from .iou import box_area, box_iou
-
-__all__ = ["box_area", "box_iou"]
