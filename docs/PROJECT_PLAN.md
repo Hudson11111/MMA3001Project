@@ -205,8 +205,8 @@ everything else runs on CPU in parallel. "You" = run in Colab; "Claude" = code/a
 | Day | GPU (you, Colab) | CPU / code (Claude, and you reviewing) |
 |---|---|---|
 | Mon 12 | Notebook 00 (CPU): download + first look | Re-plan; licence; metrics core (WP2); training notebook |
-| Tue 13 | **Train YOLO11n** (~1 h), export predictions | Data audit notebook (WP1): near-duplicates, split decision |
-| Wed 14 | **Train YOLO26n** (~1 h), export predictions | Evaluate both on VALID with own metrics; verify vs Ultralytics |
+| Mon 12–Tue 13 | **Run 1: YOLO11n, Roboflow split** (~1 h); notebook 01 audit (CPU) + your review of unlabelled images | Evaluate run 1 on VALID with own metrics; confirm blocked-split settings |
+| Tue 13–Wed 14 | **Run 2: YOLO11n, blocked split**; **Run 3: YOLO26n, blocked split** (D-022) | Leakage optimism (run 1 vs 2); model comparison (run 2 vs 3); verify vs Ultralytics |
 | Thu 15 | Short session: latency benchmarks (GPU vs CPU, batch, resolution, FP16) | Baselines B0/B1 (WP4); decision layer + thresholds (WP5) |
 | Fri 16 | Robustness run (perturbed VALID images) | AP-as-integral study (WP8); roofline analysis (WP6) |
 | Sat 17 | **One-shot TEST evaluation** of the selected model | Bootstrap CIs, failure gallery (WP7) |

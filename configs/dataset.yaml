@@ -27,3 +27,13 @@ expected:
 paths:
   colab_data_dir: /content/data/pork-rasher-v4
   drive_project_dir: /content/drive/MyDrive/MMA3001Project   # runs/weights persist here
+
+# Time-blocked re-split (DECISION_LOG D-008). Frames are video frames, so the
+# random Roboflow split puts the same tray in several splits. Values are
+# provisional until notebook 01 measures how many frames one tray stays in view.
+blocked_split:
+  block_size: 300          # frames per block assigned as a whole to one split
+  gap: 50                  # purge: no two kept frames from different splits within 50 frames
+  fractions: [0.7, 0.15, 0.15]
+  seed: 0
+  colab_dir: /content/data/pork-rasher-v4-blocked
