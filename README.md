@@ -78,4 +78,6 @@ authored as "Claude"; design decisions and their rationale are recorded in
 
 ## Licence
 
-To be decided (see DECISION_LOG D-011). The dataset is separately licensed CC BY 4.0.
+Code: [GNU AGPL-3.0](LICENSE) — chosen for compatibility with the Ultralytics
+library (also AGPL-3.0) that this project imports (DECISION_LOG D-011).
+Dataset: CC BY 4.0, licensed separately and not included in this repository.
