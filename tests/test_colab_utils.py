@@ -5,7 +5,7 @@ import subprocess
 
 import pytest
 
-from porkqc.colab_utils import _push_url, push_results, redact
+from porkqc.colab_utils import _normalise_remote, _push_url, push_results, redact
 
 pytestmark = pytest.mark.skipif(shutil.which("git") is None, reason="git not installed")
 
@@ -69,7 +69,24 @@ def test_push_results_missing_file(remote_and_clone):
 
 def test_git_failure_message_is_scrubbed(remote_and_clone, tmp_path):
     _, work = remote_and_clone
+    bad = "https://SECRET@invalid.invalid/none.git"
+    _git("remote", "set-url", "origin", bad, cwd=work)  # pass the clone check, fail at git
     with pytest.raises(RuntimeError) as exc:
-        push_results(work, ["README.md"], "x", token="SECRET",
-                     remote="https://SECRET@invalid.invalid/none.git")
+        push_results(work, ["README.md"], "x", token="SECRET", remote=bad)
     assert "SECRET" not in str(exc.value)
+
+
+def test_refuses_to_push_from_a_folder_that_is_not_a_clone(remote_and_clone, tmp_path):
+    """Regression test for VERIFICATION_LOG V8: a local dry run must never push."""
+    remote, _ = remote_and_clone
+    stray = tmp_path / "not_a_repo"
+    (stray / "results").mkdir(parents=True)
+    (stray / "results" / "fake.json").write_text("{}")
+    with pytest.raises(ValueError, match="Refusing to push"):
+        push_results(stray, ["results/fake.json"], "x", token=None, remote=str(remote))
+    assert "colab-results" not in _git("branch", "--list", cwd=remote)
+
+
+def test_normalise_remote():
+    a = _normalise_remote("https://x-access-token:T@github.com/Hudson11111/MMA3001Project.git")
+    assert a == _normalise_remote("https://github.com/hudson11111/mma3001project/")

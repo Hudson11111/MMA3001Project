@@ -24,6 +24,7 @@ Full input/output contract: [`docs/IO_SPECIFICATION.md`](docs/IO_SPECIFICATION.m
 | Notebook | Purpose | Open |
 |---|---|---|
 | `00_colab_setup_and_first_look` | Install, download dataset, verify splits, first class counts (CPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/00_colab_setup_and_first_look.ipynb) |
+| `01_data_audit` | Box statistics, augmentation accounting, near-duplicate leakage check (CPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/01_data_audit.ipynb) |
 | `02_train_detector` | Train YOLO11n / YOLO26n (resumable), training curves, export VALID predictions (GPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/02_train_detector.ipynb) |
 
 **One-time setup**
