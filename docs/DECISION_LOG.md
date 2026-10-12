@@ -33,6 +33,7 @@ objection raised; the latter are noted "(no objection)".
 | D-017 | Training settings: input size, epochs, early stopping | 🟡 |
 | D-018 | Evaluate from exported predictions with our own metrics | 🟡 |
 | D-019 | Prediction-to-ground-truth matching rule | 🟡 |
+| D-020 | AP integration rule (exact step area as primary) | 🟡 |
 
 ---
 
@@ -208,3 +209,17 @@ objection raised; the latter are noted "(no objection)".
   primary rule, because it is the documented standard and depends only on the
   ranking the operator would actually use; an `"ultralytics"` option reproduces
   their rule for verification. The size of any difference is reported.
+
+### D-020 — AP integration rule 🟡
+- **Context:** AP is the integral of the interpolated-precision step function
+  (see `porkqc.metrics.ap`). Libraries approximate it with different quadrature
+  rules: COCO averages 101 samples; VOC2007 averages 11; Ultralytics applies the
+  trapezoid rule to 101 samples of a linearly interpolated envelope.
+- **Choice:** report the **exact** step-function area as our primary AP — it is
+  the integral itself, with no discretisation error — and report the
+  Ultralytics-rule value alongside for comparability with training logs.
+- **Evidence so far:** unit tests show the rules differ on hand-computed curves
+  (0.8333 exact vs 0.8350 COCO vs 0.8485 VOC for the same three predictions) and
+  that Ultralytics' rule caps a perfect detector at 0.995 (VERIFICATION_LOG V6).
+  The size of the difference on our real, coarse PR curves (few instances per
+  class in VALID/TEST) is measured in WP8.

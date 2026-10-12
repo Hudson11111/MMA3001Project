@@ -26,22 +26,15 @@
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
 
-            <h2>Contents</h2>
+
+            <h2>Submodules</h2>
             <ul>
-  <li><a href="#planned-wp2">Planned (WP2)</a></li>
-</ul>
-
-
-
-            <h2>API Documentation</h2>
-                <ul class="memberlist">
-            <li>
-                    <a class="function" href="#box_area">box_area</a>
-            </li>
-            <li>
-                    <a class="function" href="#box_iou">box_iou</a>
-            </li>
-    </ul>
+                    <li><a href="metrics/ap.html">ap</a></li>
+                    <li><a href="metrics/evaluate.html">evaluate</a></li>
+                    <li><a href="metrics/iou.html">iou</a></li>
+                    <li><a href="metrics/matching.html">matching</a></li>
+                    <li><a href="metrics/quadrature.html">quadrature</a></li>
+            </ul>
 
 
 
@@ -57,18 +50,21 @@
                     <h1 class="modulename">
 <a href="./../porkqc.html">porkqc</a><wbr>.metrics    </h1>
 
-                        <div class="docstring"><p>Detection metrics.</p>
+                        <div class="docstring"><p>Detection metrics, implemented explicitly and unit-tested (WP2).</p>
 
-<h6 id="implemented">Implemented</h6>
-
-<p>porkqc.metrics.iou
-    Box area and pairwise IoU.</p>
-
-<h2 id="planned-wp2">Planned (WP2)</h2>
-
-<p>Prediction-to-ground-truth matching, precision-recall curves, average precision
-computed with several numerical-integration rules (and verified against
-Ultralytics), and bootstrap confidence intervals.</p>
+<p><a href="metrics/iou.html">porkqc.metrics.iou</a>
+    Box area and pairwise IoU.
+<a href="metrics/matching.html">porkqc.metrics.matching</a>
+    True/false positives per image (confidence-ordered or Ultralytics rule).
+<a href="metrics/ap.html">porkqc.metrics.ap</a>
+    Precision–recall curves and average precision under several integration
+    rules (exact step area, COCO 101-point, VOC 11-point, Ultralytics).
+<a href="metrics/quadrature.html">porkqc.metrics.quadrature</a>
+    Generic quadrature rules (midpoint, trapezoid, Simpson, Gauss–Legendre,
+    Romberg) and observed order of convergence, for the AP-as-integral study.
+<a href="metrics/evaluate.html">porkqc.metrics.evaluate</a>
+    Dataset-level matching, mAP summaries, operating-point counts and
+    bootstrap confidence intervals.</p>
 </div>
 
                         <input id="mod-metrics-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -76,178 +72,26 @@ Ultralytics), and bootstrap confidence intervals.</p>
                         <label class="view-source-button" for="mod-metrics-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">"""</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">Detection metrics.</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">Detection metrics, implemented explicitly and unit-tested (WP2).</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">Implemented</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">-----------</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">porkqc.metrics.iou</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">    Box area and pairwise IoU.</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">Planned (WP2)</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">-------------</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">Prediction-to-ground-truth matching, precision-recall curves, average precision</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">computed with several numerical-integration rules (and verified against</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">Ultralytics), and bootstrap confidence intervals.</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">"""</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.iou</span><span class="w"> </span><span class="kn">import</span> <span class="n">box_area</span><span class="p">,</span> <span class="n">box_iou</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"box_area"</span><span class="p">,</span> <span class="s2">"box_iou"</span><span class="p">]</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">porkqc.metrics.iou</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">    Box area and pairwise IoU.</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">porkqc.metrics.matching</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">    True/false positives per image (confidence-ordered or Ultralytics rule).</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">porkqc.metrics.ap</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">    Precision–recall curves and average precision under several integration</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">    rules (exact step area, COCO 101-point, VOC 11-point, Ultralytics).</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">porkqc.metrics.quadrature</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">    Generic quadrature rules (midpoint, trapezoid, Simpson, Gauss–Legendre,</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">    Romberg) and observed order of convergence, for the AP-as-integral study.</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">porkqc.metrics.evaluate</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    Dataset-level matching, mAP summaries, operating-point counts and</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">    bootstrap confidence intervals.</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">"""</span>
 </span></pre></div>
 
 
             </section>
-                <section id="box_area">
-                            <input id="box_area-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">box_area</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">boxes</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span></span><span class="return-annotation">) -> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span>:</span></span>
-
-                <label class="view-source-button" for="box_area-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#box_area"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="box_area-35"><a href="#box_area-35"><span class="linenos">35</span></a><span class="k">def</span><span class="w"> </span><span class="nf">box_area</span><span class="p">(</span><span class="n">boxes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="box_area-36"><a href="#box_area-36"><span class="linenos">36</span></a><span class="w">    </span><span class="sd">"""</span>
-</span><span id="box_area-37"><a href="#box_area-37"><span class="linenos">37</span></a><span class="sd">    Area of each box.</span>
-</span><span id="box_area-38"><a href="#box_area-38"><span class="linenos">38</span></a>
-</span><span id="box_area-39"><a href="#box_area-39"><span class="linenos">39</span></a><span class="sd">    Parameters</span>
-</span><span id="box_area-40"><a href="#box_area-40"><span class="linenos">40</span></a><span class="sd">    ----------</span>
-</span><span id="box_area-41"><a href="#box_area-41"><span class="linenos">41</span></a><span class="sd">    boxes : numpy.ndarray</span>
-</span><span id="box_area-42"><a href="#box_area-42"><span class="linenos">42</span></a><span class="sd">        Shape ``(N, 4)``, ``[x1, y1, x2, y2]`` with ``x2 &gt;= x1`` and ``y2 &gt;= y1``.</span>
-</span><span id="box_area-43"><a href="#box_area-43"><span class="linenos">43</span></a>
-</span><span id="box_area-44"><a href="#box_area-44"><span class="linenos">44</span></a><span class="sd">    Returns</span>
-</span><span id="box_area-45"><a href="#box_area-45"><span class="linenos">45</span></a><span class="sd">    -------</span>
-</span><span id="box_area-46"><a href="#box_area-46"><span class="linenos">46</span></a><span class="sd">    numpy.ndarray</span>
-</span><span id="box_area-47"><a href="#box_area-47"><span class="linenos">47</span></a><span class="sd">        Shape ``(N,)``, areas in squared input units (pixels² for pixel boxes).</span>
-</span><span id="box_area-48"><a href="#box_area-48"><span class="linenos">48</span></a>
-</span><span id="box_area-49"><a href="#box_area-49"><span class="linenos">49</span></a><span class="sd">    Raises</span>
-</span><span id="box_area-50"><a href="#box_area-50"><span class="linenos">50</span></a><span class="sd">    ------</span>
-</span><span id="box_area-51"><a href="#box_area-51"><span class="linenos">51</span></a><span class="sd">    ValueError</span>
-</span><span id="box_area-52"><a href="#box_area-52"><span class="linenos">52</span></a><span class="sd">        If the array has the wrong shape, non-finite values, or inverted corners.</span>
-</span><span id="box_area-53"><a href="#box_area-53"><span class="linenos">53</span></a><span class="sd">    """</span>
-</span><span id="box_area-54"><a href="#box_area-54"><span class="linenos">54</span></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">_as_boxes</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="s2">"boxes"</span><span class="p">)</span>
-</span><span id="box_area-55"><a href="#box_area-55"><span class="linenos">55</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Area of each box.</p>
-
-<h6 id="parameters">Parameters</h6>
-
-<ul>
-<li><strong>boxes</strong> (numpy.ndarray):
-Shape <code>(N, 4)</code>, <code>[x1, y1, x2, y2]</code> with <code>x2 &gt;= x1</code> and <code>y2 &gt;= y1</code>.</li>
-</ul>
-
-<h6 id="returns">Returns</h6>
-
-<ul>
-<li><strong>numpy.ndarray</strong>: Shape <code>(N,)</code>, areas in squared input units (pixels² for pixel boxes).</li>
-</ul>
-
-<h6 id="raises">Raises</h6>
-
-<ul>
-<li><strong>ValueError</strong>: If the array has the wrong shape, non-finite values, or inverted corners.</li>
-</ul>
-</div>
-
-
-                </section>
-                <section id="box_iou">
-                            <input id="box_iou-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">box_iou</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">boxes1</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span>, </span><span class="param"><span class="n">boxes2</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span></span><span class="return-annotation">) -> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span>:</span></span>
-
-                <label class="view-source-button" for="box_iou-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#box_iou"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="box_iou-58"><a href="#box_iou-58"><span class="linenos"> 58</span></a><span class="k">def</span><span class="w"> </span><span class="nf">box_iou</span><span class="p">(</span><span class="n">boxes1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">boxes2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="box_iou-59"><a href="#box_iou-59"><span class="linenos"> 59</span></a><span class="w">    </span><span class="sd">"""</span>
-</span><span id="box_iou-60"><a href="#box_iou-60"><span class="linenos"> 60</span></a><span class="sd">    Pairwise IoU between two sets of boxes.</span>
-</span><span id="box_iou-61"><a href="#box_iou-61"><span class="linenos"> 61</span></a>
-</span><span id="box_iou-62"><a href="#box_iou-62"><span class="linenos"> 62</span></a><span class="sd">    Parameters</span>
-</span><span id="box_iou-63"><a href="#box_iou-63"><span class="linenos"> 63</span></a><span class="sd">    ----------</span>
-</span><span id="box_iou-64"><a href="#box_iou-64"><span class="linenos"> 64</span></a><span class="sd">    boxes1 : numpy.ndarray</span>
-</span><span id="box_iou-65"><a href="#box_iou-65"><span class="linenos"> 65</span></a><span class="sd">        Shape ``(N, 4)``, ``[x1, y1, x2, y2]``.</span>
-</span><span id="box_iou-66"><a href="#box_iou-66"><span class="linenos"> 66</span></a><span class="sd">    boxes2 : numpy.ndarray</span>
-</span><span id="box_iou-67"><a href="#box_iou-67"><span class="linenos"> 67</span></a><span class="sd">        Shape ``(M, 4)``, same convention and units as ``boxes1``.</span>
-</span><span id="box_iou-68"><a href="#box_iou-68"><span class="linenos"> 68</span></a>
-</span><span id="box_iou-69"><a href="#box_iou-69"><span class="linenos"> 69</span></a><span class="sd">    Returns</span>
-</span><span id="box_iou-70"><a href="#box_iou-70"><span class="linenos"> 70</span></a><span class="sd">    -------</span>
-</span><span id="box_iou-71"><a href="#box_iou-71"><span class="linenos"> 71</span></a><span class="sd">    numpy.ndarray</span>
-</span><span id="box_iou-72"><a href="#box_iou-72"><span class="linenos"> 72</span></a><span class="sd">        Shape ``(N, M)``; entry ``[i, j]`` is IoU(boxes1[i], boxes2[j]) in [0, 1].</span>
-</span><span id="box_iou-73"><a href="#box_iou-73"><span class="linenos"> 73</span></a><span class="sd">        Pairs whose union has zero area (two degenerate boxes) get IoU 0 rather</span>
-</span><span id="box_iou-74"><a href="#box_iou-74"><span class="linenos"> 74</span></a><span class="sd">        than NaN.</span>
-</span><span id="box_iou-75"><a href="#box_iou-75"><span class="linenos"> 75</span></a>
-</span><span id="box_iou-76"><a href="#box_iou-76"><span class="linenos"> 76</span></a><span class="sd">    Raises</span>
-</span><span id="box_iou-77"><a href="#box_iou-77"><span class="linenos"> 77</span></a><span class="sd">    ------</span>
-</span><span id="box_iou-78"><a href="#box_iou-78"><span class="linenos"> 78</span></a><span class="sd">    ValueError</span>
-</span><span id="box_iou-79"><a href="#box_iou-79"><span class="linenos"> 79</span></a><span class="sd">        If either input has the wrong shape, non-finite values, or inverted corners.</span>
-</span><span id="box_iou-80"><a href="#box_iou-80"><span class="linenos"> 80</span></a>
-</span><span id="box_iou-81"><a href="#box_iou-81"><span class="linenos"> 81</span></a><span class="sd">    Notes</span>
-</span><span id="box_iou-82"><a href="#box_iou-82"><span class="linenos"> 82</span></a><span class="sd">    -----</span>
-</span><span id="box_iou-83"><a href="#box_iou-83"><span class="linenos"> 83</span></a><span class="sd">    Vectorised with broadcasting: memory and work scale as O(N·M), which is</span>
-</span><span id="box_iou-84"><a href="#box_iou-84"><span class="linenos"> 84</span></a><span class="sd">    negligible for the tens of boxes per image in this dataset.</span>
-</span><span id="box_iou-85"><a href="#box_iou-85"><span class="linenos"> 85</span></a><span class="sd">    """</span>
-</span><span id="box_iou-86"><a href="#box_iou-86"><span class="linenos"> 86</span></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">_as_boxes</span><span class="p">(</span><span class="n">boxes1</span><span class="p">,</span> <span class="s2">"boxes1"</span><span class="p">)</span>
-</span><span id="box_iou-87"><a href="#box_iou-87"><span class="linenos"> 87</span></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">_as_boxes</span><span class="p">(</span><span class="n">boxes2</span><span class="p">,</span> <span class="s2">"boxes2"</span><span class="p">)</span>
-</span><span id="box_iou-88"><a href="#box_iou-88"><span class="linenos"> 88</span></a>
-</span><span id="box_iou-89"><a href="#box_iou-89"><span class="linenos"> 89</span></a>    <span class="c1"># Intersection rectangle for every pair, via broadcasting (N,1) against (1,M).</span>
-</span><span id="box_iou-90"><a href="#box_iou-90"><span class="linenos"> 90</span></a>    <span class="n">ix1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
-</span><span id="box_iou-91"><a href="#box_iou-91"><span class="linenos"> 91</span></a>    <span class="n">iy1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
-</span><span id="box_iou-92"><a href="#box_iou-92"><span class="linenos"> 92</span></a>    <span class="n">ix2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">])</span>
-</span><span id="box_iou-93"><a href="#box_iou-93"><span class="linenos"> 93</span></a>    <span class="n">iy2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">])</span>
-</span><span id="box_iou-94"><a href="#box_iou-94"><span class="linenos"> 94</span></a>    <span class="n">inter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ix2</span> <span class="o">-</span> <span class="n">ix1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">iy2</span> <span class="o">-</span> <span class="n">iy1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-</span><span id="box_iou-95"><a href="#box_iou-95"><span class="linenos"> 95</span></a>
-</span><span id="box_iou-96"><a href="#box_iou-96"><span class="linenos"> 96</span></a>    <span class="n">area_a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-</span><span id="box_iou-97"><a href="#box_iou-97"><span class="linenos"> 97</span></a>    <span class="n">area_b</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-</span><span id="box_iou-98"><a href="#box_iou-98"><span class="linenos"> 98</span></a>    <span class="n">union</span> <span class="o">=</span> <span class="n">area_a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">area_b</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">inter</span>
-</span><span id="box_iou-99"><a href="#box_iou-99"><span class="linenos"> 99</span></a>
-</span><span id="box_iou-100"><a href="#box_iou-100"><span class="linenos">100</span></a>    <span class="n">iou</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">inter</span><span class="p">)</span>
-</span><span id="box_iou-101"><a href="#box_iou-101"><span class="linenos">101</span></a>    <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">inter</span><span class="p">,</span> <span class="n">union</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">iou</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">union</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="box_iou-102"><a href="#box_iou-102"><span class="linenos">102</span></a>    <span class="k">return</span> <span class="n">iou</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Pairwise IoU between two sets of boxes.</p>
-
-<h6 id="parameters">Parameters</h6>
-
-<ul>
-<li><strong>boxes1</strong> (numpy.ndarray):
-Shape <code>(N, 4)</code>, <code>[x1, y1, x2, y2]</code>.</li>
-<li><strong>boxes2</strong> (numpy.ndarray):
-Shape <code>(M, 4)</code>, same convention and units as <code>boxes1</code>.</li>
-</ul>
-
-<h6 id="returns">Returns</h6>
-
-<ul>
-<li><strong>numpy.ndarray</strong>: Shape <code>(N, M)</code>; entry <code>[i, j]</code> is IoU(boxes1[i], boxes2[j]) in [0, 1].
-Pairs whose union has zero area (two degenerate boxes) get IoU 0 rather
-than NaN.</li>
-</ul>
-
-<h6 id="raises">Raises</h6>
-
-<ul>
-<li><strong>ValueError</strong>: If either input has the wrong shape, non-finite values, or inverted corners.</li>
-</ul>
-
-<h6 id="notes">Notes</h6>
-
-<p>Vectorised with broadcasting: memory and work scale as O(N·M), which is
-negligible for the tens of boxes per image in this dataset.</p>
-</div>
-
-
-                </section>
     </main>
 <script>
     function escapeHTML(html) {

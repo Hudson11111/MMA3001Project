@@ -11,7 +11,7 @@ Topic names are short labels for each notebook's objectives in the unit's
 
 | # | Topic | Plan | How it appears in this project | Evidence |
 |---|---|---|---|---|
-| 01 | Testing, debugging & validation | 🟢 | pytest positive + negative cases; synthetic fixtures; CI; a documented debugger session on a real bug; testing vs validation distinction in report | `tests/` |
+| 01 | Testing, debugging & validation | 🟢 | pytest positive + negative cases; synthetic fixtures; CI; a documented debugger session on a real bug; testing vs validation distinction in report | `tests/` (157 tests); `docs/VERIFICATION_LOG.md` V1–V7 |
 | 02 | Numerical performance (FLOPs, bandwidth, machine balance, arithmetic intensity, profiling) | 🟢 | Colab GPU peak FLOP/s & bandwidth → machine balance; model GFLOPs → arithmetic intensity; latency vs batch/resolution; profiler breakdown; real-time feasibility | WP6 |
 | 03 | Measurement uncertainty & floating point | 🟢 | FP32 vs FP16 inference (accuracy & speed); AMP loss scaling during training; timing-measurement spread; bootstrap uncertainty on metrics; label coordinate quantisation | WP2, WP6 |
 | 04 | Linear systems | ⚪ | No linear system arises naturally in this problem. (Possible stretch: principal-axis orientation via 2×2 covariance eigenvectors.) | — |
@@ -27,10 +27,10 @@ Topic names are short labels for each notebook's objectives in the unit's
 | 14 | MLP regression | 🟢 | MLP counterpart in B1; links to how the CNN detector is trained (forward pass, iterative optimisation, loss curves) | WP3, WP4 |
 | 15 | Model evaluation (metrics, baselines, train/val/CV/test roles) | 🟢 | Trivial baseline; metrics chosen by engineering consequence (missed defect vs false reject); per-class / per-size breakdown; test used once; no metric cherry-picking | WP5, WP7 |
 | 16 | Data selection, leakage, splits, distribution shift | 🟢 | Dataset audit; near-duplicate leakage check; random vs grouped split decision; augmentation kept within split; documented data-selection decision | WP1 |
-| 17 | Numerical integration (trapezoid, Simpson) | 🟢 | AP = ∫₀¹ p(r) dr computed with trapezoid, Simpson, 11/101-point and exact step rules | WP8 |
-| 18 | Integration error & convergence | 🟢 | N-point refinement study, log–log observed order on a non-smooth (step) integrand; smoothness assumptions violated | WP8 |
+| 17 | Numerical integration (trapezoid, Simpson) | 🟢 | AP = ∫₀¹ p(r) dr computed with trapezoid, Simpson, 11/101-point and exact step rules | `metrics/ap.py`, `metrics/quadrature.py` (implemented + tested); study in WP8 |
+| 18 | Integration error & convergence | 🟢 | N-point refinement study, log–log observed order on a non-smooth (step) integrand; smoothness assumptions violated | `tests/test_quadrature.py`: order ≈2 / ≈4 on smooth f, ≈1 on a step; V6 (0.995 ceiling) |
 | 19 | Richardson extrapolation / Romberg | 🟡 | Demonstrate why Richardson/Romberg is unreliable when the integrand is discontinuous (leading-error-term assumption fails) | WP8 |
-| 20 | Gaussian quadrature | 🟡 | Gauss–Legendre on the PR step function vs Newton–Cotes; accuracy per evaluation; why fixed nodes struggle with discontinuities | WP8 |
+| 20 | Gaussian quadrature | 🟡 | Gauss–Legendre on the PR step function vs Newton–Cotes; accuracy per evaluation; why fixed nodes struggle with discontinuities | `gauss_legendre_rule` tested for degree-(2n−1) exactness; study in WP8 |
 | 21 | Multiple integrals | ⚪ | Not applicable. | — |
 | 22 | Numerical differentiation | 🔵 | Possible: convergence/plateau detection on noisy validation curves (noise sensitivity of derivatives) | WP3 |
 | 23–31 | ODEs (fundamentals, Euler, RK, higher-order, stability, stiffness, implicit, shooting, finite-difference BVPs) | ⚪ | No dynamical system or boundary-value problem in a static image-inspection task. Forcing one in would be off-topic. | — |
