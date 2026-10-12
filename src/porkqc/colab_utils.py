@@ -58,6 +58,16 @@ def _push_url(remote: str, token: str | None) -> str:
     return remote
 
 
+def _normalise_remote(url: str) -> str:
+    """Compare remotes ignoring credentials, case, trailing '.git' and '/'."""
+    u = url.strip().rstrip("/")
+    if "@" in u and u.startswith("https://"):
+        u = "https://" + u.split("@", 1)[1]
+    if u.endswith(".git"):
+        u = u[:-4]
+    return u.lower()
+
+
 def push_results(
     repo_dir: str | Path,
     paths: Iterable[str | Path],
@@ -99,7 +109,9 @@ def push_results(
     Raises
     ------
     ValueError
-        If ``branch`` is ``"main"`` or no paths are given.
+        If ``branch`` is ``"main"``, no paths are given, or ``repo_dir`` is not
+        a clone of ``remote``. The last check stops result files from anywhere
+        else (e.g. a local dry run) being pushed to the real repository.
     FileNotFoundError
         If a path does not exist.
     RuntimeError
@@ -114,6 +126,14 @@ def push_results(
     for p in rel_paths:
         if not (repo_dir / p).exists():
             raise FileNotFoundError(repo_dir / p)
+    proc = subprocess.run(["git", "-C", str(repo_dir), "remote", "get-url", "origin"],
+                          capture_output=True, text=True)
+    origin = proc.stdout.strip() if proc.returncode == 0 else ""
+    if not origin or _normalise_remote(origin) != _normalise_remote(remote):
+        raise ValueError(
+            f"Refusing to push: {repo_dir} is not a clone of {_normalise_remote(remote)} "
+            f"(origin: {redact(origin, token) or 'none'})."
+        )
 
     tmp = Path(tempfile.mkdtemp(prefix="results_push_"))
     try:

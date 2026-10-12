@@ -120,6 +120,11 @@ objection raised; the latter are noted "(no objection)".
   re-split (groups = near-duplicate clusters / original image stems), keeping all
   augmented copies of an image in the same split.
 - **Rule regardless:** TEST is used once, at the end. All selection happens on VALID.
+- **Evidence method (notebook 01):** perceptual-hash (dHash) nearest-neighbour distances from every
+  VALID/TEST image to TRAIN, with the threshold calibrated on a positive control (augmented
+  copies of one photo) and a negative control (different photos), a threshold-sensitivity table,
+  and a manual check of the closest pairs. Near-duplicate groups are saved for a grouped
+  bootstrap or re-split.
 - **LO:** data selection (random vs grouped split; leakage).
 
 ### D-009 — Testing strategy and CI 🟡

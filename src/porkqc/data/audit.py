@@ -29,6 +29,8 @@ __all__ = [
     "original_stem",
     "list_images",
     "summarise_split",
+    "box_table",
+    "image_classes",
     "summarise_dataset",
     "make_dev_sample",
 ]
@@ -204,6 +206,72 @@ def summarise_split(
         for c in set(classes.tolist()):
             s.images_per_class[c] += 1
     return s
+
+
+def box_table(split_dir: str | Path, n_classes: int, split: str | None = None) -> list[dict]:
+    """
+    One row per labelled box, for box-size/position statistics.
+
+    Parameters
+    ----------
+    split_dir : str or pathlib.Path
+        Folder with ``images/`` and ``labels/``.
+    n_classes : int
+        Number of classes.
+    split : str, optional
+        Name recorded in each row (defaults to the folder name).
+
+    Returns
+    -------
+    list of dict
+        Keys: ``split``, ``file``, ``original`` (Roboflow original stem),
+        ``class_id``, ``cx``, ``cy``, ``w``, ``h`` (normalised to [0, 1]),
+        ``area_frac`` (w·h, fraction of the image) and ``aspect`` (w/h in
+        normalised units). Images with missing or invalid labels are skipped
+        (they are reported by :func:`summarise_split`).
+    """
+    split_dir = Path(split_dir)
+    rows = []
+    for img in list_images(split_dir / "images"):
+        try:
+            labels = read_label_file(split_dir / "labels" / f"{img.stem}.txt", n_classes)
+        except (FileNotFoundError, LabelFormatError):
+            continue
+        for c, cx, cy, w, h in labels:
+            rows.append({
+                "split": split or split_dir.name, "file": img.name, "original": original_stem(img),
+                "class_id": int(c), "cx": float(cx), "cy": float(cy), "w": float(w), "h": float(h),
+                "area_frac": float(w * h), "aspect": float(w / h),
+            })
+    return rows
+
+
+def image_classes(split_dir: str | Path, n_classes: int) -> dict[str, list[int]]:
+    """
+    Sorted list of distinct classes present in each image of a split.
+
+    Parameters
+    ----------
+    split_dir : str or pathlib.Path
+        Folder with ``images/`` and ``labels/``.
+    n_classes : int
+        Number of classes.
+
+    Returns
+    -------
+    dict of str to list of int
+        Image file name → classes present (empty list for a defect-free image).
+        Images with missing/invalid labels are omitted.
+    """
+    split_dir = Path(split_dir)
+    out = {}
+    for img in list_images(split_dir / "images"):
+        try:
+            labels = read_label_file(split_dir / "labels" / f"{img.stem}.txt", n_classes)
+        except (FileNotFoundError, LabelFormatError):
+            continue
+        out[img.name] = sorted(set(labels[:, 0].astype(int).tolist()))
+    return out
 
 
 def summarise_dataset(
