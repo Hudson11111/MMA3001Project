@@ -23,7 +23,8 @@ Full input/output contract: [`docs/IO_SPECIFICATION.md`](docs/IO_SPECIFICATION.m
 
 | Notebook | Purpose | Open |
 |---|---|---|
-| `00_colab_setup_and_first_look` | Install, download dataset, verify splits, first class counts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/00_colab_setup_and_first_look.ipynb) |
+| `00_colab_setup_and_first_look` | Install, download dataset, verify splits, first class counts (CPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/00_colab_setup_and_first_look.ipynb) |
+| `02_train_detector` | Train YOLO11n / YOLO26n (resumable), training curves, export VALID predictions (GPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/02_train_detector.ipynb) |
 
 **One-time setup**
 
@@ -33,6 +34,11 @@ Full input/output contract: [`docs/IO_SPECIFICATION.md`](docs/IO_SPECIFICATION.m
    name `ROBOFLOW_API_KEY`, paste the key, and switch **Notebook access** on.
    Never paste the key into a notebook cell or commit it.
 3. *Runtime → Change runtime type → T4 GPU* (needed from training onwards).
+4. *(Optional, saves manual uploads)* create a GitHub **fine-grained token**
+   (GitHub → Settings → Developer settings → Fine-grained tokens) with access to
+   **only this repository** and permission **Contents: Read and write**; add it as
+   the Colab secret `GITHUB_TOKEN`. Notebooks then push result files to the
+   `colab-results` branch (never `main`).
 
 ## Repository layout
 
