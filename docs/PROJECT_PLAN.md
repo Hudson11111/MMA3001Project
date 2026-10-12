@@ -1,7 +1,8 @@
 # Project Plan — Automated Inspection of Pork-Rasher Packaging
 
 MMA3001 Numerical Methods and Machine Learning · Individual Project (25%)
-Status: **DRAFT v0.1 (12 Oct 2026)** — items marked ⏳ are waiting on a decision or on data.
+Status: **v0.2 (12 Oct 2026)** — framing confirmed; deadline **Thu 22 Oct**; free Colab only.
+Items marked ⏳ are waiting on data.
 
 This plan is a living document. Every substantive change should also appear in
 [`DECISION_LOG.md`](DECISION_LOG.md) so the reasoning is traceable for the report
@@ -9,7 +10,7 @@ and the presentation.
 
 ---
 
-## 1. Proposed problem statement ⏳ (D-001)
+## 1. Problem statement ✅ (D-001, confirmed 12 Oct)
 
 The brief asks for "a narrower and achievable problem". Proposed framing:
 
@@ -196,13 +197,30 @@ objectives (LO) it evidences. Full LO mapping: [`LEARNING_OBJECTIVES_MAP.md`](LE
 
 ---
 
-## 6. Proposed timeline ⏳ (needs real due dates)
+## 6. Timeline — everything due Thu 22 Oct (D-016)
 
-| Week | Dates (2026) | Goals |
+GPU time on free Colab is the bottleneck, so GPU jobs are front-loaded and
+everything else runs on CPU in parallel. "You" = run in Colab; "Claude" = code/analysis.
+
+| Day | GPU (you, Colab) | CPU / code (Claude, and you reviewing) |
 |---|---|---|
-| A | Mon 12 – Sun 18 Oct | WP0 done; data downloaded in Colab; WP1 audit; WP2 metrics + tests; first YOLO run |
-| B | Mon 19 – Sun 25 Oct | WP3 comparison; WP4 baselines; WP5 decision layer; WP6 performance |
-| C | Mon 26 Oct – Sun 1 Nov | WP7 final test + robustness; WP8 study; WP9 docs, report, AI reflection, presentation prep |
+| Mon 12 | Notebook 00 (CPU): download + first look | Re-plan; licence; metrics core (WP2); training notebook |
+| Tue 13 | **Train YOLO11n** (~1 h), export predictions | Data audit notebook (WP1): near-duplicates, split decision |
+| Wed 14 | **Train YOLO26n** (~1 h), export predictions | Evaluate both on VALID with own metrics; verify vs Ultralytics |
+| Thu 15 | Short session: latency benchmarks (GPU vs CPU, batch, resolution, FP16) | Baselines B0/B1 (WP4); decision layer + thresholds (WP5) |
+| Fri 16 | Robustness run (perturbed VALID images) | AP-as-integral study (WP8); roofline analysis (WP6) |
+| Sat 17 | **One-shot TEST evaluation** of the selected model | Bootstrap CIs, failure gallery (WP7) |
+| Sun 18 | — | README, HTML docs, test report; report outline + figures |
+| Mon 19 | — | Report draft (Claude drafts technical sections; you edit) |
+| Tue 20 | — | You: AI reflection + read-through; Claude: fixes, consistency checks |
+| Wed 21 | — | Buffer; final repo check; zip clone; presentation notes |
+| **Thu 22** | — | **Submit** report (Moodle), repo link + zipped clone |
+
+Presentation (Week 14) prep notes are produced alongside the report.
+
+**Trimmed for the deadline:** single seed per model; no model-size or training
+resolution sweep (inference-resolution study instead); stretch goals dropped unless
+the core is finished early.
 
 ---
 
@@ -230,6 +248,7 @@ objectives (LO) it evidences. Full LO mapping: [`LEARNING_OBJECTIVES_MAP.md`](LE
 | 80-image test set | Wide uncertainty | Bootstrap CIs; avoid over-claiming; consider re-split |
 | Colab GPU limits / disconnects | Lost runs | Save runs to Drive; resume; small models (n) first |
 | Ultralytics version drift | Irreproducible results | Pin versions in `requirements-colab.txt` |
-| Ultralytics is AGPL-3.0 | Licence compatibility | ⏳ D-011 licence choice |
+| Ultralytics is AGPL-3.0 | Licence compatibility | Resolved: repo licensed AGPL-3.0 (D-011) |
+| 10-day deadline + free Colab GPU limits | Unfinished experiments | GPU jobs first; nano models; single seed; CPU analysis from saved predictions (D-016, D-018) |
 | Ambiguous class definitions (e.g. packaging-error vs unsealed) | Confused labels, low AP | Inspect examples; ask coordinator on edStem; per-class confusion analysis |
 | Over-scoping | Shallow work everywhere | Core WPs first; stretch only after WP7 |
