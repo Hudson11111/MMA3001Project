@@ -1,0 +1,29 @@
+# Dataset configuration — Roboflow Universe "Pork Rasher Error(Packaging)", v4.
+# Secrets (API keys) never go in this file; see porkqc.env.get_secret.
+
+roboflow:
+  workspace: hello-2aqe0
+  project: pork-rasher-error-packaging
+  version: 4
+  export_format: yolov8        # same layout as YOLO11/YOLO26 exports (DECISION_LOG D-015)
+
+# Class names in class-id order. Checked against the downloaded data.yaml.
+class_names:
+  - loose-meat
+  - packaging-error
+  - twisted-meat
+  - unsealed
+  - wrinkle
+
+# Values published on the Roboflow page, used as sanity checks after download.
+expected:
+  image_width: 720
+  image_height: 540
+  split_counts:
+    train: 3349
+    valid: 120
+    test: 80
+
+paths:
+  colab_data_dir: /content/data/pork-rasher-v4
+  drive_project_dir: /content/drive/MyDrive/MMA3001Project   # runs/weights persist here

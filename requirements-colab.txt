@@ -1,0 +1,6 @@
+# Extra packages for Google Colab. Colab already provides torch, numpy, scipy,
+# scikit-learn, pandas, matplotlib, opencv and pillow; their versions are recorded
+# in each run's metadata instead of pinned here (DECISION_LOG D-010).
+roboflow==1.7.1
+ultralytics==8.4.175
+pyyaml>=6.0

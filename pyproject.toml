@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "porkqc"
+version = "0.1.0"
+description = "Automated detection of pork-rasher packaging defects (MMA3001 project)"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Hudson" }]
+dependencies = [
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Dataset download (Colab).
+data = ["roboflow==1.7.1"]
+# Detector training/inference (Colab GPU). Ultralytics is AGPL-3.0.
+detector = ["ultralytics==8.4.175"]
+# Analysis notebooks (pre-installed on Colab).
+analysis = ["scipy", "scikit-learn", "pandas", "matplotlib", "opencv-python-headless", "pillow"]
+# Development: tests, test report, HTML docs.
+dev = ["pytest>=8", "pytest-html>=4", "pytest-cov>=5", "pdoc>=15"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
