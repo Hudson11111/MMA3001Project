@@ -21,7 +21,7 @@ objection raised; the latter are noted "(no objection)".
 | D-005 | Primary detector family and comparison | 🔬 |
 | D-006 | Baselines / alternative solutions | ✅ (no objection) |
 | D-007 | Engineering requirements: line speed and error-cost ratio | ✅ delegated to Claude 12 Oct |
-| D-008 | Train/valid/test split strategy | 🔬 |
+| D-008 | Train/valid/test split strategy: Roboflow split + time-blocked split | 🟡 (evidence from dev sample; confirm with notebook 01) |
 | D-009 | Testing strategy and CI | ✅ (no objection) |
 | D-010 | Dependency pinning | ✅ (no objection) |
 | D-011 | Repository licence: AGPL-3.0 | ✅ confirmed 12 Oct |
@@ -34,6 +34,8 @@ objection raised; the latter are noted "(no objection)".
 | D-018 | Evaluate from exported predictions with our own metrics | 🟡 |
 | D-019 | Prediction-to-ground-truth matching rule | 🟡 |
 | D-020 | AP integration rule (exact step area as primary) | 🟡 |
+| D-021 | Unit of data = scene (image + its augmented copies), found by content | 🟡 |
+| D-022 | GPU run order: 11n/roboflow → 11n/blocked → 26n/blocked | 🟡 |
 
 ---
 
@@ -113,7 +115,27 @@ objection raised; the latter are noted "(no objection)".
 - **Sensitivity:** results reported across 24–240 trays/min and cost ratios 1–50,
   so conclusions don't hinge on these assumed values.
 
-### D-008 — Split strategy 🔬
+### D-008 — Split strategy 🟡 (updated 12 Oct evening, after the development sample)
+- **New evidence (80-image development sample):** every file is a numbered video
+  frame (`frame_with_red_<N>`), and Roboflow's split interleaves frames: e.g.
+  frame 2247 is in VALID and frame 2248 (same tray, one frame later) is in TEST.
+  In the sample, 40% of VALID and 40% of TEST frames have a TRAIN frame within 50
+  frames. This is temporal leakage: test scores would partly measure recall of
+  trays already seen.
+- **Decision (proposed):** report results on **both** splits —
+  1. Roboflow's split *as provided* (comparability with the brief's inputs);
+  2. a **time-blocked split**: contiguous blocks of 300 frames assigned whole to
+     train/valid/test (70/15/15 of scenes), plus a **purge gap** of 50 frames
+     between different splits (`porkqc.data.resplit`, settings in
+     `configs/dataset.yaml`). The difference between the two is the measured
+     optimism caused by leakage. The model comparison uses the blocked split.
+- **Why blocks + gap (and not image similarity):** perceptual hashing could not
+  tell "same tray, next frame" from "different tray" on this dark, uniform
+  background (VERIFICATION_LOG V10); frame numbers give the time order directly.
+  Blocks also give larger VALID/TEST sets than 120/80 images.
+- **To confirm in notebook 01:** how many frames one tray stays in view (sets the
+  gap), and the purge cost (training scenes lost) — sensitivity table.
+- **Original plan (kept):** TEST is used once, at the end. All selection happens on VALID.
 - **Default:** keep Roboflow's predefined split (comparability with the brief).
 - **Trigger for change:** if WP1 finds near-duplicate frames across splits, or the
   test set is too small to estimate per-class performance, propose a grouped
@@ -228,3 +250,23 @@ objection raised; the latter are noted "(no objection)".
   that Ultralytics' rule caps a perfect detector at 0.995 (VERIFICATION_LOG V6).
   The size of the difference on our real, coarse PR curves (few instances per
   class in VALID/TEST) is measured in WP8.
+
+### D-021 — Unit of data: the scene 🟡
+- **Finding:** file names do not identify images uniquely — two *different* trays
+  in the sample are both named `frame_with_red_992` (probably two videos numbered
+  the same way). Grouping "augmented copies" by name would merge different images.
+- **Choice:** a *scene* = one original image plus its augmented copies, found by
+  correlating standardised 64 × 48 greyscale thumbnails (threshold 0.99).
+- **Calibration:** manufactured positive control — real images colour-augmented
+  within Roboflow's ranges correlate ≥ 0.9995; negative control — different frames
+  ≤ 0.933 in the sample. Notebook 01 re-checks both controls on the full dataset.
+- **Used for:** counting real originals, direct-leakage check, the blocked split
+  (whole scenes move together; VALID/TEST keep one copy per scene).
+
+### D-022 — GPU run order 🟡
+1. `yolo11n_640` on the Roboflow split (baseline "as provided");
+2. `yolo11n_640` on the blocked split (same model → measures leakage optimism);
+3. `yolo26n_640` on the blocked split (model comparison without leakage).
+- Each is ~1 h on a free T4. If GPU time runs out, run 3 is dropped first and the
+  comparison is reported as future work.
+

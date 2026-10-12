@@ -11,6 +11,8 @@ from porkqc.data.duplicates import (
     hash_images,
     nearest_neighbours,
     paired_hamming,
+    grey_thumbnail,
+    thumbnail_correlation,
 )
 
 pytest.importorskip("PIL")
@@ -90,3 +92,16 @@ def test_box_table_and_image_classes(synthetic_dataset):
     assert ic["b_jpg.rf.333.jpg"] == []          # null image
     assert ic["a_jpg.rf.111.jpg"] == [0, 2]
     assert "c_jpg.rf.444.jpg" not in ic          # missing label skipped
+
+
+def test_thumbnail_correlation_separates_copies_from_other_frames():
+    from PIL import ImageEnhance
+    base = Image.fromarray(scene(10))
+    aug = ImageEnhance.Brightness(ImageEnhance.Color(base).enhance(0.71)).enhance(1.1)  # Roboflow-range aug
+    t0, t1, t2 = grey_thumbnail(base), grey_thumbnail(aug), grey_thumbnail(scene(11))
+    assert abs(t0.mean()) < 1e-9 and t0.std() == pytest.approx(1.0)
+    assert thumbnail_correlation(t0, t1) > 0.99
+    assert thumbnail_correlation(t0, t2) < 0.9
+    assert np.all(grey_thumbnail(np.full((10, 10, 3), 7, np.uint8)) == 0)   # constant image
+    with pytest.raises(ValueError):
+        thumbnail_correlation(t0, t0[:10])

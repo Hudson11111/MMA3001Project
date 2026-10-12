@@ -28,7 +28,10 @@ from typing import Iterable, Sequence
 
 import numpy as np
 
-__all__ = ["dhash", "hash_images", "hamming_distance", "paired_hamming", "nearest_neighbours", "group_by_threshold"]
+__all__ = [
+    "dhash", "hash_images", "hamming_distance", "paired_hamming", "nearest_neighbours", "group_by_threshold",
+    "grey_thumbnail", "thumbnail_correlation",
+]
 
 # popcount lookup table for one byte
 _POPCOUNT = np.array([bin(i).count("1") for i in range(256)], dtype=np.uint8)
@@ -220,3 +223,60 @@ def group_by_threshold(hashes: np.ndarray, threshold: int, labels: Sequence[str]
 
     roots: dict[int, int] = {}
     return [roots.setdefault(find(i), len(roots)) for i in range(k)]
+
+
+def grey_thumbnail(image, size: tuple[int, int] = (64, 48)) -> np.ndarray:
+    """
+    Standardised greyscale thumbnail used to recognise copies of the *same image*.
+
+    The image is converted to greyscale, box-downsampled to ``size`` (W, H) and
+    standardised to zero mean and unit variance. Standardising removes global
+    brightness and contrast changes, so a colour-augmented copy (Roboflow's
+    saturation ±29 % / exposure ±10 %) gives an almost identical vector, while a
+    different frame does not.
+
+    Parameters
+    ----------
+    image : str, pathlib.Path, PIL.Image.Image or numpy.ndarray
+        Image file or data.
+    size : tuple of int, optional
+        Thumbnail width and height (default 64 × 48, the image aspect ratio).
+
+    Returns
+    -------
+    numpy.ndarray
+        Shape ``(W*H,)``, float64, mean 0 and standard deviation 1 (all zeros
+        for a constant image).
+    """
+    from PIL import Image
+
+    if isinstance(image, (str, Path)):
+        with Image.open(image) as im:
+            g = im.convert("L").resize(size, Image.Resampling.BOX)
+    elif isinstance(image, np.ndarray):
+        g = Image.fromarray(image).convert("L").resize(size, Image.Resampling.BOX)
+    else:
+        g = image.convert("L").resize(size, Image.Resampling.BOX)
+    v = np.asarray(g, dtype=np.float64).ravel()
+    sd = v.std()
+    return (v - v.mean()) / sd if sd > 0 else np.zeros_like(v)
+
+
+def thumbnail_correlation(a: np.ndarray, b: np.ndarray) -> float:
+    """
+    Pearson correlation of two standardised thumbnails.
+
+    Parameters
+    ----------
+    a, b : numpy.ndarray
+        Outputs of :func:`grey_thumbnail` with the same size.
+
+    Returns
+    -------
+    float
+        In [-1, 1]; ≈ 1 for colour-augmented copies of one image.
+    """
+    a, b = np.asarray(a, dtype=np.float64), np.asarray(b, dtype=np.float64)
+    if a.shape != b.shape:
+        raise ValueError(f"Thumbnail shapes differ: {a.shape} vs {b.shape}.")
+    return float(np.mean(a * b))

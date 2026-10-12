@@ -14,6 +14,7 @@ This module only reads file names and label files; image-content checks
 from __future__ import annotations
 
 import random
+import re
 import zipfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -27,6 +28,7 @@ __all__ = [
     "IMAGE_EXTENSIONS",
     "SplitSummary",
     "original_stem",
+    "frame_number",
     "list_images",
     "summarise_split",
     "box_table",
@@ -63,6 +65,32 @@ def original_stem(filename: str | Path) -> str:
     if ".rf." in name:
         return name.split(".rf.", 1)[0]
     return Path(name).stem
+
+
+_FRAME_RE = re.compile(r"(\d+)_(?:jpe?g|png|bmp)$", re.IGNORECASE)
+
+
+def frame_number(filename: str | Path) -> int | None:
+    """
+    Video frame index encoded in a file name, if any.
+
+    This dataset's images are frames from conveyor video named like
+    ``frame_with_red_2247_jpg.rf.<hash>.jpg``; the number before the original
+    extension is the frame index. Frame order is the natural *time* axis, so it
+    defines which images show the same tray (neighbouring frames).
+
+    Parameters
+    ----------
+    filename : str or pathlib.Path
+        Roboflow export name or original stem.
+
+    Returns
+    -------
+    int or None
+        The frame index, or None if the name contains no trailing frame number.
+    """
+    m = _FRAME_RE.search(original_stem(filename))
+    return int(m.group(1)) if m else None
 
 
 def list_images(images_dir: str | Path) -> list[Path]:
