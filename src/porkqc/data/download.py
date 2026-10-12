@@ -8,6 +8,7 @@ the ``roboflow`` package using the user's own free API key.
 
 from __future__ import annotations
 
+import time
 from pathlib import Path
 from typing import Any
 
@@ -29,9 +30,22 @@ def download_dataset(
     export_format: str = "yolov8",
     api_key: str | None = None,
     overwrite: bool = False,
+    retries: int = 6,
+    wait_seconds: float = 10.0,
 ) -> Path:
     """
     Download one version of a Roboflow (Universe) dataset.
+
+    Behaviour:
+
+    * ``location/data.yaml`` already exists and ``overwrite`` is False → nothing
+      is downloaded; the folder is returned.
+    * ``location`` exists but has no ``data.yaml`` (empty or a broken earlier
+      attempt) → downloaded with ``overwrite=True``. This matters because the
+      ``roboflow`` package (1.7.1) silently skips the download whenever the
+      target folder exists, even if it is empty (VERIFICATION_LOG V9).
+    * If Roboflow reports that the export is still being generated, wait and
+      retry.
 
     Parameters
     ----------
@@ -42,7 +56,7 @@ def download_dataset(
     version : int
         Dataset version number (this project uses 4).
     location : str or pathlib.Path
-        Folder to download into (created if needed).
+        Folder to download into. Roboflow creates it; this function does not.
     export_format : str, optional
         Roboflow export format. ``"yolov8"`` gives ``train/valid/test`` folders
         with ``images/`` and ``labels/`` and a ``data.yaml`` (same layout as the
@@ -51,20 +65,30 @@ def download_dataset(
         Roboflow private API key. If omitted, read via
         :func:`porkqc.env.get_secret` from ``ROBOFLOW_API_KEY``.
     overwrite : bool, optional
-        Re-download even if ``location`` already contains the dataset.
+        Re-download even if ``location`` already contains a dataset.
+    retries : int, optional
+        Attempts while the export is not ready (default 6).
+    wait_seconds : float, optional
+        Pause between those attempts (default 10 s).
 
     Returns
     -------
     pathlib.Path
-        Folder containing the downloaded dataset (and its ``data.yaml``).
+        Folder containing the dataset and its ``data.yaml``.
 
     Raises
     ------
     RuntimeError
-        If no API key is available.
+        If no API key is available, Roboflow returns an error, or the download
+        finishes without producing ``data.yaml``.
     ImportError
         If the ``roboflow`` package is not installed.
     """
+    location = Path(location)
+    yaml_path = location / "data.yaml"
+    if yaml_path.is_file() and not overwrite:
+        return location
+
     if api_key is None:
         api_key = get_secret("ROBOFLOW_API_KEY")
     try:
@@ -72,16 +96,23 @@ def download_dataset(
     except ImportError as exc:
         raise ImportError("Install the 'roboflow' package: pip install roboflow") from exc
 
-    location = Path(location)
-    location.mkdir(parents=True, exist_ok=True)
-    rf = Roboflow(api_key=api_key)
-    ds = (
-        rf.workspace(workspace)
-        .project(project)
-        .version(version)
-        .download(export_format, location=str(location), overwrite=overwrite)
-    )
-    return Path(ds.location)
+    rf_version = Roboflow(api_key=api_key).workspace(workspace).project(project).version(version)
+    force = overwrite or location.exists()  # roboflow skips existing folders unless overwrite=True
+    for attempt in range(1, retries + 1):
+        try:
+            rf_version.download(export_format, location=str(location), overwrite=force)
+            break
+        except RuntimeError as exc:
+            not_ready = "ready" in str(exc).lower()
+            if not_ready and attempt < retries:
+                time.sleep(wait_seconds)
+                continue
+            raise
+
+    if not yaml_path.is_file():
+        found = sorted(p.name for p in location.iterdir()) if location.exists() else []
+        raise RuntimeError(f"Download finished but {yaml_path} is missing. Folder contains: {found[:10]}")
+    return location
 
 
 def _resolve_split_path(yaml_dir: Path, value: str | None, split_dir: str) -> Path:
