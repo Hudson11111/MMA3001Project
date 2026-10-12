@@ -1,0 +1,30 @@
+# YOLO26n (Ultralytics, Jan 2026): optional NMS-free end-to-end head.
+# Settings rationale: DECISION_LOG D-017. Identical to yolo11n_640 except the model
+# (each model keeps its own default optimiser recipe via optimizer: auto).
+name: yolo26n_640
+model: yolo26n.pt
+
+train:
+  imgsz: 640
+  epochs: 50
+  patience: 15
+  batch: 16
+  seed: 0
+  deterministic: true
+  cache: disk
+  workers: 2
+  save_period: 5
+  plots: true
+
+predict:
+  imgsz: 640
+  conf: 0.001
+  iou: 0.7
+  max_det: 300
+
+# Export both heads: with NMS (default) and NMS-free end-to-end (nms: false),
+# to compare accuracy and post-processing time.
+predict_variants:
+  - tag: default
+  - tag: e2e
+    nms: false

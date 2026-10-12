@@ -1,0 +1,25 @@
+# YOLO11n (Ultralytics, 2024): one-to-many head + NMS post-processing.
+# Settings rationale: DECISION_LOG D-017. Identical to yolo26n_640 except the model.
+name: yolo11n_640
+model: yolo11n.pt          # COCO-pretrained weights (transfer learning)
+
+train:                     # keyword arguments for Ultralytics model.train()
+  imgsz: 640               # letterboxed 640x480 for 720x540 images
+  epochs: 50
+  patience: 15             # early stopping: epochs without val-fitness improvement
+  batch: 16
+  seed: 0
+  deterministic: true
+  cache: disk              # 'ram' is flagged non-deterministic by Ultralytics
+  workers: 2               # free Colab has 2 vCPUs
+  save_period: 5           # extra checkpoint every 5 epochs (resume safety)
+  plots: true
+
+predict:                   # keyword arguments for model.predict() when exporting
+  imgsz: 640
+  conf: 0.001              # keep low-confidence boxes for precision-recall curves
+  iou: 0.7                 # NMS IoU threshold (Ultralytics validation default)
+  max_det: 300
+
+predict_variants:
+  - tag: default
