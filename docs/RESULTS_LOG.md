@@ -25,7 +25,7 @@ here is reproducible from the committed JSON/CSV files with `porkqc.metrics`.
 
 | Reviewer | E (edge/empty) | G (good tray) | M (missed defect) | U |
 |---|---|---|---|---|
-| Hudson (independent; final, 14 Oct) | 25 | 0 *(2 initially G, re-coded E: not all tray edges visible)* | 1 *(frame 6496, to confirm)* | 0 |
+| Hudson (independent; final, 14 Oct) | 25 | 0 *(2 initially G, re-coded E: not all tray edges visible)* | 1 *(frame 6496: seal lifting and wrinkling visible between two rashers; neighbouring frames 6493 and 6501 are labelled packaging-error)* | 0 |
 | Claude (independent, low-resolution grid) | 19 | — | — | 7 (substantial tray visible: 132, 258, 595, 1195, 1433, 1892, 4088) |
 
 **Conclusion:** both reviewers independently judged most unlabelled images as trays not fully in view. An unlabelled image almost always means "no tray fully in view", not "good
