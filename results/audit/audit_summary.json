@@ -1,0 +1,419 @@
+{
+ "git_commit": "2794699",
+ "overview": [
+  {
+   "split": "train",
+   "images": 3349,
+   "unique originals": 1085,
+   "null images": 684,
+   "objects": 2923,
+   "missing/invalid labels": 0
+  },
+  {
+   "split": "valid",
+   "images": 120,
+   "unique originals": 120,
+   "null images": 14,
+   "objects": 121,
+   "missing/invalid labels": 0
+  },
+  {
+   "split": "test",
+   "images": 80,
+   "unique originals": 80,
+   "null images": 12,
+   "objects": 79,
+   "missing/invalid labels": 0
+  }
+ ],
+ "objects_per_class": {
+  "train": {
+   "loose-meat": 66,
+   "packaging-error": 1712,
+   "twisted-meat": 72,
+   "unsealed": 1055,
+   "wrinkle": 18
+  },
+  "valid": {
+   "loose-meat": 3,
+   "packaging-error": 34,
+   "twisted-meat": 3,
+   "unsealed": 81,
+   "wrinkle": 0
+  },
+  "test": {
+   "loose-meat": 3,
+   "packaging-error": 23,
+   "twisted-meat": 4,
+   "unsealed": 49,
+   "wrinkle": 0
+  }
+ },
+ "box_stats": [
+  {
+   "class": "loose-meat",
+   "boxes": 72,
+   "median_area_pct": 5.43,
+   "q10_area_pct": 1.73,
+   "q90_area_pct": 10.97,
+   "small_pct": 0.0,
+   "median_aspect_wh": 0.68
+  },
+  {
+   "class": "packaging-error",
+   "boxes": 1769,
+   "median_area_pct": 0.37,
+   "q10_area_pct": 0.19,
+   "q90_area_pct": 3.27,
+   "small_pct": 27.76,
+   "median_aspect_wh": 0.96
+  },
+  {
+   "class": "twisted-meat",
+   "boxes": 79,
+   "median_area_pct": 3.82,
+   "q10_area_pct": 2.08,
+   "q90_area_pct": 5.74,
+   "small_pct": 0.0,
+   "median_aspect_wh": 0.63
+  },
+  {
+   "class": "unsealed",
+   "boxes": 1185,
+   "median_area_pct": 10.86,
+   "q10_area_pct": 4.42,
+   "q90_area_pct": 18.15,
+   "small_pct": 0.0,
+   "median_aspect_wh": 0.97
+  },
+  {
+   "class": "wrinkle",
+   "boxes": 18,
+   "median_area_pct": 0.95,
+   "q10_area_pct": 0.35,
+   "q90_area_pct": 2.49,
+   "small_pct": 0.0,
+   "median_aspect_wh": 2.03
+  }
+ ],
+ "cooccurrence_train_originals": {
+  "loose-meat": {
+   "loose-meat": 22,
+   "packaging-error": 4,
+   "twisted-meat": 1,
+   "unsealed": 1,
+   "wrinkle": 0
+  },
+  "packaging-error": {
+   "loose-meat": 4,
+   "packaging-error": 501,
+   "twisted-meat": 2,
+   "unsealed": 17,
+   "wrinkle": 0
+  },
+  "twisted-meat": {
+   "loose-meat": 1,
+   "packaging-error": 2,
+   "twisted-meat": 23,
+   "unsealed": 1,
+   "wrinkle": 0
+  },
+  "unsealed": {
+   "loose-meat": 1,
+   "packaging-error": 17,
+   "twisted-meat": 1,
+   "unsealed": 340,
+   "wrinkle": 0
+  },
+  "wrinkle": {
+   "loose-meat": 0,
+   "packaging-error": 0,
+   "twisted-meat": 0,
+   "unsealed": 0,
+   "wrinkle": 6
+  }
+ },
+ "copy_detection": {
+  "threshold": 0.99,
+  "positive_min": 0.9994656265937198,
+  "negative_max": 0.9103206054178995
+ },
+ "scenes_per_split": {
+  "test": 80,
+  "train": 1211,
+  "valid": 120
+ },
+ "names_per_split": {
+  "test": 80,
+  "train": 1085,
+  "valid": 120
+ },
+ "train_copies_per_scene": {
+  "3": 1021,
+  "2": 96,
+  "1": 94
+ },
+ "names_shared_by_different_images": 128,
+ "direct_leakage": {},
+ "frames": {
+  "n": 1411,
+  "unparsed": 0,
+  "min": 3,
+  "max": 10590,
+  "median_spacing": 4.0
+ },
+ "leakage_roboflow_split": [
+  {
+   "split": "valid",
+   "nearest in": "train",
+   "median gap": 3.0,
+   "<= 1": "22%",
+   "<= 2": "42%",
+   "<= 5": "68%",
+   "<= 10": "85%",
+   "<= 25": "98%",
+   "<= 50": "100%",
+   "<= 100": "100%"
+  },
+  {
+   "split": "test",
+   "nearest in": "train",
+   "median gap": 2.5,
+   "<= 1": "29%",
+   "<= 2": "50%",
+   "<= 5": "68%",
+   "<= 10": "82%",
+   "<= 25": "100%",
+   "<= 50": "100%",
+   "<= 100": "100%"
+  },
+  {
+   "split": "test",
+   "nearest in": "valid",
+   "median gap": 25.5,
+   "<= 1": "5%",
+   "<= 2": "10%",
+   "<= 5": "16%",
+   "<= 10": "28%",
+   "<= 25": "50%",
+   "<= 50": "79%",
+   "<= 100": "91%"
+  }
+ ],
+ "unlabelled_originals": {
+  "train": 249,
+  "valid": 14,
+  "test": 12
+ },
+ "blocked_split": {
+  "settings": {
+   "block_size": 300,
+   "gap": 50,
+   "fractions": [
+    0.7,
+    0.15,
+    0.15
+   ],
+   "seed": 0,
+   "colab_dir": "/content/data/pork-rasher-v4-blocked"
+  },
+  "sensitivity": [
+   {
+    "block_size": 150,
+    "gap": 0,
+    "train": 989,
+    "valid": 213,
+    "test": 209,
+    "purged": 0,
+    "min cross-split gap": 2
+   },
+   {
+    "block_size": 150,
+    "gap": 10,
+    "train": 970,
+    "valid": 211,
+    "test": 209,
+    "purged": 21,
+    "min cross-split gap": 11
+   },
+   {
+    "block_size": 150,
+    "gap": 25,
+    "train": 906,
+    "valid": 208,
+    "test": 209,
+    "purged": 88,
+    "min cross-split gap": 26
+   },
+   {
+    "block_size": 150,
+    "gap": 50,
+    "train": 792,
+    "valid": 196,
+    "test": 209,
+    "purged": 214,
+    "min cross-split gap": 51
+   },
+   {
+    "block_size": 150,
+    "gap": 100,
+    "train": 608,
+    "valid": 175,
+    "test": 209,
+    "purged": 419,
+    "min cross-split gap": 101
+   },
+   {
+    "block_size": 300,
+    "gap": 0,
+    "train": 1031,
+    "valid": 200,
+    "test": 180,
+    "purged": 0,
+    "min cross-split gap": 2
+   },
+   {
+    "block_size": 300,
+    "gap": 10,
+    "train": 1022,
+    "valid": 200,
+    "test": 180,
+    "purged": 9,
+    "min cross-split gap": 11
+   },
+   {
+    "block_size": 300,
+    "gap": 25,
+    "train": 991,
+    "valid": 198,
+    "test": 180,
+    "purged": 42,
+    "min cross-split gap": 26
+   },
+   {
+    "block_size": 300,
+    "gap": 50,
+    "train": 938,
+    "valid": 196,
+    "test": 180,
+    "purged": 97,
+    "min cross-split gap": 51
+   },
+   {
+    "block_size": 300,
+    "gap": 100,
+    "train": 840,
+    "valid": 191,
+    "test": 180,
+    "purged": 200,
+    "min cross-split gap": 101
+   },
+   {
+    "block_size": 600,
+    "gap": 0,
+    "train": 1095,
+    "valid": 109,
+    "test": 207,
+    "purged": 0,
+    "min cross-split gap": 9
+   },
+   {
+    "block_size": 600,
+    "gap": 10,
+    "train": 1092,
+    "valid": 109,
+    "test": 207,
+    "purged": 3,
+    "min cross-split gap": 11
+   },
+   {
+    "block_size": 600,
+    "gap": 25,
+    "train": 1082,
+    "valid": 109,
+    "test": 207,
+    "purged": 13,
+    "min cross-split gap": 27
+   },
+   {
+    "block_size": 600,
+    "gap": 50,
+    "train": 1051,
+    "valid": 108,
+    "test": 207,
+    "purged": 45,
+    "min cross-split gap": 54
+   },
+   {
+    "block_size": 600,
+    "gap": 100,
+    "train": 990,
+    "valid": 107,
+    "test": 207,
+    "purged": 107,
+    "min cross-split gap": 101
+   }
+  ],
+  "leakage": [
+   {
+    "split": "valid",
+    "nearest in": "train",
+    "median gap": 139.0,
+    "<= 1": "0%",
+    "<= 2": "0%",
+    "<= 5": "0%",
+    "<= 10": "0%",
+    "<= 25": "0%",
+    "<= 50": "0%",
+    "<= 100": "27%"
+   },
+   {
+    "split": "test",
+    "nearest in": "train",
+    "median gap": 135.0,
+    "<= 1": "0%",
+    "<= 2": "0%",
+    "<= 5": "0%",
+    "<= 10": "0%",
+    "<= 25": "0%",
+    "<= 50": "0%",
+    "<= 100": "29%"
+   },
+   {
+    "split": "test",
+    "nearest in": "valid",
+    "median gap": 462.5,
+    "<= 1": "0%",
+    "<= 2": "0%",
+    "<= 5": "0%",
+    "<= 10": "0%",
+    "<= 25": "0%",
+    "<= 50": "0%",
+    "<= 100": "6%"
+   }
+  ],
+  "class_counts": {
+   "test": {
+    "loose-meat": 1,
+    "packaging-error": 126,
+    "twisted-meat": 2,
+    "unsealed": 47,
+    "wrinkle": 0
+   },
+   "train": {
+    "loose-meat": 25,
+    "packaging-error": 377,
+    "twisted-meat": 28,
+    "unsealed": 371,
+    "wrinkle": 7
+   },
+   "valid": {
+    "loose-meat": 3,
+    "packaging-error": 117,
+    "twisted-meat": 4,
+    "unsealed": 59,
+    "wrinkle": 0
+   }
+  }
+ }
+}
