@@ -73,7 +73,7 @@ Trained 12 Oct on a Tesla T4: 41 epochs (early stopping, patience 15; best epoch
 
 ## R3 — Run 2: YOLO11n, time-blocked split
 
-Trained 14 Oct on a T4: 43 epochs (50 max; best by val fitness near the end), 22.6 min
+Trained 14 Oct on a T4: 43 epochs (early stopping, patience 15; best epoch 28, selected on val mAP50-95), 22.6 min
 (fewer training images: 938 scenes vs 1,211). Settings identical to run 1.
 
 | VALID set | Model | mAP50 (exact) | 95% CI, 50-frame-run bootstrap | mAP50-95 | AP50 unsealed | AP50 packaging-error |
