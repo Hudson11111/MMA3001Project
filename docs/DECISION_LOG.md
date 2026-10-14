@@ -36,6 +36,8 @@ objection raised; the latter are noted "(no objection)".
 | D-020 | AP integration rule (exact step area as primary) | 🟡 |
 | D-021 | Unit of data = scene (image + its augmented copies), found by content | 🟡 |
 | D-022 | GPU run order: 11n/roboflow → 11n/blocked → 26n/blocked | 🟡 |
+| D-023 | Tray decision without validated PASS: FAIL/REVIEW + false alarms on empty frames | 🟡 |
+| D-024 | Headline classes: unsealed + packaging-error; others reported as not evaluable | 🟡 |
 
 ---
 
@@ -270,3 +272,21 @@ objection raised; the latter are noted "(no objection)".
 - Each is ~1 h on a free T4. If GPU time runs out, run 3 is dropped first and the
   comparison is reported as future work.
 
+
+
+### D-023 — Tray-level decision without a validated PASS 🟡
+- **Evidence:** Hudson's independent review of the 26 unlabelled VALID/TEST images found
+  23 E (edge/empty: tray not fully in view), 1 M (missed defect), 2 G (good tray); Claude's
+  independent pass agreed that most are E (RESULTS_LOG R1).
+- **Consequence:** "no label" ≠ "good tray", so PASS accuracy cannot be validated.
+- **Choice:** the decision layer outputs **FAIL** (confident defect) / **REVIEW** (uncertain)
+  / **no defect found**. We report (i) **miss rate** on images with labelled defects and
+  (ii) **false-alarm rate** on E frames, and state that a deployed system needs a
+  "tray fully in view" trigger or per-tray aggregation over consecutive frames.
+
+### D-024 — Headline classes 🟡
+- wrinkle has no VALID/TEST instances; loose-meat and twisted-meat have 1–4 in blocked TEST,
+  giving bootstrap CIs of roughly [0, 1] (RESULTS_LOG R2).
+- **Choice:** headline metrics on **unsealed** and **packaging-error** (with all-class mAP
+  reported alongside); rare classes are reported as "not reliably evaluable", not dropped
+  from training.
