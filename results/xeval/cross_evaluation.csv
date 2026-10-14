@@ -1,0 +1,7 @@
+model,eval set,mAP50,CI low,CI high,mAP50-95,AP50 unsealed,AP50 packaging-error
+yolo11n_640_blocked,blocked_valid,0.609,0.501,0.805,0.335,0.807,0.687
+yolo11n_640_blocked,roboflow_valid,0.557,0.412,0.779,0.335,0.95,0.353
+yolo11n_640,blocked_valid,0.878,0.64,0.944,0.609,0.906,0.835
+yolo11n_640,roboflow_valid,0.629,0.409,0.827,0.36,0.933,0.349
+yolo26n_640_blocked,blocked_valid,0.735,0.464,0.884,0.434,0.829,0.607
+yolo26n_640_blocked,roboflow_valid,0.57,0.42,0.764,0.377,0.92,0.331

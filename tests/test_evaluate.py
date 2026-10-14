@@ -111,3 +111,30 @@ def test_grouped_bootstrap_keeps_groups_together():
     r = bootstrap(m, n_images, n_boot=300, seed=0, grouped=True)
     # resample size is 2 groups -> 2, 3 or 4 images; never 1 (copies stay together)
     assert 2.0 <= r["low"] and r["high"] <= 4.0
+
+
+def test_paired_bootstrap_identical_models_give_zero(split):
+    from porkqc.metrics.evaluate import paired_bootstrap
+    gt, pred = split
+    m = match_dataset(gt, pred, 3)
+    r = paired_bootstrap(m, m, lambda mm: summarise(mm, NAMES)["map50"], n_boot=100)
+    assert r["point"] == 0 and r["low"] == 0 and r["high"] == 0
+
+
+def test_paired_bootstrap_detects_better_model(split):
+    from porkqc.metrics.evaluate import paired_bootstrap
+    gt, pred = split
+    worse = {"images": [dict(e, pred=[]) for e in pred["images"]]}   # predicts nothing
+    a, b = match_dataset(gt, pred, 3), match_dataset(gt, worse, 3)
+    r = paired_bootstrap(a, b, lambda mm: summarise(mm, NAMES)["map50"], n_boot=200)
+    # with only 3 images many resamples contain no detectable box (difference 0), so only
+    # check direction: the empty model is never better.
+    assert r["point"] > 0 and r["low"] >= 0 and r["high"] > 0
+
+
+def test_paired_bootstrap_requires_same_images(split):
+    from porkqc.metrics.evaluate import paired_bootstrap
+    gt, pred = split
+    m = match_dataset(gt, pred, 3)
+    with pytest.raises(ValueError):
+        paired_bootstrap(m, m[:2], lambda mm: 0.0)

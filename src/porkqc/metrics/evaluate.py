@@ -34,6 +34,7 @@ __all__ = [
     "summarise",
     "counts_at_confidence",
     "bootstrap",
+    "paired_bootstrap",
 ]
 
 #: IoU thresholds 0.50, 0.55, …, 0.95 used for mAP50-95 (COCO convention).
@@ -360,4 +361,69 @@ def bootstrap(
         "std": float(good.std(ddof=1)) if good.size > 1 else float("nan"),
         "n_boot": n_boot,
         "n_nan": int(np.isnan(samples).sum()),
+    }
+
+
+def paired_bootstrap(
+    matches_a: Sequence[ImageMatches],
+    matches_b: Sequence[ImageMatches],
+    statistic: Callable[[list[ImageMatches]], float],
+    n_boot: int = 1000,
+    ci: float = 0.95,
+    seed: int = 0,
+) -> dict:
+    """
+    Bootstrap confidence interval for the *difference* A − B on the same images.
+
+    Two models evaluated on identical images are correlated: an image that is hard
+    for one is usually hard for the other. Resampling the same units for both
+    models keeps that pairing, so the interval for the difference is much
+    narrower (and more honest) than comparing two separate intervals.
+
+    Parameters
+    ----------
+    matches_a, matches_b : sequence of ImageMatches
+        Results of two models on the same images (same files, any order).
+        Each image's ``group`` defines the resampling unit (e.g. a 50-frame run).
+    statistic : callable
+        Maps a list of ImageMatches to a float (e.g. mAP50).
+    n_boot, ci, seed
+        As in :func:`bootstrap`.
+
+    Returns
+    -------
+    dict
+        ``point`` (A − B on the original data), ``low``, ``high``, ``std``,
+        ``p_le_0`` (share of resamples with A − B ≤ 0, a one-sided bootstrap
+        p-value for "A is better"), ``n_boot``, ``n_nan``.
+
+    Raises
+    ------
+    ValueError
+        If the two inputs do not cover the same image files.
+    """
+    a_by = {m.file: m for m in matches_a}
+    b_by = {m.file: m for m in matches_b}
+    if set(a_by) != set(b_by):
+        raise ValueError("paired_bootstrap needs both models evaluated on the same images.")
+    groups: dict[str, list[str]] = {}
+    for f, m in a_by.items():
+        groups.setdefault(m.group, []).append(f)
+    units = list(groups.values())
+    rng = np.random.default_rng(seed)
+    diffs = np.empty(n_boot)
+    for k in range(n_boot):
+        idx = rng.integers(0, len(units), size=len(units))
+        files = [f for i in idx for f in units[i]]
+        diffs[k] = statistic([a_by[f] for f in files]) - statistic([b_by[f] for f in files])
+    good = diffs[~np.isnan(diffs)]
+    alpha = (1 - ci) / 2
+    return {
+        "point": float(statistic(list(a_by.values())) - statistic([b_by[f] for f in a_by])),
+        "low": float(np.quantile(good, alpha)) if good.size else float("nan"),
+        "high": float(np.quantile(good, 1 - alpha)) if good.size else float("nan"),
+        "std": float(good.std(ddof=1)) if good.size > 1 else float("nan"),
+        "p_le_0": float(np.mean(good <= 0)) if good.size else float("nan"),
+        "n_boot": n_boot,
+        "n_nan": int(np.isnan(diffs).sum()),
     }
