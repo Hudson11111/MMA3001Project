@@ -1,0 +1,2628 @@
+{
+ "split": "valid",
+ "class_names": [
+  "loose-meat",
+  "packaging-error",
+  "twisted-meat",
+  "unsealed",
+  "wrinkle"
+ ],
+ "images": [
+  {
+   "file": "frame_with_red_4217_jpg.rf.8a226f116b17e7d0cfef9bd550f38918.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     658.0,
+     303.0,
+     720.0,
+     420.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4222_jpg.rf.32cfd447b020fb17977ca69fe70fd049.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4222_jpg.rf.c631a5756d23f459f82e46c65adf4f46.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4232_jpg.rf.11d915e6c9172ea78eda5c58c38658b0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     168.11,
+     377.55,
+     273.5,
+     446.93
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4280_jpg.rf.1ceea8d2814d3902d88e9f84f5fcdd1a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4280_jpg.rf.f73d63067f61adfe9aa7fd9425552603.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4286_jpg.rf.74ce782dec57f741047a89ba857d3b7e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     0,
+     127.0,
+     342.0,
+     413.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4290_jpg.rf.16de095f0bcb9813db0b1ae198349eea.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     573.0,
+     291.0,
+     720.0,
+     412.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4304_jpg.rf.feea1ecd0bcdf07514ac596a0efe8d1b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     510.0,
+     361.0,
+     720.0,
+     535.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4306_jpg.rf.62b097095869eca90fc39676450c1312.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     2,
+     221.0,
+     403.0,
+     354.0,
+     540.0
+    ],
+    [
+     0,
+     213.0,
+     388.0,
+     356.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4306_jpg.rf.702e7424b25e98b1e610b289b4f2a397.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     2,
+     221.0,
+     403.0,
+     354.0,
+     540.0
+    ],
+    [
+     0,
+     213.0,
+     388.0,
+     356.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4318_jpg.rf.55c1345cf94561be4f6880db5faed7d2.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     495.0,
+     347.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4318_jpg.rf.fd852d3246ef934d145e4214ac6f8df3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     495.0,
+     347.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4352_jpg.rf.465da4c99ab67cdf6cf67357b22c7256.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     490.0,
+     352.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4354_jpg.rf.025870ac666b64a8323f354767a9f14f.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     455.0,
+     367.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4354_jpg.rf.2715ced10e28aecedc0b072f6ee2a74d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     0.0,
+     348.0,
+     298.0,
+     507.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4354_jpg.rf.96f3c49590d53bdf7d10f6a316dc2760.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     455.0,
+     367.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4365_jpg.rf.231000565614b1e1ab8b55e0c8915592.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4376_jpg.rf.98b5aa5f11269a854a0f671e41d9c933.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     500.0,
+     372.0,
+     720.0,
+     512.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4384_jpg.rf.28e6a15efde88d8c677f591d3efb2fb6.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     581.0,
+     341.0,
+     720.0,
+     420.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4388_jpg.rf.060573f006188129c0f5540d23c202a1.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     580.56,
+     380.56,
+     648.68,
+     429.23
+    ],
+    [
+     1,
+     672.0,
+     378.0,
+     720.0,
+     418.0
+    ],
+    [
+     3,
+     508.89,
+     405.56,
+     596.45,
+     482.58
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4388_jpg.rf.6568f20d73e340239fa478ec155ab1c5.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4390_jpg.rf.9f4b20446215449126e39744fa288a4e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     507.0,
+     332.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4413_jpg.rf.10feb547f9cfb6adabbfaba1f946f7ef.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     2,
+     130.0,
+     416.0,
+     220.0,
+     540.0
+    ],
+    [
+     3,
+     0.0,
+     378.0,
+     293.0,
+     493.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4426_jpg.rf.7ec891625c20dc5a99fc57817a7b7f43.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     457.0,
+     352.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4451_jpg.rf.0c8edcea7fce928b9c70a26dfcbc2f5e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_4461_jpg.rf.5bdc4bc5dbe55b8bc69da2ce4b381fba.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     520.0,
+     345.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4461_jpg.rf.b3c225bb2fb9d66ff3449d7f14fd27b4.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     520.0,
+     345.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_4462_jpg.rf.bf31c3f1b6ddc2b812ec9373cc850be6.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     126.67,
+     326.67,
+     265.0,
+     413.75
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7204_jpg.rf.6788ea7a8589430eddd6be01bf11258f.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7207_jpg.rf.729f70c00eefa4b5152b4f4bfef7eefe.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     475.0,
+     308.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7236_jpg.rf.1f2f8f864f41d614d8526e5b772b493b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     642.23,
+     375.56,
+     663.33,
+     406.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7237_jpg.rf.3eaee4b2554a0f7f0a0ac269840e38ea.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     707.0,
+     385.0,
+     720.0,
+     422.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7241_jpg.rf.5033dce16d88b7d0b457ad72dc28704a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     540.0,
+     355.0,
+     720.0,
+     471.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7243_jpg.rf.ad6d753caa508f0e918ca0916d1700ca.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     547.0,
+     352.0,
+     720.0,
+     478.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7249_jpg.rf.93c1b7fe774f7bef128b92422e497014.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     638.89,
+     372.22,
+     678.89,
+     406.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7251_jpg.rf.c9ef9286e037b5159f2f8cc2fddc2eeb.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     606.66,
+     357.77,
+     623.34,
+     394.45
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7265_jpg.rf.48c9f9a1e758e2d4bad5f930e64cbac2.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     453.0,
+     370.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7267_jpg.rf.1c3350f5e48c69a6295596bfa0d23050.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     520.0,
+     372.0,
+     720.0,
+     502.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7272_jpg.rf.46b869c4fbc126dc534c50371541bdc4.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     534.45,
+     376.66,
+     576.67,
+     423.34
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7274_jpg.rf.6b67d2868a114c4b9d7b30beb83be58b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     0.0,
+     358.0,
+     369.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7275_jpg.rf.151ccde0b29dd8adc1e855d43669add4.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     585.55,
+     367.78,
+     623.33,
+     397.78
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7276_jpg.rf.5c76a009c16b24c4ebd7cfbfa92eedc1.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     621.12,
+     347.78,
+     652.22,
+     391.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7277_jpg.rf.18cf8238785c7c1f986ff9146ae6a9b3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     563.33,
+     406.67,
+     661.11,
+     441.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7277_jpg.rf.550e01722eb9920740108ebe22aa3e16.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     563.33,
+     406.67,
+     661.11,
+     441.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7277_jpg.rf.cd59b940c2d82bdec9890e7882818390.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     455.0,
+     365.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7282_jpg.rf.1c3011fc58209561668de4f6a20250bd.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     173.88,
+     370.56,
+     261.91,
+     398.1
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7285_jpg.rf.71ea04881368a06eebf74366438e49d8.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     581.11,
+     357.78,
+     611.11,
+     391.1
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7285_jpg.rf.7c6307cf148cd838212c18b62f2b5fd6.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     581.11,
+     357.78,
+     611.11,
+     391.1
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7290_jpg.rf.1da3230f0f2d48cc1eb0d462a5c5e1e8.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     94.45,
+     370.0,
+     133.33,
+     396.67
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7291_jpg.rf.1c5c9def18e0e60371167fcf661f2cdc.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     520.0,
+     322.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7291_jpg.rf.d496e10ee669c8b3fd4c1f4cdf738848.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     520.0,
+     322.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7292_jpg.rf.1d34e14bfab1aed82f4013872b6edbde.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     16.67,
+     433.34,
+     54.45,
+     456.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7292_jpg.rf.1e5479419ab3d4673bd88eb0ed661962.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7293_jpg.rf.0e8463e40a5dd8b5e6caa3efe9d550b8.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     558.37,
+     354.17,
+     587.97,
+     388.81
+    ],
+    [
+     1,
+     707.0,
+     376.0,
+     720.0,
+     410.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7299_jpg.rf.602f6f4141d1a5e71683e1c7a92fb5ea.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     588.89,
+     344.45,
+     628.89,
+     377.77
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7299_jpg.rf.8f24824c9575e99c057101cc41d93049.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     588.89,
+     344.45,
+     628.89,
+     377.77
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7300_jpg.rf.1adb989f5ba42d1080d7b4ede4eb002d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     591.11,
+     381.11,
+     645.55,
+     401.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7302_jpg.rf.996199920caa60094d5a3cb04502e407.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     600.56,
+     362.23,
+     676.46,
+     420.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7311_jpg.rf.1f772fdaacf13d8a5e8ddc9eccb0a6ee.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     632.22,
+     371.11,
+     666.66,
+     401.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7313_jpg.rf.087d4afd32152ea5d8d07181d1e00c4e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7314_jpg.rf.3ab8314145cc2bcc628ceb4db6452630.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     462.0,
+     355.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7315_jpg.rf.375876d7401a739540eac398ea190fd5.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     587.61,
+     345.78,
+     637.21,
+     396.38
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7317_jpg.rf.5de2a806bd357e09123eb4be0781f3d2.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     562.96,
+     339.17,
+     622.76,
+     393.38
+    ],
+    [
+     1,
+     635.11,
+     346.98,
+     681.69,
+     389.36
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7322_jpg.rf.174220f6ac781ba42e8baa27b8229dad.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     543.33,
+     354.45,
+     575.55,
+     388.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7325_jpg.rf.c5be3d172377edf96f4a7c7c2eaab561.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7326_jpg.rf.5b286fadbd80d26d421d584e3a115c6d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     497.0,
+     363.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7334_jpg.rf.146480570833ed0338acf353b59beaf3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7336_jpg.rf.2b2e0fea50b9e8bfa4eab9206486228a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     2,
+     207.0,
+     328.0,
+     344.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7336_jpg.rf.49c728f949977cad09311b5631cb6b68.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     578.89,
+     373.33,
+     602.23,
+     412.23
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7339_jpg.rf.4f6c866ff0a1a661c90a6438af691ef3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     36.67,
+     400.0,
+     113.33,
+     420.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7339_jpg.rf.5ef8bc321ccaa82715bcf09180de1fbc.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     521.0,
+     343.0,
+     720.0,
+     540.0
+    ],
+    [
+     1,
+     597.22,
+     338.89,
+     635.34,
+     384.77
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7340_jpg.rf.dbeeeb5443762f605c3384bcac3d7ba3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     532.0,
+     348.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7341_jpg.rf.49953820a6cf1b95da56e5205b7182be.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     585.55,
+     383.89,
+     629.79,
+     434.79
+    ],
+    [
+     1,
+     675.56,
+     398.88,
+     716.48,
+     435.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7341_jpg.rf.b9df8a2cddbb1715bdc725a5a6cf0b8b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     585.55,
+     383.89,
+     629.79,
+     434.79
+    ],
+    [
+     1,
+     675.56,
+     398.88,
+     716.48,
+     435.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7344_jpg.rf.6fc1e4a6306c8eff683915e9daa0766d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     571.11,
+     367.78,
+     601.11,
+     408.88
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7344_jpg.rf.f62b7a1dc282bd5be4491d9272e213ef.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     571.11,
+     367.78,
+     601.11,
+     408.88
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7349_jpg.rf.342376e87effdafea2f943af733a5611.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     580.0,
+     415.56,
+     663.33,
+     435.56
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7349_jpg.rf.c3143dea5efe1c41ef40a795b9293e67.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     580.0,
+     415.56,
+     663.33,
+     435.56
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7351_jpg.rf.b27a13ff9a40c584a95bf30892a2b10a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     503.0,
+     355.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7356_jpg.rf.0d4a9c7ee875494dd36c35d3b959be68.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7363_jpg.rf.d774b9fb1c7e6468a1741c470362dab3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     562.0,
+     377.0,
+     720.0,
+     489.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7369_jpg.rf.24c70c77deff1252e7da06553bb38713.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     706.0,
+     393.0,
+     720.0,
+     428.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7369_jpg.rf.3fdf6badbbc6a7979727b932c499e918.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     706.0,
+     393.0,
+     720.0,
+     428.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7370_jpg.rf.397473c63363f3a3176fc7478d086f5b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     562.22,
+     396.67,
+     600.0,
+     424.45
+    ],
+    [
+     1,
+     688.0,
+     401.0,
+     720.0,
+     427.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7373_jpg.rf.1ec81df28b6c0736fc790ccddfdc7d31.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     578.88,
+     365.55,
+     605.56,
+     403.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7375_jpg.rf.155eb024ba3c849258ae6c5df825e29e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     73.33,
+     397.77,
+     106.67,
+     426.67
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7380_jpg.rf.081b17cd09274569b8fa9451eeb16059.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     555.56,
+     357.78,
+     585.56,
+     388.88
+    ],
+    [
+     1,
+     615.56,
+     362.22,
+     655.56,
+     396.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7383_jpg.rf.23b297eba67a28b9334978a4725bad70.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7386_jpg.rf.a6544459ccfa1b988f1b0f6173295909.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     198.89,
+     384.44,
+     244.45,
+     413.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7387_jpg.rf.7a401f695491756f21c742bf734bbf3c.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     564.82,
+     398.48,
+     647.66,
+     426.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7392_jpg.rf.0614f8ce027b4927330e68197b3c8651.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     523.33,
+     383.33,
+     555.55,
+     418.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7395_jpg.rf.4ec02b7f753956fb3e5125facccdb14a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7399_jpg.rf.c12f458c6ae9a53b4ab6f25b8a60fc2d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     502.0,
+     348.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7405_jpg.rf.20b168b6b96a85ae159a9a563e164f87.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     558.89,
+     377.78,
+     620.0,
+     403.34
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7406_jpg.rf.113570ee1d17b0330f1757f7948f8da0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7410_jpg.rf.20d2777c3a601c7e9fd8cc559dcebe3c.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     567.23,
+     323.89,
+     628.68,
+     381.43
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7417_jpg.rf.049da6679b6b79670c781cce6f917309.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     636.67,
+     405.56,
+     661.11,
+     436.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7417_jpg.rf.ad59449439728a7112a2554d5e9ab7a1.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     636.67,
+     405.56,
+     661.11,
+     436.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7425_jpg.rf.6930275830b556cf91fc7486f7e1da1f.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7425_jpg.rf.6d2546d6b0a3dcc991ebe9da7b2b92a5.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7431_jpg.rf.59866c1024454897b12faa38b34af907.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7437_jpg.rf.5a2f94974eb87f4ad16efb58ac5493a2.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     470.0,
+     358.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7442_jpg.rf.34fdc61d1caf602d2063a7a7a5e80bee.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     591.11,
+     347.78,
+     637.78,
+     387.78
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7447_jpg.rf.b2528f77bf17ef069f629505915aef86.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     548.0,
+     382.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7456_jpg.rf.24a85d3707abe620ac298979a19a9465.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     702.0,
+     388.0,
+     720.0,
+     414.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7457_jpg.rf.88b0dade9ac61f04e69c11b1aec43e3a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7458_jpg.rf.7e87001740bceeeda43445b0a32fef2c.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     26.67,
+     400.0,
+     74.45,
+     430.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7459_jpg.rf.5530f1a94e3618807bc8d641ba61129e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     543.0,
+     362.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7461_jpg.rf.394925a917d3594b3b344f3ebf4defd8.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     455.0,
+     385.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7466_jpg.rf.6417b56b5d86fca8baeaef56fea39453.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     598.89,
+     375.56,
+     632.22,
+     410.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7467_jpg.rf.7150f1e0ff93739943a8733cc8592792.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     700.0,
+     386.0,
+     720.0,
+     426.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7468_jpg.rf.1e38223c4dbb825f64685deb46658168.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     596.67,
+     367.78,
+     637.77,
+     394.45
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7471_jpg.rf.d9733c9a3c8e75ec75d4c6c9f744a199.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7473_jpg.rf.432b567b6dc547f1a0388be81450fbf5.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7481_jpg.rf.21947605ba66ece5bf84eed2acc990e3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     601.11,
+     374.44,
+     635.55,
+     410.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7483_jpg.rf.ad514f05b9f6a73cf325970f1a07567d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     553.0,
+     387.0,
+     720.0,
+     452.0
+    ],
+    [
+     1,
+     588.89,
+     378.88,
+     629.79,
+     420.34
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7485_jpg.rf.a7ae26d17416eb6b57f937b2de141618.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     467.0,
+     365.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7487_jpg.rf.27009ef98dcb221a976d96a509746d58.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7490_jpg.rf.72a11561febd4af7901b5318fe6eed4b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7491_jpg.rf.a404b2dccbca5459b7d3b37003a3a9a9.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     693.0,
+     353.0,
+     720.0,
+     390.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7491_jpg.rf.fd85508df3b98d37cb39a693648ebf15.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     693.0,
+     353.0,
+     720.0,
+     390.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7492_jpg.rf.18f99b7d100ee7b2d3c07a8183bcf76a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_7493_jpg.rf.35a378a7b0f30ece370ebc77684b7aff.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     587.78,
+     383.33,
+     610.0,
+     412.23
+    ],
+    [
+     1,
+     656.67,
+     378.89,
+     696.67,
+     418.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7494_jpg.rf.3c9b8aaeab1c612336356c63060ce70b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     672.22,
+     371.11,
+     704.44,
+     410.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_7497_jpg.rf.558c033a2cde8f67a0585985646e1708.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8113_jpg.rf.1ade00e9f00a0af5d0772e74618e7707.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     578.89,
+     388.88,
+     632.22,
+     415.56
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8117_jpg.rf.04eb1e6b5436746a2aa9ec9c72a59f26.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     0.0,
+     332.0,
+     365.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8125_jpg.rf.3963e1727e4fd26a2fb12d154f97992c.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     582.22,
+     382.22,
+     626.66,
+     406.66
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8126_jpg.rf.c6811b952bb160b6320342ddca609be7.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     143.33,
+     374.44,
+     215.55,
+     404.44
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8130_jpg.rf.405ffa6d9c466f0c4ee07d1466630909.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     193.34,
+     337.78,
+     244.44,
+     368.88
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8133_jpg.rf.6b600d5601d2d9802e896ff41b944c42.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8134_jpg.rf.21032deb8748b05e636ea4689335fa60.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     580.55,
+     367.22,
+     616.45,
+     418.12
+    ],
+    [
+     3,
+     650.0,
+     392.0,
+     720.0,
+     438.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8136_jpg.rf.1dd3369c570db5634ecc3ba9cfdc2a59.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     527.22,
+     322.22,
+     675.36,
+     368.09
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8137_jpg.rf.7c372c7747cf6be94afc622f7bce1d92.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     563.33,
+     360.0,
+     641.11,
+     382.22
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8138_jpg.rf.1883e109b0a775b9570f75d9828b1317.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8145_jpg.rf.004e8af5376f5c5db6c8544757cfcaf5.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     596.66,
+     351.11,
+     633.34,
+     383.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8146_jpg.rf.a450e9c7be73cccfebf9a7ae85eeb715.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     555.0,
+     350.0,
+     720.0,
+     455.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8148_jpg.rf.208cd994b13210bbe81b1288ee7b5f3b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     567.23,
+     372.22,
+     622.02,
+     422.56
+    ],
+    [
+     1,
+     692.0,
+     378.0,
+     720.0,
+     425.0
+    ],
+    [
+     3,
+     548.0,
+     398.0,
+     720.0,
+     512.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8161_jpg.rf.1e35233247b1328a20d664e82c7e95fd.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     571.11,
+     351.11,
+     618.89,
+     378.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8170_jpg.rf.0c88a870c295c78221c7daf2416d40ef.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     532.0,
+     358.0,
+     720.0,
+     504.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8171_jpg.rf.6d1e208339866ffdc3905f2bd33ea6be.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     613.33,
+     346.67,
+     652.23,
+     386.67
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8175_jpg.rf.6f814f8009226e80b3f55e2e1ce2e9d2.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8182_jpg.rf.45c8c258b30a36db457e27e6957c7c88.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     517.0,
+     363.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8183_jpg.rf.60d9bd0419ebc59f099bc98a3bb4c3fe.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     507.0,
+     355.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8183_jpg.rf.75c7a599da4b1facdde896155876d875.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     507.0,
+     355.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8185_jpg.rf.0d669b66553d14ccbba5d93993124925.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     630.0,
+     368.89,
+     671.12,
+     398.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8189_jpg.rf.c6bba5b2bea61c12a6e192deeb6522bd.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     0.0,
+     382.0,
+     348.0,
+     504.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8197_jpg.rf.02e9e36b68f60a55caa75ca1427ac9bb.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     667.78,
+     387.78,
+     703.34,
+     420.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8198_jpg.rf.3c585105fbe5725db155d1e604c74900.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     583.33,
+     356.67,
+     615.55,
+     397.77
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8199_jpg.rf.6b3c6b2fc594bbc8241ca7d998086cad.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     568.89,
+     377.78,
+     628.89,
+     403.34
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8201_jpg.rf.8005b35916118198bcecf532d9866594.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8202_jpg.rf.1d52469f2e401729fbbdbdb5881d91b2.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     544.44,
+     368.89,
+     584.44,
+     392.22
+    ],
+    [
+     1,
+     714.0,
+     384.0,
+     720.0,
+     407.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8208_jpg.rf.4656d0a5bebf6c4c06953f58cdf9f518.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     550.0,
+     365.0,
+     720.0,
+     445.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8210_jpg.rf.0ccb092524de0e5085ee5f9a1ffaed39.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     611.11,
+     363.33,
+     677.78,
+     402.23
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8213_jpg.rf.217ef6576856e78cf5d6c8f73815942e.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8214_jpg.rf.5acda82172bcf022bd7f017eb084474d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     562.22,
+     387.77,
+     597.78,
+     416.67
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8215_jpg.rf.02a7b9715c8b88ea308449ab5f633d53.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     11.11,
+     355.56,
+     74.44,
+     397.78
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8220_jpg.rf.365e8313a187cc2a53f6c839481afdf0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     483.0,
+     325.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8222_jpg.rf.253b64afb6b2776b01e153def5c4b7a6.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     605.55,
+     366.67,
+     642.23,
+     401.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8222_jpg.rf.526d835cbb34e595ab947764bb79ffe1.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     605.55,
+     366.67,
+     642.23,
+     401.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8230_jpg.rf.68b0dd16db69a5eae5d4a4893bc2fb48.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     548.0,
+     337.0,
+     720.0,
+     484.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8235_jpg.rf.7a5220576f9ee2bb16ea4032fa5cffd0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     571.11,
+     344.44,
+     618.89,
+     392.22
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8242_jpg.rf.6224432d93f7c4cc4217e8d20d9edba3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     588.0,
+     388.0,
+     720.0,
+     474.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8254_jpg.rf.1e5aada8a0eec9febcc9f9053d0ca7d0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     553.0,
+     338.0,
+     720.0,
+     501.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8266_jpg.rf.5b9faafc0c37bf853c99ea40c8a9e204.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     573.88,
+     343.88,
+     654.23,
+     391.44
+    ],
+    [
+     3,
+     687.0,
+     388.0,
+     720.0,
+     443.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8270_jpg.rf.2820b388649dea68aa9d8032e8ee667a.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     46.67,
+     336.67,
+     78.89,
+     371.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8272_jpg.rf.b37db0eb5a1e0cb0476703a9d4abd9cf.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8273_jpg.rf.86728d2d91c8d215952671d8217ee4e0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     536.66,
+     362.22,
+     562.22,
+     402.22
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8273_jpg.rf.eb31c1b261338a2096945900cb55b4ea.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     536.66,
+     362.22,
+     562.22,
+     402.22
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8278_jpg.rf.16886b2ef38b6317d0a80eaa0fcc9c6f.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     560.0,
+     370.0,
+     720.0,
+     474.0
+    ],
+    [
+     1,
+     575.55,
+     348.88,
+     640.9,
+     391.44
+    ],
+    [
+     1,
+     705.0,
+     360.0,
+     720.0,
+     392.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8284_jpg.rf.4d66c6aee13311e2f885225e38538874.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     193.34,
+     400.0,
+     256.66,
+     417.78
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8285_jpg.rf.0dc1b3cc681117f39b5e41a81a07715d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     643.33,
+     386.66,
+     675.55,
+     413.33
+    ],
+    [
+     1,
+     580.0,
+     383.33,
+     625.56,
+     412.23
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8286_jpg.rf.2c0b254b84d2c48570d4099052cfc136.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     601.11,
+     380.0,
+     623.33,
+     421.11
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8289_jpg.rf.9166a7a73eade4094a16bc8739a3615f.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     583.34,
+     374.44,
+     644.44,
+     402.22
+    ],
+    [
+     1,
+     653.33,
+     394.45,
+     693.33,
+     418.89
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8290_jpg.rf.595614249cfa85b16759ce91dae651b0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8292_jpg.rf.289981fccced7f69f4857e19ae98e2be.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8300_jpg.rf.77dd753ab8aea17b6db5362eaf3c02e1.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     626.67,
+     328.89,
+     678.89,
+     363.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8300_jpg.rf.9862256b2484c95d68a45a63d290d9f8.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     626.67,
+     328.89,
+     678.89,
+     363.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8302_jpg.rf.9345977417ac4154f825ee883fe93b34.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     618.88,
+     366.67,
+     655.56,
+     396.67
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8304_jpg.rf.15c5ef983826380a1ab4e809cba207fb.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     600.0,
+     358.0,
+     720.0,
+     451.0
+    ],
+    [
+     1,
+     623.89,
+     328.9,
+     658.69,
+     366.99
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8310_jpg.rf.b59d83e398cc0bb9645a0c16783ebbbf.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8314_jpg.rf.3b185b88f9d84d51a8678fb6a78eea56.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     565.55,
+     400.0,
+     594.45,
+     423.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8321_jpg.rf.28c6d0477cee409fa24c22811672fc66.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     111.11,
+     336.67,
+     144.44,
+     366.67
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8322_jpg.rf.902b56407724443f40b0a10ddd8b9eeb.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8323_jpg.rf.47aa5fb2864a7e842ba7eeb2168c2eef.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     591.11,
+     413.34,
+     613.33,
+     444.44
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8324_jpg.rf.25310f3b03e6bd1da8d213315a116fea.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     580.0,
+     390.0,
+     610.0,
+     412.22
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8326_jpg.rf.49e60ddc5277061c0536d7c8305516f7.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": []
+  },
+  {
+   "file": "frame_with_red_8335_jpg.rf.4f002a92b9e51b421fe80a0bb4145ebe.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     614.44,
+     367.78,
+     672.22,
+     395.56
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8337_jpg.rf.62df5e8671f3272c3a81cd68051bed85.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     580.0,
+     358.0,
+     720.0,
+     455.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8349_jpg.rf.1bacc7d7007b83cf2f9b095d9b7c98c0.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     666.67,
+     372.22,
+     688.89,
+     410.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8350_jpg.rf.0530a581e828431c1302f7cf90b0980b.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     636.67,
+     370.0,
+     681.11,
+     400.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8373_jpg.rf.218972343e65f472778ad3d7e2afa6d3.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     1,
+     582.22,
+     378.89,
+     621.12,
+     413.33
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8385_jpg.rf.634e30aacb07efa73e1df96ed9ae7f61.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     517.0,
+     322.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8385_jpg.rf.de94da00dd821436c591645b97dde26d.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     517.0,
+     322.0,
+     720.0,
+     540.0
+    ]
+   ]
+  },
+  {
+   "file": "frame_with_red_8387_jpg.rf.21dca67439ee89edb913227acab68230.jpg",
+   "width": 720,
+   "height": 540,
+   "boxes": [
+    [
+     3,
+     542.0,
+     328.0,
+     720.0,
+     540.0
+    ]
+   ]
+  }
+ ]
+}

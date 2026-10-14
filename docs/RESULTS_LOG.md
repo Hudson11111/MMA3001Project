@@ -25,10 +25,10 @@ here is reproducible from the committed JSON/CSV files with `porkqc.metrics`.
 
 | Reviewer | E (edge/empty) | G (good tray) | M (missed defect) | U |
 |---|---|---|---|---|
-| Hudson (independent) | 23 | 2 *(frames to confirm)* | 1 *(frame 6496, to confirm)* | 0 |
+| Hudson (independent; final, 14 Oct) | 25 | 0 *(2 initially G, re-coded E: not all tray edges visible)* | 1 *(frame 6496, to confirm)* | 0 |
 | Claude (independent, low-resolution grid) | 19 | — | — | 7 (substantial tray visible: 132, 258, 595, 1195, 1433, 1892, 4088) |
 
-**Conclusion:** an unlabelled image almost always means "no tray fully in view", not "good
+**Conclusion:** both reviewers independently judged most unlabelled images as trays not fully in view. An unlabelled image almost always means "no tray fully in view", not "good
 tray". There are too few confirmed good trays to validate a PASS decision (→ D-023).
 
 ## R2 — Run 1: YOLO11n, Roboflow split (as provided)
@@ -70,3 +70,26 @@ Trained 12 Oct on a Tesla T4: 41 epochs (early stopping, patience 15; best epoch
 7. **`model.val()` vs exported predictions differ by 0.03 mAP50** although our metric code
    reproduces Ultralytics' functions exactly (V7) — so the difference is in the inference
    path, not the metric (see VERIFICATION_LOG V11).
+
+## R3 — Run 2: YOLO11n, time-blocked split
+
+Trained 14 Oct on a T4: 43 epochs (50 max; best by val fitness near the end), 22.6 min
+(fewer training images: 938 scenes vs 1,211). Settings identical to run 1.
+
+| VALID set | Model | mAP50 (exact) | 95% CI, 50-frame-run bootstrap | mAP50-95 | AP50 unsealed | AP50 packaging-error |
+|---|---|---|---|---|---|---|
+| Roboflow VALID (120 img, 84 runs) | run 1 | 0.629 | 0.41 – 0.83 | 0.360 | 0.93 | 0.35 |
+| Blocked VALID (196 img, **18 runs, 3 blocks**) | run 2 | 0.609 | 0.51 – 0.79 | 0.335 | 0.81 | 0.69 |
+
+Ultralytics `val()`: run 2 mAP50 0.718 (vs our 0.609; same multi-label effect as V11, larger here).
+
+**These two rows cannot be compared to measure leakage** — they are different images with a
+different class mix (34 vs 117 packaging-error boxes), and blocked VALID comes from only three
+300-frame blocks of video (frames 4217–8387), i.e. 18 independent runs of a tray. The fair
+comparison scores both models on the *same* images: notebook 03 (cross-evaluation).
+Observations so far:
+- Validation curve is noisy again (mAP50 0.57–0.72 over the last 15 epochs).
+- Validation box loss stays ~1.7 while training box loss falls 1.8 → 1.07: a generalisation gap
+  that run 1 hid (its val box loss was ~1.35, closer to train) — consistent with leakage.
+- Bootstrap by single images understates uncertainty: on blocked VALID the image bootstrap
+  gives 0.54–0.71, the 50-frame-run bootstrap 0.51–0.79 (V12).
