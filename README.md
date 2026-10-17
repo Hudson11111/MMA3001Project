@@ -54,6 +54,7 @@ no validation/test instances, labels miss some partly visible defects, single li
 
 ```
 ├── configs/            dataset + time-blocked split, experiment settings, frozen decision thresholds
+├── models/             selected trained model (yolo11n_640_blocked.pt) + model card
 ├── docs/               report draft, results/decision/verification/AI logs, I/O spec, api/ (HTML docs)
 ├── notebooks/          00–04: Colab (data, training, GPU studies) · 05–06: CPU analysis, executed with outputs
 ├── reports/            test_report.html (pytest-html)
@@ -64,6 +65,7 @@ no validation/test instances, labels miss some partly visible defects, single li
 │   ├── metrics/        IoU, matching, AP integration rules, quadrature, evaluation + bootstrap
 │   ├── models/         YOLO wrapper (train/resume/predict), scikit-learn baseline
 │   ├── decision.py     FAIL / REVIEW / PASS rule and cost-based threshold search
+│   ├── cli.py          command line: image(s) -> detections + FAIL / REVIEW / PASS
 │   ├── perf.py         FLOPs, arithmetic intensity, machine balance, timing
 │   └── robustness.py   controlled image perturbations
 └── tests/              pytest suite (unit, regression and verification-against-library tests)
@@ -72,9 +74,17 @@ no validation/test instances, labels miss some partly visible defects, single li
 ## 4. Workflow and how to reproduce
 
 The dataset is **not** stored in the repository (size; CC BY 4.0 attribution below). It is
-downloaded at run time from Roboflow with your own free API key. Trained weights live on Google
-Drive (`MyDrive/MMA3001Project/runs/`); all predictions derived from them are committed in
-`results/`, so every analysis can be re-run on CPU without a GPU or the dataset.
+downloaded at run time from Roboflow with your own free API key. The **selected model** is committed
+in `models/` (5.2 MB, model card + SHA-256, D-027); other runs' weights live on Google Drive
+(`MyDrive/MMA3001Project/runs/`). All predictions are committed in `results/`, so every analysis can
+be re-run on CPU without a GPU or the dataset.
+
+**Try the model on an image** (CPU is fine):
+
+```bash
+pip install -e ".[detector]"
+python -m porkqc.cli path/to/frame.jpg      # -> FAIL / REVIEW / PASS, score, top detections
+```
 
 | Step | Notebook | Runtime | Produces |
 |---|---|---|---|

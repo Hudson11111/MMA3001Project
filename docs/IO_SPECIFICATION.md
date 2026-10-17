@@ -37,6 +37,7 @@ optional GitHub token) are read from the environment or Colab Secrets, never fro
 | Detections | per image: list of `[class_id, confidence, x1, y1, x2, y2]`, pixels in the original image, sorted by confidence (`porkqc.models.detector.predict_images`) | Where each suspected defect is and how confident the model is — for the operator display and for metrics |
 | Tray decision | `FAIL` / `REVIEW` / `PASS` per image (`porkqc.decision.decide`) with thresholds `t_review = 0.01`, `t_fail = 0.16` | FAIL → reject automatically; REVIEW → human inspector; PASS → "no defect found". Thresholds minimise expected cost with miss : false reject : review = 10 : 1 : 0.25 on VALID |
 | Timing | ms per image for pre-processing / inference / post-processing | Check against the 250 ms per-tray budget (120 trays/min, D-007) |
+| Command-line report | one line per image (`decision  score  file  [top detections]`), optional full JSON (`--out`); `python -m porkqc.cli` with the committed model `models/yolo11n_640_blocked.pt` | The deployed form: image in, decision out |
 | Evaluation files | ground-truth and prediction JSON (`porkqc.predictions`) | Reproducible CPU-side evaluation with `porkqc.metrics` |
 
 ## 3. Invalid, missing or unsupported input
@@ -52,4 +53,5 @@ optional GitHub token) are read from the environment or Colab Secrets, never fro
 | Thresholds out of order / outside [0, 1] | `ValueError` (`decide`) |
 | Missing API key | `RuntimeError` explaining how to add the Colab secret (`get_secret`) |
 | Roboflow download produced no `data.yaml` / export not ready | retry, then `RuntimeError` (`download_dataset`) |
+| Command line (`python -m porkqc.cli`): image or weights file missing, or a file that is not a readable image | Error message naming the file, exit code 2, model not loaded (`porkqc.cli`) |
 | Image outside the validated domain (different camera, lighting, product) | Processed, but results are unvalidated — documented limitation |
