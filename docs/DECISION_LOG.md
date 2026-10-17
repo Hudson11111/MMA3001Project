@@ -319,3 +319,14 @@ objection raised; the latter are noted "(no objection)".
   width (review 0.1 → 98 reviews, 6 false rejects; review 1.0 → no review band, 31 false rejects).
 - Frozen in `configs/decision.yaml`, committed before any TEST prediction exists (pre-registration).
 
+### D-027 — Commit the selected model to the repository ✅
+- **Options:** (a) keep weights only on Google Drive (originally planned, `.gitignore` excludes `*.pt`);
+  (b) commit the selected model; (c) publish via a release / model hub.
+- **Choice:** (b) for the one model that went to TEST (`models/yolo11n_640_blocked.pt`, 5.2 MB),
+  found missing by the marker-style audit (V16). Other runs stay on Drive.
+- **Rationale:** without the weights, nobody but Hudson could reproduce a single prediction; 5.2 MB is
+  well within GitHub limits. A SHA-256 in `models/README.md` is checked by a test, so the file cannot
+  silently change. A small command-line tool (`python -m porkqc.cli image.jpg`) runs the model plus the
+  frozen decision rule — the deployed form of the system described in the I/O specification.
+- **Provenance:** file supplied by Hudson from Drive (17 Oct); checked before use (V18).
+
