@@ -275,3 +275,14 @@ reason to shrink the input. **Final design: 640 px, FP32, batch 1.**
 Robust to lighting changes of ±50%; sensitive to strong blur, noise and compression, almost
 entirely through packaging-error (tiny, low-contrast defects: 0.69 → 0.28–0.31). Engineering
 implication: control exposure time (motion blur) and avoid lossy compression on the camera link.
+
+### Failure modes on TEST (notebook 06 §7, operating point confidence ≥ 0.16)
+
+- **Small packaging-error boxes are the main failure:** recall 0.53 for boxes < 0.26% of the image
+  (47 boxes) vs 0.74 for 0.26–1%; unsealed boxes > 5% of the image: recall 0.95.
+- **Most false positives are localisation, not confusion:** of 94 false positives, 57 are the right
+  class with IoU 0.1–0.5 ("mislocated"), 23 background, 13 on unlabelled (edge) frames, 1 wrong
+  class. For a 20 × 20 px box, a 4-px offset already drops IoU below 0.6 — IoU is numerically very
+  sensitive for tiny objects, so the 0.5 threshold penalises near-misses on packaging-error.
+- Boxes touching the image edge (trays entering/leaving view) are found *more* often (0.79 vs 0.66),
+  because they are mostly large unsealed boxes; the difficulty is object size, not truncation.
