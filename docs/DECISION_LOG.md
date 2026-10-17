@@ -5,8 +5,8 @@ was chosen, why, and what evidence supports it. This is the source material for
 the report's "justification of computational approach" section and for answering
 "why did you do X instead of Y?" in the presentation.
 
-**Status key:** ✅ Accepted · 🟡 Proposed (Claude's recommendation, awaiting your OK)
-· ⏳ Pending your decision · 🔬 Pending data/evidence
+**Status key:** ✅ Accepted / implemented. (During the project, 🟡 marked proposals awaiting Hudson's
+review, ⏳ decisions pending Hudson and 🔬 decisions pending evidence; all are now resolved — see git history.)
 
 Decisions marked ✅ on 12 Oct were either confirmed by you explicitly (D-001,
 D-011, deadline/compute facts behind D-016) or proposed by Claude with no
@@ -15,29 +15,29 @@ objection raised; the latter are noted "(no objection)".
 | ID | Decision | Status |
 |---|---|---|
 | D-001 | Problem framing and scope | ✅ confirmed 12 Oct |
-| D-002 | Code architecture: package + thin Colab notebooks | ✅ (no objection) |
-| D-003 | Docstring style: NumPy | ✅ (no objection) |
-| D-004 | Data access via Roboflow API in Colab; data never committed | ✅ (no objection) |
-| D-005 | Primary detector family and comparison | 🔬 |
-| D-006 | Baselines / alternative solutions | ✅ (no objection) |
+| D-002 | Code architecture: package + thin Colab notebooks | ✅ (proposed by Claude; no objection from Hudson) |
+| D-003 | Docstring style: NumPy | ✅ (proposed by Claude; no objection from Hudson) |
+| D-004 | Data access via Roboflow API in Colab; data never committed | ✅ (proposed by Claude; no objection from Hudson) |
+| D-005 | Primary detector family and comparison | ✅ YOLO11n vs YOLO26n compared (R4); YOLO11n selected (D-025) |
+| D-006 | Baselines / alternative solutions | ✅ (proposed by Claude; no objection from Hudson) |
 | D-007 | Engineering requirements: line speed and error-cost ratio | ✅ delegated to Claude 12 Oct |
 | D-008 | Train/valid/test split strategy: time-blocked split for all conclusions | ✅ evidence: +0.27 mAP50 leakage optimism (R4) |
-| D-009 | Testing strategy and CI | ✅ (no objection) |
-| D-010 | Dependency pinning | ✅ (no objection) |
+| D-009 | Testing strategy and CI | ✅ (proposed by Claude; no objection from Hudson) |
+| D-010 | Dependency pinning | ✅ (proposed by Claude; no objection from Hudson) |
 | D-011 | Repository licence: AGPL-3.0 | ✅ confirmed 12 Oct |
-| D-012 | Commit authorship and AI attribution | ✅ (no objection) |
-| D-013 | Branching strategy | ✅ (no objection) |
+| D-012 | Commit authorship and AI attribution | ✅ (proposed by Claude; no objection from Hudson) |
+| D-013 | Branching strategy | ✅ (proposed by Claude; no objection from Hudson) |
 | D-014 | How Colab results return to GitHub | ✅ default (a) for now |
-| D-015 | Export format from Roboflow | ✅ (no objection) |
+| D-015 | Export format from Roboflow | ✅ (proposed by Claude; no objection from Hudson) |
 | D-016 | Compute budget and scope trimming (free Colab, due 22 Oct) | ✅ |
-| D-017 | Training settings: input size, epochs, early stopping | 🟡 |
-| D-018 | Evaluate from exported predictions with our own metrics | 🟡 |
-| D-019 | Prediction-to-ground-truth matching rule | 🟡 |
-| D-020 | AP integration rule (exact step area as primary) | 🟡 |
-| D-021 | Unit of data = scene (image + its augmented copies), found by content | 🟡 |
-| D-022 | GPU run order: 11n/roboflow → 11n/blocked → 26n/blocked | 🟡 |
-| D-023 | Tray decision without validated PASS: FAIL/REVIEW + false alarms on empty frames | 🟡 |
-| D-024 | Headline classes: unsealed + packaging-error; others reported as not evaluable | 🟡 |
+| D-017 | Training settings: input size, epochs, early stopping | ✅ used for all three runs — proposed by Claude, accepted via PR review |
+| D-018 | Evaluate from exported predictions with our own metrics | ✅ all reported metrics from exported predictions — proposed by Claude, accepted via PR review |
+| D-019 | Prediction-to-ground-truth matching rule | ✅ confidence-ordered; Ultralytics rule reproduced for verification (V7) — proposed by Claude, accepted via PR review |
+| D-020 | AP integration rule (exact step area as primary) | ✅ exact; rule spread 17× smaller than sampling CI (R5) — proposed by Claude, accepted via PR review |
+| D-021 | Unit of data = scene (image + its augmented copies), found by content | ✅ controls confirmed on full data (R1) — proposed by Claude, accepted via PR review |
+| D-022 | GPU run order: 11n/roboflow → 11n/blocked → 26n/blocked | ✅ all three runs completed — proposed by Claude, accepted via PR review |
+| D-023 | Tray decision without validated PASS: FAIL/REVIEW + false alarms on empty frames | ✅ applied on TEST (R6) — proposed by Claude, accepted via PR review |
+| D-024 | Headline classes: unsealed + packaging-error; others reported as not evaluable | ✅ applied in R4–R6 — proposed by Claude, accepted via PR review |
 | D-025 | Model to evaluate once on blocked TEST: YOLO11n (blocked) | ✅ Hudson, 17 Oct |
 | D-026 | Decision thresholds frozen on VALID before TEST | ✅ 17 Oct |
 
@@ -55,7 +55,7 @@ objection raised; the latter are noted "(no objection)".
   count/orientation labels either.
 - **Depends on:** WP1 finding defect-free images (otherwise PASS has no examples).
 
-### D-002 — Code architecture: importable package + thin notebooks 🟡
+### D-002 — Code architecture: importable package + thin notebooks ✅
 - **Options:** (a) all code inside Colab notebooks; (b) Python package in `src/`
   with notebooks that import it.
 - **Choice:** (b).
@@ -67,13 +67,13 @@ objection raised; the latter are noted "(no objection)".
   standard first cell.
 - **LO:** testing & validation (efficiently generate and manage test functions).
 
-### D-003 — Docstring style: NumPy 🟡
+### D-003 — Docstring style: NumPy ✅
 - **Options:** Google, NumPy, Sphinx/reST (all accepted by rubric).
 - **Choice:** NumPy.
 - **Rationale:** same convention as NumPy/SciPy/scikit-learn used throughout the
   unit; renders well with `pdoc --docformat numpy`; good for array shapes/units.
 
-### D-004 — Data access 🟡
+### D-004 — Data access ✅
 - **Choice:** download Roboflow v4 inside Colab using the `roboflow` package and an
   API key stored in Colab Secrets (`ROBOFLOW_API_KEY`). Dataset and weights are
   git-ignored; large artefacts go to Google Drive.
@@ -83,7 +83,7 @@ objection raised; the latter are noted "(no objection)".
 - **Note:** Claude's workspace cannot reach Roboflow, so Claude works from a small
   development sample exported by notebook 00.
 
-### D-005 — Detector family and comparison 🔬
+### D-005 — Detector family and comparison ✅ (outcome: R4, D-025)
 - **Proposal:** Ultralytics YOLO, comparing **YOLO11n** (mature, uses NMS
   post-processing) against **YOLO26n** (released Jan 2026, optional NMS-free
   end-to-end head, designed for low-latency deployment). Both are "nano" models
@@ -93,7 +93,7 @@ objection raised; the latter are noted "(no objection)".
 - **Evidence still needed:** first training runs (accuracy, training time) before
   committing to a size sweep (n vs s) or input-resolution sweep.
 
-### D-006 — Baselines and alternatives 🟡
+### D-006 — Baselines and alternatives ✅
 - **B0** trivial always-PASS / always-FAIL — the floor any model must beat.
 - **B1** scikit-learn image-level classifier: hand-crafted colour/texture features
   in a `Pipeline(StandardScaler, model)` comparing a decision tree, an RBF SVM and
@@ -119,7 +119,7 @@ objection raised; the latter are noted "(no objection)".
 - **Sensitivity:** results reported across 24–240 trays/min and cost ratios 1–50,
   so conclusions don't hinge on these assumed values.
 
-### D-008 — Split strategy 🟡 (updated 12 Oct evening, after the development sample)
+### D-008 — Split strategy ✅ (updated 12 Oct evening after the development sample; confirmed by R1 and R4)
 - **New evidence (80-image development sample):** every file is a numbered video
   frame (`frame_with_red_<N>`), and Roboflow's split interleaves frames: e.g.
   frame 2247 is in VALID and frame 2248 (same tray, one frame later) is in TEST.
@@ -153,12 +153,12 @@ objection raised; the latter are noted "(no objection)".
   bootstrap or re-split.
 - **LO:** data selection (random vs grouped split; leakage).
 
-### D-009 — Testing strategy and CI 🟡
+### D-009 — Testing strategy and CI ✅
 - pytest with **positive** (valid input → known output) and **negative**
   (invalid input → specific error) cases; synthetic fixtures so tests need no
   dataset or GPU; pytest-html report; GitHub Actions runs tests on every push.
 
-### D-010 — Dependency pinning 🟡
+### D-010 — Dependency pinning ✅
 - Pin `ultralytics` and `roboflow` exact versions in `requirements-colab.txt`
   (Ultralytics releases very frequently; default hyperparameters can change).
   Leave Colab's pre-installed torch/numpy as-is and record their versions in each
@@ -171,12 +171,12 @@ objection raised; the latter are noted "(no objection)".
   more permissive but the compatibility question is debated.
 - **Recommendation:** (a). Dataset remains CC BY 4.0 (separate licence, not in repo).
 
-### D-012 — Commit authorship and AI attribution 🟡
+### D-012 — Commit authorship and AI attribution ✅
 - Commits made by Claude are authored as "Claude" with a `Co-Authored-By` trailer;
   commits you make (e.g. from Colab) are under your name. This makes AI
   contribution visible in the history, which supports the AI-disclosure section.
 
-### D-013 — Branching strategy 🟡
+### D-013 — Branching strategy ✅
 - `main` always runnable. One branch per work package (`wp1-data-audit`,
   `wp2-metrics`, …) merged via pull request with a short description. Gives the
   "evidence of branching and insightful commits" the rubric asks for.
@@ -188,7 +188,7 @@ objection raised; the latter are noted "(no objection)".
   access token (this repo only, contents read/write) stored in Colab Secrets.
 - **Recommendation:** start with (a); move to (b) once runs produce many files.
 
-### D-015 — Roboflow export format 🟡
+### D-015 — Roboflow export format ✅
 - Export as `yolov8` format: same directory layout and label format as the
   YOLO11/YOLO26 exports (one `.txt` per image; `class cx cy w h`, normalised to
   [0, 1]), and the longest-supported format string in the `roboflow` package.
@@ -207,7 +207,7 @@ objection raised; the latter are noted "(no objection)".
     disconnect.
   - Stretch goals S1–S3 are dropped unless the core finishes early.
 
-### D-017 — Training settings 🟡
+### D-017 — Training settings ✅
 - **Input size 640** (letterboxed 640 × 480 for these 720 × 540 images): the size
   the COCO-pretrained weights were trained at and the standard benchmark size.
   Native 736 would cost ~1.3× more pixels per image for an uncertain gain; the
@@ -220,7 +220,7 @@ objection raised; the latter are noted "(no objection)".
   overfitting (validation loss rising while training loss falls).
 - Identical settings and seed for both models so the comparison is fair.
 
-### D-018 — Evaluate from exported predictions with our own metrics 🟡
+### D-018 — Evaluate from exported predictions with our own metrics ✅
 - The GPU notebook exports raw predictions (low confidence threshold, as used for
   mAP) for the valid and test images to a small CSV, plus the ground-truth labels.
 - All evaluation then runs on CPU from those files, using `porkqc.metrics`:
@@ -230,7 +230,7 @@ objection raised; the latter are noted "(no objection)".
   `compute_ap`/`ap_per_class` on identical inputs (should agree to rounding), and
   against `model.val()` end to end.
 
-### D-019 — Matching rule 🟡
+### D-019 — Matching rule ✅
 - **Context:** to count a prediction as a true positive it must be matched to an
   unmatched ground-truth box of the same class with IoU ≥ threshold. Libraries
   differ: COCO/VOC process predictions in **descending confidence**; Ultralytics
@@ -241,7 +241,7 @@ objection raised; the latter are noted "(no objection)".
   ranking the operator would actually use; an `"ultralytics"` option reproduces
   their rule for verification. The size of any difference is reported.
 
-### D-020 — AP integration rule 🟡
+### D-020 — AP integration rule ✅
 - **Context:** AP is the integral of the interpolated-precision step function
   (see `porkqc.metrics.ap`). Libraries approximate it with different quadrature
   rules: COCO averages 101 samples; VOC2007 averages 11; Ultralytics applies the
@@ -255,7 +255,7 @@ objection raised; the latter are noted "(no objection)".
   The size of the difference on our real, coarse PR curves (few instances per
   class in VALID/TEST) is measured in WP8.
 
-### D-021 — Unit of data: the scene 🟡
+### D-021 — Unit of data: the scene ✅
 - **Finding:** file names do not identify images uniquely — two *different* trays
   in the sample are both named `frame_with_red_992` (probably two videos numbered
   the same way). Grouping "augmented copies" by name would merge different images.
@@ -267,7 +267,7 @@ objection raised; the latter are noted "(no objection)".
 - **Used for:** counting real originals, direct-leakage check, the blocked split
   (whole scenes move together; VALID/TEST keep one copy per scene).
 
-### D-022 — GPU run order 🟡
+### D-022 — GPU run order ✅
 1. `yolo11n_640` on the Roboflow split (baseline "as provided");
 2. `yolo11n_640` on the blocked split (same model → measures leakage optimism);
 3. `yolo26n_640` on the blocked split (model comparison without leakage).
@@ -276,7 +276,7 @@ objection raised; the latter are noted "(no objection)".
 
 
 
-### D-023 — Tray-level decision without a validated PASS 🟡
+### D-023 — Tray-level decision without a validated PASS ✅
 - **Evidence:** Hudson's independent review of the 26 unlabelled VALID/TEST images found
   23 E (edge/empty: tray not fully in view), 1 M (missed defect), 2 G (good tray); Claude's
   independent pass agreed that most are E (RESULTS_LOG R1).
@@ -286,7 +286,7 @@ objection raised; the latter are noted "(no objection)".
   (ii) **false-alarm rate** on E frames, and state that a deployed system needs a
   "tray fully in view" trigger or per-tray aggregation over consecutive frames.
 
-### D-024 — Headline classes 🟡
+### D-024 — Headline classes ✅
 - wrinkle has no VALID/TEST instances; loose-meat and twisted-meat have 1–4 in blocked TEST,
   giving bootstrap CIs of roughly [0, 1] (RESULTS_LOG R2).
 - **Choice:** headline metrics on **unsealed** and **packaging-error** (with all-class mAP

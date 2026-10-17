@@ -29,7 +29,7 @@ allocation) and reports the median and spread over repeats.
 from __future__ import annotations
 
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -102,6 +102,7 @@ def count_conv_costs(model, input_shape: tuple[int, ...], bytes_per_element: int
     names = {m: n for n, m in model.named_modules()}
 
     def hook(mod, inp, out):
+        """Forward hook: record FLOPs and bytes of one Conv2d/Linear call."""
         x = inp[0]
         if isinstance(mod, torch.nn.Conv2d):
             kh, kw = mod.kernel_size

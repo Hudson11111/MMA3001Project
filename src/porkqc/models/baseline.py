@@ -179,7 +179,23 @@ def make_pipeline(kind: str, params: dict, seed: int = 0):
 
 
 def decision_scores(pipe, X: np.ndarray) -> np.ndarray:
-    """Continuous defect score from a fitted pipeline (probability or SVM margin)."""
+    """
+    Continuous defect score from a fitted pipeline, for ranking images.
+
+    Parameters
+    ----------
+    pipe : sklearn.pipeline.Pipeline
+        Fitted pipeline from :func:`make_pipeline`.
+    X : numpy.ndarray
+        Features, shape ``(N, 324)``.
+
+    Returns
+    -------
+    numpy.ndarray
+        Shape ``(N,)``: the SVM margin (``decision_function``) where available,
+        otherwise the positive-class probability. Only the ordering matters
+        for average precision, so the two are interchangeable here.
+    """
     clf = pipe.named_steps["clf"]
     if hasattr(clf, "predict_proba") and not hasattr(clf, "decision_function"):
         return pipe.predict_proba(X)[:, 1]

@@ -25,7 +25,7 @@ def in_colab() -> bool:
         ``True`` if the ``google.colab`` module can be imported.
     """
     try:
-        import google.colab  # noqa: F401
+        import google.colab  # noqa: F401  (import succeeds only inside Colab)
     except ImportError:
         return False
     return True

@@ -13,7 +13,7 @@ documented in NumPy-style docstrings and rendered in the HTML API docs (`docs/ap
 | Array shape / dtype | `(H, W, 3)`, `uint8`, 0–255, RGB |
 | Nominal size | 720 × 540 px (W × H). The detector letterboxes to 640 × 480 (multiple of 32). Other sizes run, but accuracy was validated only at 720 × 540 |
 | Units | Pixels; origin top-left, x right, y down |
-| Validated domain | Lighting, camera pose, tray type and products of the dataset videos (frames 3–10,590). Robustness to exposure ±50%, blur σ ≤ 4 px, noise σ ≤ 25, JPEG q ≥ 10 is measured in notebook 04; anything else is extrapolation |
+| Validated domain | Lighting, camera pose, tray type and products of the dataset videos (frames 3–10,590). Measured robustness (R6): unaffected by exposure ×0.5–×1.5; small losses (≤ 0.04 AP50) for blur σ ≤ 2 px, noise σ ≤ 10, JPEG quality ≥ 30; large losses (0.21–0.27) at blur σ 4, noise σ 25, JPEG q 10. Inputs outside this envelope, or from other cameras/lines, are unsupported |
 | Important property | A frame may show a tray only partly (entering/leaving the view). 25 of 26 unlabelled VALID/TEST frames were of this kind (RESULTS_LOG R1) |
 
 ### 1.2 Training / evaluation data

@@ -198,12 +198,14 @@ def group_by_threshold(hashes: np.ndarray, threshold: int, labels: Sequence[str]
     parent = list(range(k))
 
     def find(i: int) -> int:
+        """Root of i's set, with path halving (keeps the trees shallow)."""
         while parent[i] != i:
             parent[i] = parent[parent[i]]
             i = parent[i]
         return i
 
     def union(i: int, j: int) -> None:
+        """Merge the sets containing i and j."""
         ri, rj = find(i), find(j)
         if ri != rj:
             parent[rj] = ri
