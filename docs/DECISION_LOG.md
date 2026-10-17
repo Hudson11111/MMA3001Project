@@ -38,7 +38,8 @@ objection raised; the latter are noted "(no objection)".
 | D-022 | GPU run order: 11n/roboflow → 11n/blocked → 26n/blocked | 🟡 |
 | D-023 | Tray decision without validated PASS: FAIL/REVIEW + false alarms on empty frames | 🟡 |
 | D-024 | Headline classes: unsealed + packaging-error; others reported as not evaluable | 🟡 |
-| D-025 | Model to evaluate once on blocked TEST | ⏳ Hudson |
+| D-025 | Model to evaluate once on blocked TEST: YOLO11n (blocked) | ✅ Hudson, 17 Oct |
+| D-026 | Decision thresholds frozen on VALID before TEST | ✅ 17 Oct |
 
 ---
 
@@ -292,7 +293,7 @@ objection raised; the latter are noted "(no objection)".
   reported alongside); rare classes are reported as "not reliably evaluable", not dropped
   from training.
 
-### D-025 — Which model goes to the one-shot TEST evaluation ⏳
+### D-025 — Which model goes to the one-shot TEST evaluation ✅ YOLO11n (Hudson, 17 Oct)
 - **Evidence (R4, blocked VALID, paired bootstrap):** YOLO26n vs YOLO11n — mAP50 +0.13 (CI −0.08…+0.27,
   not significant), driven by rare classes; headline classes: unsealed +0.02 (n.s.), packaging-error
   −0.08 (significant). Latency equal within noise.
@@ -302,4 +303,19 @@ objection raised; the latter are noted "(no objection)".
   can actually be evaluated (D-024), and "not significantly different overall" plus "significantly
   worse on the most common defect" favours the simpler model. Report YOLO26n alongside on VALID.
 - **Rule:** whichever is chosen is evaluated on blocked TEST **once**; no further tuning afterwards.
+
+### D-026 — Decision thresholds, frozen before TEST ✅
+- **Method:** exhaustive grid search (0.00–1.00, step 0.01) of `t_review ≤ t_fail` on blocked VALID
+  (196 images, 159 with labelled defects), YOLO11n-blocked predictions, minimising mean cost with
+  miss = 10, false reject = 1, review = 0.25 (`porkqc.decision`). Grid search because the cost is a
+  step function of the thresholds (no gradient).
+- **Result:** `t_review = 0.01`, `t_fail = 0.16` → on VALID: 0 misses, 18 false rejects, 27 reviews,
+  cost 0.126 per image. Trivial baselines: always-PASS 8.11, **always-FAIL 0.189**.
+- **Honest reading:** VALID is 81% defective and its "clean" images are mostly edge frames (R1), so
+  rejecting everything is already cheap; the model cuts the cost by a third, not by orders of
+  magnitude. `t_review` sits at the bottom of the grid (any detection triggers review), and the
+  thresholds are fitted to only 37 clean images — expect them to transfer imperfectly to TEST.
+- **Sensitivity:** for miss costs 3–50 the optimum keeps 0 misses; the review cost decides the band
+  width (review 0.1 → 98 reviews, 6 false rejects; review 1.0 → no review band, 31 false rejects).
+- Frozen in `configs/decision.yaml`, committed before any TEST prediction exists (pre-registration).
 

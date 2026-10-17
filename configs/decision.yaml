@@ -1,0 +1,21 @@
+selected_on: blocked VALID (196 images), model yolo11n_640_blocked, 17 Oct, BEFORE
+  any TEST prediction
+rule: score = max box confidence (any class); FAIL if score >= t_fail; REVIEW if >=
+  t_review; else PASS
+t_review: 0.01
+t_fail: 0.16
+costs:
+  c_miss: 10.0
+  c_false_reject: 1.0
+  c_review: 0.25
+valid_outcome:
+  n: 196
+  n_defective: 159
+  misses: 0
+  false_rejects: 18
+  reviews: 27
+  miss_rate: 0.0
+  false_reject_rate: 0.4864864864864865
+  review_rate: 0.1377551020408163
+  auto_fail_precision: 0.8895705521472392
+  cost_per_image: 0.12627551020408162
