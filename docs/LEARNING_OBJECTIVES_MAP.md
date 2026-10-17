@@ -18,7 +18,7 @@ Topic names are short labels for each notebook's objectives in the unit's
 | 05 | Interpolation vs extrapolation; local vs global | 🟡 | Out-of-distribution inputs (new lighting/products) treated as extrapolation risk; detector as a local learned interpolator in image space | WP7 |
 | 06 | Noise, under/overfitting, training vs validation error | 🟢 | Training vs validation loss/mAP curves; early stopping; epoch/size choices justified by validation, not training, error | WP3 |
 | 07 | Newton interpolating polynomials | ⚪ | Not applicable — no polynomial interpolation of sampled data needed. | — |
-| 08 | Splines, PCHIP, shape-preserving interpolation | 🟡 | The precision "envelope" used in AP is a monotone (shape-preserving) interpolation of a zig-zag PR curve; compare with naive interpolation | WP8 |
+| 08 | Splines, PCHIP, shape-preserving interpolation | 🟢 | The precision "envelope" used in AP is a monotone (shape-preserving) interpolation of a zig-zag PR curve; compare with naive interpolation | notebook 05 §1: precision envelope = monotone shape-preserving interpolant |
 | 09 | 2D interpolation on regular grids | 🟡 | Image resizing is regular-grid interpolation (nearest / bilinear / bicubic / area); effect on accuracy at reduced input resolution | WP6 |
 | 10 | ML regression as interpolation (kNN, ridge, GP) | 🔵 | Possible kNN image-feature baseline; out-of-domain detection | WP4 |
 | 11 | Linear regression | ⚪ | Task is detection/classification, not continuous regression. | — |
@@ -27,10 +27,10 @@ Topic names are short labels for each notebook's objectives in the unit's
 | 14 | MLP regression | 🟢 | MLP counterpart in B1; links to how the CNN detector is trained (forward pass, iterative optimisation, loss curves) | WP3, WP4 |
 | 15 | Model evaluation (metrics, baselines, train/val/CV/test roles) | 🟢 | Fixed evaluation set for comparisons (cross-evaluation); **paired** bootstrap over 50-frame runs for differences; leakage optimism quantified (+0.27 mAP50); per-class metrics for the classes that can be evaluated; test used once | `results/xeval/`, RESULTS_LOG R4, `paired_bootstrap` |
 | 16 | Data selection, leakage, splits, distribution shift | 🟢 | Dataset audit; **temporal leakage** from random frame-level splitting; time-blocked split with purge gap (random vs grouped/time-ordered split); scenes vs file names; unlabelled-image review; documented data-selection decision | `porkqc/data/resplit.py`, notebook 01, D-008, D-021, V10 |
-| 17 | Numerical integration (trapezoid, Simpson) | 🟢 | AP = ∫₀¹ p(r) dr computed with trapezoid, Simpson, 11/101-point and exact step rules | `metrics/ap.py`, `metrics/quadrature.py` (implemented + tested); study in WP8 |
-| 18 | Integration error & convergence | 🟢 | N-point refinement study, log–log observed order on a non-smooth (step) integrand; smoothness assumptions violated | `tests/test_quadrature.py`: order ≈2 / ≈4 on smooth f, ≈1 on a step; V6 (0.995 ceiling) |
-| 19 | Richardson extrapolation / Romberg | 🟡 | Demonstrate why Richardson/Romberg is unreliable when the integrand is discontinuous (leading-error-term assumption fails) | WP8 |
-| 20 | Gaussian quadrature | 🟡 | Gauss–Legendre on the PR step function vs Newton–Cotes; accuracy per evaluation; why fixed nodes struggle with discontinuities | `gauss_legendre_rule` tested for degree-(2n−1) exactness; study in WP8 |
+| 17 | Numerical integration (trapezoid, Simpson) | 🟢 | AP = ∫₀¹ p(r) dr computed with trapezoid, Simpson, 11/101-point and exact step rules | notebook 05, RESULTS_LOG R5 |
+| 18 | Integration error & convergence | 🟢 | N-point refinement study, log–log observed order on a non-smooth (step) integrand; smoothness assumptions violated | notebook 05: orders 2/2/4 on eʳ vs ≈1 on the AP envelope |
+| 19 | Richardson extrapolation / Romberg | 🟢 | Demonstrate why Richardson/Romberg is unreliable when the integrand is discontinuous (leading-error-term assumption fails) | notebook 05 §4: Romberg error ratios erratic (0.5–10.7 instead of 4) |
+| 20 | Gaussian quadrature | 🟢 | Gauss–Legendre on the PR step function vs Newton–Cotes; accuracy per evaluation; why fixed nodes struggle with discontinuities | notebook 05: Gauss–Legendre exact on eʳ, no gain on the step integrand |
 | 21 | Multiple integrals | ⚪ | Not applicable. | — |
 | 22 | Numerical differentiation | 🔵 | Possible: convergence/plateau detection on noisy validation curves (noise sensitivity of derivatives) | WP3 |
 | 23–31 | ODEs (fundamentals, Euler, RK, higher-order, stability, stiffness, implicit, shooting, finite-difference BVPs) | ⚪ | No dynamical system or boundary-value problem in a static image-inspection task. Forcing one in would be off-topic. | — |

@@ -147,3 +147,34 @@ Differences use a **paired** bootstrap over 50-frame runs of blocked VALID
    them at this size — accuracy does.
 5. Rows for clean models scored on *Roboflow* VALID (`cross_evaluation.csv`) are not interpretable:
    some Roboflow VALID images are inside blocked TRAIN.
+
+## R5 — AP as a numerical integral (notebook 05, WP8)
+
+Integrand: precision envelope of YOLO11n (blocked) on blocked VALID, IoU 0.5 (`05_pr_envelope.png`).
+
+| | unsealed | packaging-error | mAP50 (4 classes with GT) |
+|---|---|---|---|
+| exact step area | 0.8070 | 0.6866 | 0.6091 |
+| COCO 101-point | −0.0016 | −0.0019 | 0.6080 |
+| VOC 11-point | **−0.0347** | −0.0232 | 0.5918 |
+| Ultralytics (trapezoid, linear envelope) | +0.0014 | −0.0000 | 0.6084 |
+
+**Convergence** (observed order p in |error| ∝ h^p, `05_quadrature_convergence.png`):
+
+| Rule | smooth control eʳ | AP envelope |
+|---|---|---|
+| midpoint | 2.0 | 0.97 |
+| trapezoid | 2.0 | 0.79 |
+| Simpson | 4.0 | 0.99 |
+
+- On the smooth control every rule shows its textbook order (verifies the implementations);
+  on the step-function envelope **all rules drop to ≈ first order** and the error curve is
+  erratic, because the panel containing each jump contributes O(h) regardless of the rule's degree.
+- **Romberg / Richardson fails:** successive trapezoid error ratios on the envelope are
+  3.2, 10.7, 3.6, 0.7, 4.0, 0.9, 1.5, 6.4, 0.5 — Romberg assumes a constant 4.
+- Gauss–Legendre is exact to rounding on eʳ with 8 nodes, but on the envelope it is no better than
+  the composite rules (nodes cannot adapt to jump locations).
+- **Engineering conclusion:** the spread between integration rules (0.017 mAP50, dominated by VOC
+  11-point) is **17× smaller** than the 95% bootstrap interval width from the small validation set
+  (0.30). The exact rule is used as primary because it has no discretisation error at all, but the
+  quadrature choice is not what limits confidence in the result — the data are.
