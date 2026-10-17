@@ -282,7 +282,7 @@ implication: control exposure time (motion blur) and avoid lossy compression on 
   (47 boxes) vs 0.74 for 0.26–1%; unsealed boxes > 5% of the image: recall 0.95.
 - **Most false positives are localisation, not confusion:** of 94 false positives, 57 are the right
   class with IoU 0.1–0.5 ("mislocated"), 23 background, 13 on unlabelled (edge) frames, 1 wrong
-  class. For a 20 × 20 px box, a 4-px offset already drops IoU below 0.6 — IoU is numerically very
+  class. For a 20 × 20 px box, a 3-px diagonal offset already drops IoU to 0.57 and a 4-px offset to 0.47 — IoU is numerically very
   sensitive for tiny objects, so the 0.5 threshold penalises near-misses on packaging-error.
 - Boxes touching the image edge (trays entering/leaving view) are found *more* often (0.79 vs 0.66),
   because they are mostly large unsealed boxes; the difficulty is object size, not truncation.
