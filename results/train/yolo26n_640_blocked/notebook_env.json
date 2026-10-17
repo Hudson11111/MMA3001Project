@@ -1,0 +1,10 @@
+{
+ "timestamp_utc": "2026-10-14T08:38:15+00:00",
+ "python": "3.13.15",
+ "torch": "2.11.0+cu130",
+ "ultralytics": "8.4.175",
+ "porkqc": "0.1.0",
+ "git_commit": "afc668f",
+ "cuda": true,
+ "gpu": "Tesla T4"
+}

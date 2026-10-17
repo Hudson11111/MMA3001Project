@@ -1,0 +1,49 @@
+{
+ "experiment": {
+  "name": "yolo26n_640_blocked",
+  "model": "yolo26n.pt",
+  "train": {
+   "imgsz": 640,
+   "epochs": 50,
+   "patience": 15,
+   "batch": 16,
+   "seed": 0,
+   "deterministic": true,
+   "cache": "disk",
+   "workers": 2,
+   "save_period": 5,
+   "plots": true
+  },
+  "predict": {
+   "imgsz": 640,
+   "conf": 0.001,
+   "iou": 0.7,
+   "max_det": 300
+  },
+  "predict_variants": [
+   {
+    "tag": "default"
+   },
+   {
+    "tag": "e2e",
+    "nms": false
+   }
+  ],
+  "split": "blocked"
+ },
+ "data_yaml": "/content/data/pork-rasher-v4-blocked/data.yaml",
+ "run_dir": "/content/drive/MyDrive/MMA3001Project/runs/yolo26n_640_blocked",
+ "best_weights": "/content/drive/MyDrive/MMA3001Project/runs/yolo26n_640_blocked/weights/best.pt",
+ "train_seconds": 1245.9,
+ "resumed": false,
+ "skipped": false,
+ "note": "",
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+  "torch": "2.11.0+cu130",
+  "ultralytics": "8.4.175",
+  "cuda": true,
+  "gpu": "Tesla T4"
+ }
+}

@@ -93,3 +93,57 @@ Observations so far:
   that run 1 hid (its val box loss was ~1.35, closer to train) — consistent with leakage.
 - Bootstrap by single images understates uncertainty: on blocked VALID the image bootstrap
   gives 0.54–0.71, the 50-frame-run bootstrap 0.51–0.79 (V12).
+
+## R4 — Run 3 (YOLO26n, blocked split) and cross-evaluation (notebook 03)
+
+Run 3 trained 14 Oct on a T4: 31 epochs (early stop; best epoch 16), 20.8 min.
+Cross-evaluation: every model predicted on the same images (`results/xeval/`).
+Differences use a **paired** bootstrap over 50-frame runs of blocked VALID
+(`porkqc.metrics.evaluate.paired_bootstrap`, 1,000 resamples).
+
+### Scores on the same images — blocked VALID (196 images, 18 runs)
+
+| Model | Trained on | mAP50 | mAP50-95 | AP50 unsealed | AP50 packaging-error |
+|---|---|---|---|---|---|
+| YOLO11n, run 1 | Roboflow TRAIN (has seen these trays) | 0.878 | 0.609 | 0.906 | 0.835 |
+| YOLO11n, run 2 | blocked TRAIN (clean) | 0.609 | 0.335 | 0.807 | 0.687 |
+| YOLO26n, run 3 | blocked TRAIN (clean) | 0.735 | 0.434 | 0.829 | 0.607 |
+| YOLO26n, run 3, NMS-free head | blocked TRAIN (clean) | 0.703 | 0.451 | — | — |
+
+### Paired differences (A − B), 95% CI
+
+| Question | Metric | Difference | 95% CI | P(diff ≤ 0) |
+|---|---|---|---|---|
+| **Leakage optimism** (run 1 − run 2) | mAP50 | **+0.269** | +0.062 … +0.351 | < 0.001 |
+| | mAP50-95 | **+0.274** | +0.129 … +0.338 | < 0.001 |
+| | AP50 unsealed | +0.099 | +0.033 … +0.183 | 0.001 |
+| | AP50 packaging-error | +0.149 | +0.079 … +0.205 | < 0.001 |
+| **Model** (YOLO26n − YOLO11n, both clean) | mAP50 | +0.126 | −0.077 … +0.268 | 0.32 |
+| | mAP50-95 | +0.099 | −0.015 … +0.178 | 0.08 |
+| | AP50 unsealed | +0.022 | −0.030 … +0.082 | 0.23 |
+| | AP50 packaging-error | **−0.079** | −0.133 … −0.012 | 0.99 |
+| **Head** (YOLO26n NMS-free − with NMS) | mAP50 | −0.032 | −0.040 … −0.000 | 0.98 |
+| | mAP50-95 | +0.017 | −0.014 … +0.033 | 0.10 |
+
+### Latency, T4, batch 1, FP32 (median per image, blocked VALID)
+
+| Model | Pre | Inference | Post | Total (p95) |
+|---|---|---|---|---|
+| YOLO11n | 1.41 | 7.57 | 1.11 | 10.1 ms (14.5) |
+| YOLO26n + NMS | 1.37 | 8.60 | 1.08 | 11.1 ms (15.5) |
+| YOLO26n NMS-free | 1.38 | 8.90 | 0.39 | 10.7 ms (16.0) |
+
+### Findings
+1. **Leakage is large and statistically clear.** On identical images, the model that had seen
+   neighbouring frames of the same trays scores **+0.27 mAP50 / +0.27 mAP50-95** higher than the
+   identical model that had not. Roboflow's split therefore overstates performance by roughly
+   that much; all further results use the blocked split.
+2. **YOLO26n is not clearly better than YOLO11n.** Its higher overall mAP comes from the rare
+   classes (3–4 validation instances each, D-024). On the headline classes it ties on unsealed
+   and is significantly *worse* on packaging-error (−0.08).
+3. **The NMS-free head saves ~0.7 ms of post-processing** (1.08 → 0.39 ms) but inference is slightly
+   slower, so end-to-end latency is unchanged within noise; it costs ~0.03 mAP50.
+4. **Every model is ~25× inside the 250 ms budget** (D-007); speed does not discriminate between
+   them at this size — accuracy does.
+5. Rows for clean models scored on *Roboflow* VALID (`cross_evaluation.csv`) are not interpretable:
+   some Roboflow VALID images are inside blocked TRAIN.

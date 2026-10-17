@@ -21,7 +21,7 @@ objection raised; the latter are noted "(no objection)".
 | D-005 | Primary detector family and comparison | 🔬 |
 | D-006 | Baselines / alternative solutions | ✅ (no objection) |
 | D-007 | Engineering requirements: line speed and error-cost ratio | ✅ delegated to Claude 12 Oct |
-| D-008 | Train/valid/test split strategy: Roboflow split + time-blocked split | 🟡 (evidence from dev sample; confirm with notebook 01) |
+| D-008 | Train/valid/test split strategy: time-blocked split for all conclusions | ✅ evidence: +0.27 mAP50 leakage optimism (R4) |
 | D-009 | Testing strategy and CI | ✅ (no objection) |
 | D-010 | Dependency pinning | ✅ (no objection) |
 | D-011 | Repository licence: AGPL-3.0 | ✅ confirmed 12 Oct |
@@ -38,6 +38,7 @@ objection raised; the latter are noted "(no objection)".
 | D-022 | GPU run order: 11n/roboflow → 11n/blocked → 26n/blocked | 🟡 |
 | D-023 | Tray decision without validated PASS: FAIL/REVIEW + false alarms on empty frames | 🟡 |
 | D-024 | Headline classes: unsealed + packaging-error; others reported as not evaluable | 🟡 |
+| D-025 | Model to evaluate once on blocked TEST | ⏳ Hudson |
 
 ---
 
@@ -290,3 +291,15 @@ objection raised; the latter are noted "(no objection)".
 - **Choice:** headline metrics on **unsealed** and **packaging-error** (with all-class mAP
   reported alongside); rare classes are reported as "not reliably evaluable", not dropped
   from training.
+
+### D-025 — Which model goes to the one-shot TEST evaluation ⏳
+- **Evidence (R4, blocked VALID, paired bootstrap):** YOLO26n vs YOLO11n — mAP50 +0.13 (CI −0.08…+0.27,
+  not significant), driven by rare classes; headline classes: unsealed +0.02 (n.s.), packaging-error
+  −0.08 (significant). Latency equal within noise.
+- **Options:** (a) YOLO11n — better or equal on both headline classes, mature, simpler;
+  (b) YOLO26n — higher all-class mAP and mAP50-95, NMS-free option.
+- **Claude's recommendation:** (a) YOLO11n, because the decision layer is driven by the classes that
+  can actually be evaluated (D-024), and "not significantly different overall" plus "significantly
+  worse on the most common defect" favours the simpler model. Report YOLO26n alongside on VALID.
+- **Rule:** whichever is chosen is evaluated on blocked TEST **once**; no further tuning afterwards.
+
