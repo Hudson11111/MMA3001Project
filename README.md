@@ -27,6 +27,7 @@ Full input/output contract: [`docs/IO_SPECIFICATION.md`](docs/IO_SPECIFICATION.m
 | `01_data_audit` | Box statistics, augmentation accounting, near-duplicate leakage check (CPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/01_data_audit.ipynb) |
 | `02_train_detector` | Train YOLO11n / YOLO26n on the Roboflow or time-blocked split (resumable), training curves, export VALID predictions (GPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/02_train_detector.ipynb) |
 | `03_cross_evaluate` | Every trained model on every validation set: fair leakage measurement (GPU preferred) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/03_cross_evaluate.ipynb) |
+| `04_test_performance_robustness` | One-shot TEST, latency/FLOPs/resolution/FP16 study, robustness, baseline features (GPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/04_test_performance_robustness.ipynb) |
 
 **One-time setup**
 

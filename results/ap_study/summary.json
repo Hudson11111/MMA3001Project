@@ -1,0 +1,19 @@
+{
+ "mAP50_exact": 0.6091193698373598,
+ "rule_spread_mAP50": 0.017357388474326996,
+ "bootstrap_ci_width_mAP50": 0.30172827061335816,
+ "bootstrap_std_mAP50": 0.05813409249628769,
+ "ratio_ci_width_to_rule_spread": 17.383275776747123,
+ "observed_orders": {
+  "smooth e^r": {
+   "midpoint": 2.0,
+   "trapezoid": 2.0,
+   "Simpson": 4.0
+  },
+  "AP envelope (unsealed)": {
+   "midpoint": 0.97,
+   "trapezoid": 0.79,
+   "Simpson": 0.99
+  }
+ }
+}
