@@ -9,7 +9,7 @@ and is evaluated for accuracy, robustness and real-time speed.
 
 | | |
 |---|---|
-| **Report (draft)** | [`docs/REPORT_DRAFT.md`](docs/REPORT_DRAFT.md) |
+| **Written report** | [`docs/REPORT.md`](docs/REPORT.md) (snapshot of the submitted document) |
 | **Results, with numbers** | [`docs/RESULTS_LOG.md`](docs/RESULTS_LOG.md) |
 | **Why each choice was made** | [`docs/DECISION_LOG.md`](docs/DECISION_LOG.md) |
 | **How correctness was verified (bugs found and fixed)** | [`docs/VERIFICATION_LOG.md`](docs/VERIFICATION_LOG.md) |
