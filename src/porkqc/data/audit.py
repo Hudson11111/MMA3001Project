@@ -162,7 +162,14 @@ class SplitSummary:
     issues: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
-        """Return the summary as a plain dictionary (JSON-serialisable)."""
+        """
+        Return the summary as a plain dictionary.
+
+        Returns
+        -------
+        dict
+            All attributes, JSON-serialisable (used for ``audit_summary.json``).
+        """
         return asdict(self)
 
 
@@ -208,6 +215,7 @@ def summarise_split(
     s.n_unique_originals = len({original_stem(p) for p in images})
 
     def note(msg: str) -> None:
+        """Keep an issue message, up to ``max_issues`` of them."""
         if len(s.issues) < max_issues:
             s.issues.append(msg)
 

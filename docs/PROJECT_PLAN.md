@@ -1,8 +1,9 @@
 # Project Plan — Automated Inspection of Pork-Rasher Packaging
 
 MMA3001 Numerical Methods and Machine Learning · Individual Project (25%)
-Status: **v0.2 (12 Oct 2026)** — framing confirmed; deadline **Thu 22 Oct**; free Colab only.
-Items marked ⏳ are waiting on data.
+Status: **historical plan (v0.2, 12 Oct 2026)**, kept unchanged as a record of the original intent.
+⏳ markers below were open at the time. **What actually happened** is summarised in §9 and
+recorded in `RESULTS_LOG.md` (R1–R6) and `DECISION_LOG.md`.
 
 This plan is a living document. Every substantive change should also appear in
 [`DECISION_LOG.md`](DECISION_LOG.md) so the reasoning is traceable for the report
@@ -252,3 +253,15 @@ the core is finished early.
 | 10-day deadline + free Colab GPU limits | Unfinished experiments | GPU jobs first; nano models; single seed; CPU analysis from saved predictions (D-016, D-018) |
 | Ambiguous class definitions (e.g. packaging-error vs unsealed) | Confused labels, low AP | Inspect examples; ask coordinator on edStem; per-class confusion analysis |
 | Over-scoping | Shallow work everywhere | Core WPs first; stretch only after WP7 |
+
+## 9. What changed from the plan (added 17 Oct)
+
+| Planned | What happened | Why |
+|---|---|---|
+| Keep Roboflow's split unless leakage is found (WP1) | Leakage found and measured (+0.27 mAP50); all conclusions use a time-blocked split | Frames are numbered video; median gap VALID→TRAIN 3 frames (R1, R4) |
+| Near-duplicate check by perceptual hashing | Abandoned for frame numbers; kept as a documented unsuccessful method | Hash controls overlapped on the real conveyor background (V10) |
+| Validate PASS on defect-free trays | Not possible; decision layer reports misses and false alarms instead | 25 of 26 unlabelled frames were edge/empty frames (R1, D-023) |
+| Model-size / training-resolution sweep | Inference-resolution sweep only | Free-Colab GPU budget (D-016) |
+| One evaluation per model on its own VALID set | Cross-evaluation on identical images + paired bootstrap | Separate VALID sets confounded the comparison (V12) |
+| Stretch goals S1–S3 | Not done | Deadline |
+

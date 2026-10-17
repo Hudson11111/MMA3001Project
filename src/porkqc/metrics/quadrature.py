@@ -42,6 +42,7 @@ Integrand = Callable[[np.ndarray], np.ndarray]
 
 
 def _check(a: float, b: float, n: int) -> None:
+    """Validate an interval ``[a, b]`` and a panel/node count; raise ValueError if invalid."""
     if not b > a:
         raise ValueError(f"Need b > a, got a={a}, b={b}.")
     if n < 1:

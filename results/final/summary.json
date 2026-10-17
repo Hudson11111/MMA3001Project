@@ -1,0 +1,541 @@
+{
+ "test_vs_valid": [
+  {
+   "set": "VALID (used for all choices)",
+   "metric": "mAP50 (all classes with GT)",
+   "value": 0.6091193698,
+   "95% CI low": 0.5011183149,
+   "95% CI high": 0.8028465855
+  },
+  {
+   "set": "VALID (used for all choices)",
+   "metric": "mAP50-95",
+   "value": 0.3350231073,
+   "95% CI low": 0.255322905,
+   "95% CI high": 0.3980798266
+  },
+  {
+   "set": "VALID (used for all choices)",
+   "metric": "headline AP50 (unsealed+packaging)",
+   "value": 0.7467727114,
+   "95% CI low": 0.6728054242,
+   "95% CI high": 0.8184510464
+  },
+  {
+   "set": "VALID (used for all choices)",
+   "metric": "AP50 unsealed",
+   "value": 0.8069576958,
+   "95% CI low": 0.6743670026,
+   "95% CI high": 0.9123060872
+  },
+  {
+   "set": "VALID (used for all choices)",
+   "metric": "AP50 packaging-error",
+   "value": 0.6865877271,
+   "95% CI low": 0.6374594038,
+   "95% CI high": 0.7451487135
+  },
+  {
+   "set": "TEST (used once)",
+   "metric": "mAP50 (all classes with GT)",
+   "value": 0.7527749856,
+   "95% CI low": 0.5142236975,
+   "95% CI high": 0.8938984845
+  },
+  {
+   "set": "TEST (used once)",
+   "metric": "mAP50-95",
+   "value": 0.4801066581,
+   "95% CI low": 0.2850141439,
+   "95% CI high": 0.5664522031
+  },
+  {
+   "set": "TEST (used once)",
+   "metric": "headline AP50 (unsealed+packaging)",
+   "value": 0.74819703,
+   "95% CI low": 0.6796518335,
+   "95% CI high": 0.8375466609
+  },
+  {
+   "set": "TEST (used once)",
+   "metric": "AP50 unsealed",
+   "value": 0.9117421876,
+   "95% CI low": 0.829504831,
+   "95% CI high": 0.9905893996
+  },
+  {
+   "set": "TEST (used once)",
+   "metric": "AP50 packaging-error",
+   "value": 0.5846518723,
+   "95% CI low": 0.4768552946,
+   "95% CI high": 0.7252922011
+  }
+ ],
+ "decision": [
+  {
+   "level_0": "VALID",
+   "level_1": "model (frozen thresholds)",
+   "n": 196.0,
+   "n_defective": 159.0,
+   "misses": 0.0,
+   "false_rejects": 18.0,
+   "reviews": 27.0,
+   "miss_rate": 0.0,
+   "false_reject_rate": 0.4864864865,
+   "review_rate": 0.137755102,
+   "auto_fail_precision": 0.8895705521,
+   "cost_per_image": 0.1262755102
+  },
+  {
+   "level_0": "VALID",
+   "level_1": "always FAIL",
+   "n": 196.0,
+   "n_defective": 159.0,
+   "misses": 0.0,
+   "false_rejects": 37.0,
+   "reviews": 0.0,
+   "miss_rate": 0.0,
+   "false_reject_rate": 1.0,
+   "review_rate": 0.0,
+   "auto_fail_precision": 0.8112244898,
+   "cost_per_image": 0.1887755102
+  },
+  {
+   "level_0": "VALID",
+   "level_1": "always PASS",
+   "n": 196.0,
+   "n_defective": 159.0,
+   "misses": 159.0,
+   "false_rejects": 0.0,
+   "reviews": 0.0,
+   "miss_rate": 1.0,
+   "false_reject_rate": 0.0,
+   "review_rate": 0.0,
+   "auto_fail_precision": null,
+   "cost_per_image": 8.112244898
+  },
+  {
+   "level_0": "TEST",
+   "level_1": "model (frozen thresholds)",
+   "n": 180.0,
+   "n_defective": 156.0,
+   "misses": 1.0,
+   "false_rejects": 9.0,
+   "reviews": 24.0,
+   "miss_rate": 0.0064102564,
+   "false_reject_rate": 0.375,
+   "review_rate": 0.1333333333,
+   "auto_fail_precision": 0.9407894737,
+   "cost_per_image": 0.1388888889
+  },
+  {
+   "level_0": "TEST",
+   "level_1": "always FAIL",
+   "n": 180.0,
+   "n_defective": 156.0,
+   "misses": 0.0,
+   "false_rejects": 24.0,
+   "reviews": 0.0,
+   "miss_rate": 0.0,
+   "false_reject_rate": 1.0,
+   "review_rate": 0.0,
+   "auto_fail_precision": 0.8666666667,
+   "cost_per_image": 0.1333333333
+  },
+  {
+   "level_0": "TEST",
+   "level_1": "always PASS",
+   "n": 180.0,
+   "n_defective": 156.0,
+   "misses": 156.0,
+   "false_rejects": 0.0,
+   "reviews": 0.0,
+   "miss_rate": 1.0,
+   "false_reject_rate": 0.0,
+   "review_rate": 0.0,
+   "auto_fail_precision": null,
+   "cost_per_image": 8.6666666667
+  }
+ ],
+ "decision_rates_test": {
+  "miss": 0.00641025641025641,
+  "false_reject": 0.375,
+  "review_defective": 0.07692307692307693,
+  "review_clean": 0.5
+ },
+ "baseline": [
+  {
+   "target": "any defect",
+   "model": "decision tree",
+   "chosen on VALID": "{'max_depth': 8, 'min_samples_leaf': 5}",
+   "VALID AP": 0.8727444897,
+   "TEST AP": 0.9031602099,
+   "TEST CI low": 0.8478814352,
+   "TEST CI high": 0.9574471236,
+   "fit s": 0.209662652
+  },
+  {
+   "target": "any defect",
+   "model": "SVM (RBF)",
+   "chosen on VALID": "{'C': 0.3, 'gamma': 0.01}",
+   "VALID AP": 0.8873712082,
+   "TEST AP": 0.9409549274,
+   "TEST CI low": 0.9074295369,
+   "TEST CI high": 0.9735078821,
+   "fit s": 0.579555959
+  },
+  {
+   "target": "any defect",
+   "model": "MLP",
+   "chosen on VALID": "{'hidden_layer_sizes': (64,), 'alpha': 1.0}",
+   "VALID AP": 0.8771495578,
+   "TEST AP": 0.959266385,
+   "TEST CI low": 0.9311518165,
+   "TEST CI high": 0.9806653986,
+   "fit s": 1.167230399
+  },
+  {
+   "target": "any defect",
+   "model": "YOLO11n detector",
+   "chosen on VALID": "D-025",
+   "VALID AP": null,
+   "TEST AP": 0.9799614855,
+   "TEST CI low": 0.9569703464,
+   "TEST CI high": 0.9944133004,
+   "fit s": 1356.0
+  },
+  {
+   "target": "any defect",
+   "model": "prevalence (no skill)",
+   "chosen on VALID": "-",
+   "VALID AP": null,
+   "TEST AP": 0.8666666667,
+   "TEST CI low": null,
+   "TEST CI high": null,
+   "fit s": 0.0
+  },
+  {
+   "target": "unsealed",
+   "model": "decision tree",
+   "chosen on VALID": "{'max_depth': None, 'min_samples_leaf': 5}",
+   "VALID AP": 0.8194837739,
+   "TEST AP": 0.8074530636,
+   "TEST CI low": 0.6898071531,
+   "TEST CI high": 0.8870636531,
+   "fit s": 0.350761433
+  },
+  {
+   "target": "unsealed",
+   "model": "SVM (RBF)",
+   "chosen on VALID": "{'C': 1, 'gamma': 0.01}",
+   "VALID AP": 0.9070796858,
+   "TEST AP": 0.9365082402,
+   "TEST CI low": 0.8819981791,
+   "TEST CI high": 0.9768450694,
+   "fit s": 0.369275494
+  },
+  {
+   "target": "unsealed",
+   "model": "MLP",
+   "chosen on VALID": "{'hidden_layer_sizes': (128, 64), 'alpha': 0.0001}",
+   "VALID AP": 0.8939708243,
+   "TEST AP": 0.9527503815,
+   "TEST CI low": 0.9126617365,
+   "TEST CI high": 0.9843054323,
+   "fit s": 1.754077279
+  },
+  {
+   "target": "unsealed",
+   "model": "YOLO11n detector",
+   "chosen on VALID": "D-025",
+   "VALID AP": null,
+   "TEST AP": 0.9725855649,
+   "TEST CI low": 0.9299933923,
+   "TEST CI high": 0.999097286,
+   "fit s": 1356.0
+  },
+  {
+   "target": "unsealed",
+   "model": "prevalence (no skill)",
+   "chosen on VALID": "-",
+   "VALID AP": null,
+   "TEST AP": 0.2611111111,
+   "TEST CI low": null,
+   "TEST CI high": null,
+   "fit s": 0.0
+  },
+  {
+   "target": "packaging-error",
+   "model": "decision tree",
+   "chosen on VALID": "{'max_depth': 5, 'min_samples_leaf': 5}",
+   "VALID AP": 0.7437263301,
+   "TEST AP": 0.8413751053,
+   "TEST CI low": 0.7567666035,
+   "TEST CI high": 0.9098530178,
+   "fit s": 0.16905938
+  },
+  {
+   "target": "packaging-error",
+   "model": "SVM (RBF)",
+   "chosen on VALID": "{'C': 3, 'gamma': 0.001}",
+   "VALID AP": 0.7862504854,
+   "TEST AP": 0.9236654866,
+   "TEST CI low": 0.8785292753,
+   "TEST CI high": 0.959284778,
+   "fit s": 0.433410559
+  },
+  {
+   "target": "packaging-error",
+   "model": "MLP",
+   "chosen on VALID": "{'hidden_layer_sizes': (64,), 'alpha': 0.01}",
+   "VALID AP": 0.783022529,
+   "TEST AP": 0.9142739264,
+   "TEST CI low": 0.8663786865,
+   "TEST CI high": 0.951248432,
+   "fit s": 0.7400984
+  },
+  {
+   "target": "packaging-error",
+   "model": "YOLO11n detector",
+   "chosen on VALID": "D-025",
+   "VALID AP": null,
+   "TEST AP": 0.9712621095,
+   "TEST CI low": 0.9459253587,
+   "TEST CI high": 0.9906106733,
+   "fit s": 1356.0
+  },
+  {
+   "target": "packaging-error",
+   "model": "prevalence (no skill)",
+   "chosen on VALID": "-",
+   "VALID AP": null,
+   "TEST AP": 0.6111111111,
+   "TEST CI low": null,
+   "TEST CI high": null,
+   "fit s": 0.0
+  }
+ ],
+ "resolution": [
+  {
+   "variant": "imgsz320_fp32",
+   "headline AP50": 0.6118900727,
+   "\u0394 vs 640 FP32": -0.1348826387,
+   "\u0394 CI low": -0.1759792911,
+   "\u0394 CI high": -0.0940867842,
+   "AP50 unsealed": 0.8121949386,
+   "AP50 packaging-error": 0.4115852069,
+   "mAP50 all": 0.5299033697,
+   "end-to-end ms (T4)": 9.219
+  },
+  {
+   "variant": "imgsz480_fp32",
+   "headline AP50": 0.7166446266,
+   "\u0394 vs 640 FP32": -0.0301280848,
+   "\u0394 CI low": -0.0793810679,
+   "\u0394 CI high": 0.0229428877,
+   "AP50 unsealed": 0.8288749021,
+   "AP50 packaging-error": 0.6044143511,
+   "mAP50 all": 0.5897211228,
+   "end-to-end ms (T4)": 9.3495
+  },
+  {
+   "variant": "imgsz640_fp16",
+   "headline AP50": 0.7444925103,
+   "\u0394 vs 640 FP32": -0.0022802011,
+   "\u0394 CI low": -0.0057890197,
+   "\u0394 CI high": -0.00013816,
+   "AP50 unsealed": 0.80766566,
+   "AP50 packaging-error": 0.6813193607,
+   "mAP50 all": 0.6080830899,
+   "end-to-end ms (T4)": 11.023
+  },
+  {
+   "variant": "imgsz640_fp32",
+   "headline AP50": 0.7467727114,
+   "\u0394 vs 640 FP32": 0.0,
+   "\u0394 CI low": 0.0,
+   "\u0394 CI high": 0.0,
+   "AP50 unsealed": 0.8069576958,
+   "AP50 packaging-error": 0.6865877271,
+   "mAP50 all": 0.6091193698,
+   "end-to-end ms (T4)": 9.6635
+  },
+  {
+   "variant": "imgsz800_fp32",
+   "headline AP50": 0.7114666618,
+   "\u0394 vs 640 FP32": -0.0353060496,
+   "\u0394 CI low": -0.0710029703,
+   "\u0394 CI high": -0.0023667355,
+   "AP50 unsealed": 0.8046711329,
+   "AP50 packaging-error": 0.6182621907,
+   "mAP50 all": 0.6890666642,
+   "end-to-end ms (T4)": 10.887
+  },
+  {
+   "variant": "imgsz960_fp32",
+   "headline AP50": 0.6724721513,
+   "\u0394 vs 640 FP32": -0.0743005601,
+   "\u0394 CI low": -0.1175994555,
+   "\u0394 CI high": -0.02517112,
+   "AP50 unsealed": 0.7678483371,
+   "AP50 packaging-error": 0.5770959654,
+   "mAP50 all": 0.4837360756,
+   "end-to-end ms (T4)": 12.1645
+  }
+ ],
+ "robustness": [
+  {
+   "variant": "blur_1.0",
+   "headline AP50": 0.7405071763,
+   "\u0394 vs 640 FP32": -0.0062655351,
+   "\u0394 CI low": -0.0319197865,
+   "\u0394 CI high": 0.0147602479,
+   "AP50 unsealed": 0.8098963417,
+   "AP50 packaging-error": 0.671118011,
+   "mAP50 all": 0.5946160857,
+   "end-to-end ms (T4)": 11.841,
+   "kind": "blur",
+   "level": 1.0
+  },
+  {
+   "variant": "blur_2.0",
+   "headline AP50": 0.7254663768,
+   "\u0394 vs 640 FP32": -0.0213063346,
+   "\u0394 CI low": -0.0725489927,
+   "\u0394 CI high": 0.0232913992,
+   "AP50 unsealed": 0.8421297892,
+   "AP50 packaging-error": 0.6088029644,
+   "mAP50 all": 0.6750143509,
+   "end-to-end ms (T4)": 12.197,
+   "kind": "blur",
+   "level": 2.0
+  },
+  {
+   "variant": "blur_4.0",
+   "headline AP50": 0.4753049533,
+   "\u0394 vs 640 FP32": -0.2714677581,
+   "\u0394 CI low": -0.3417583801,
+   "\u0394 CI high": -0.1920080288,
+   "AP50 unsealed": 0.6370817526,
+   "AP50 packaging-error": 0.3135281541,
+   "mAP50 all": 0.4747556513,
+   "end-to-end ms (T4)": 11.9515,
+   "kind": "blur",
+   "level": 4.0
+  },
+  {
+   "variant": "exposure_0.5",
+   "headline AP50": 0.7341172871,
+   "\u0394 vs 640 FP32": -0.0126554243,
+   "\u0394 CI low": -0.0339537978,
+   "\u0394 CI high": 0.0080720021,
+   "AP50 unsealed": 0.813190541,
+   "AP50 packaging-error": 0.6550440331,
+   "mAP50 all": 0.6774753102,
+   "end-to-end ms (T4)": 11.9435,
+   "kind": "exposure",
+   "level": 0.5
+  },
+  {
+   "variant": "exposure_0.75",
+   "headline AP50": 0.7452481369,
+   "\u0394 vs 640 FP32": -0.0015245745,
+   "\u0394 CI low": -0.022321779,
+   "\u0394 CI high": 0.0200672161,
+   "AP50 unsealed": 0.819940143,
+   "AP50 packaging-error": 0.6705561308,
+   "mAP50 all": 0.6131898829,
+   "end-to-end ms (T4)": 12.1705,
+   "kind": "exposure",
+   "level": 0.75
+  },
+  {
+   "variant": "exposure_1.25",
+   "headline AP50": 0.7372464522,
+   "\u0394 vs 640 FP32": -0.0095262592,
+   "\u0394 CI low": -0.0308538573,
+   "\u0394 CI high": 0.0081734697,
+   "AP50 unsealed": 0.8019139135,
+   "AP50 packaging-error": 0.6725789908,
+   "mAP50 all": 0.5991787816,
+   "end-to-end ms (T4)": 12.135,
+   "kind": "exposure",
+   "level": 1.25
+  },
+  {
+   "variant": "exposure_1.5",
+   "headline AP50": 0.7356272883,
+   "\u0394 vs 640 FP32": -0.0111454231,
+   "\u0394 CI low": -0.0307840591,
+   "\u0394 CI high": 0.0105652226,
+   "AP50 unsealed": 0.8117621972,
+   "AP50 packaging-error": 0.6594923794,
+   "mAP50 all": 0.6170123621,
+   "end-to-end ms (T4)": 12.024,
+   "kind": "exposure",
+   "level": 1.5
+  },
+  {
+   "variant": "jpeg_10",
+   "headline AP50": 0.5403021115,
+   "\u0394 vs 640 FP32": -0.2064705999,
+   "\u0394 CI low": -0.2352097863,
+   "\u0394 CI high": -0.170902413,
+   "AP50 unsealed": 0.7964309984,
+   "AP50 packaging-error": 0.2841732246,
+   "mAP50 all": 0.5072542303,
+   "end-to-end ms (T4)": 11.9735,
+   "kind": "jpeg",
+   "level": 10.0
+  },
+  {
+   "variant": "jpeg_30",
+   "headline AP50": 0.7139285994,
+   "\u0394 vs 640 FP32": -0.032844112,
+   "\u0394 CI low": -0.0575517672,
+   "\u0394 CI high": -0.0089177879,
+   "AP50 unsealed": 0.8114847751,
+   "AP50 packaging-error": 0.6163724238,
+   "mAP50 all": 0.6882142997,
+   "end-to-end ms (T4)": 11.966,
+   "kind": "jpeg",
+   "level": 30.0
+  },
+  {
+   "variant": "noise_10.0",
+   "headline AP50": 0.7098441048,
+   "\u0394 vs 640 FP32": -0.0369286066,
+   "\u0394 CI low": -0.0566424733,
+   "\u0394 CI high": -0.0105638798,
+   "AP50 unsealed": 0.8050108198,
+   "AP50 packaging-error": 0.6146773898,
+   "mAP50 all": 0.6226087882,
+   "end-to-end ms (T4)": 11.983,
+   "kind": "noise",
+   "level": 10.0
+  },
+  {
+   "variant": "noise_25.0",
+   "headline AP50": 0.5152080561,
+   "\u0394 vs 640 FP32": -0.2315646553,
+   "\u0394 CI low": -0.2778702154,
+   "\u0394 CI high": -0.1769842022,
+   "AP50 unsealed": 0.7329409491,
+   "AP50 packaging-error": 0.2974751631,
+   "mAP50 all": 0.324072282,
+   "end-to-end ms (T4)": 11.7875,
+   "kind": "noise",
+   "level": 25.0
+  }
+ ],
+ "failure_recall_by_edge": {
+  "false": 0.6637168141592921,
+  "true": 0.7936507936507936
+ },
+ "failure_fp_kinds": {
+  "mislocated": 57,
+  "background": 23,
+  "on unlabelled frame": 13,
+  "wrong class": 1
+ }
+}

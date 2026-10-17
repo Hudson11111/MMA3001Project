@@ -24,7 +24,7 @@ detector = ["ultralytics==8.4.175"]
 # Analysis notebooks (pre-installed on Colab).
 analysis = ["scipy", "scikit-learn", "pandas", "matplotlib", "opencv-python-headless", "pillow"]
 # Development: tests, test report, HTML docs.
-dev = ["pytest>=8", "pytest-html>=4", "pytest-cov>=5", "pdoc>=15", "scipy"]
+dev = ["pytest>=8", "pytest-html>=4", "pytest-cov>=5", "pdoc>=15", "scipy", "scikit-learn"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

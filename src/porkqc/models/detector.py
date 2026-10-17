@@ -141,6 +141,7 @@ def train_detector(
         return meta
 
     def _meta(seconds: float | None, resumed: bool, note: str = "") -> dict[str, Any]:
+        """Run metadata saved as run_meta.json (settings, timing, environment)."""
         return {
             "experiment": exp,
             "data_yaml": str(data_yaml),
