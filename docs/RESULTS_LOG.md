@@ -178,3 +178,100 @@ Integrand: precision envelope of YOLO11n (blocked) on blocked VALID, IoU 0.5 (`0
   11-point) is **17× smaller** than the 95% bootstrap interval width from the small validation set
   (0.30). The exact rule is used as primary because it has no discretisation error at all, but the
   quadrature choice is not what limits confidence in the result — the data are.
+
+## R6 — One-shot TEST, decision layer, baseline, performance, robustness (notebooks 04 + 06)
+
+Notebook 04 ran 17 Oct on a Tesla T4 (code commit 3afd7bc). Decision thresholds were committed at
+12:28:10 (+11:00, commit 0cbee97); TEST predictions were generated at 12:42:48 — pre-registration
+holds. Analysis: `notebooks/06_final_analysis.ipynb`, tables in `results/final/`.
+
+### TEST (180 images, 30 independent tray runs; never used for any choice)
+
+| Metric | VALID (196 img) | **TEST** | TEST 95% CI |
+|---|---|---|---|
+| headline AP50 (unsealed + packaging-error) | 0.747 | **0.748** | 0.680 – 0.838 |
+| AP50 unsealed (47 TEST boxes) | 0.807 | **0.912** | 0.830 – 0.991 |
+| AP50 packaging-error (126) | 0.687 | **0.585** | 0.477 – 0.725 |
+| mAP50, all classes with GT | 0.609 | 0.753 | 0.514 – 0.894 |
+| mAP50-95 | 0.335 | 0.480 | 0.285 – 0.566 |
+
+The headline metric is stable between VALID and TEST (0.747 vs 0.748); the all-class mAP moves
+because loose-meat/twisted-meat have 1–2 TEST boxes (loose-meat AP = 1.0 from a single box).
+
+### Decision layer with frozen thresholds (t_review 0.01, t_fail 0.16)
+
+| | misses | false rejects | reviews | cost/image |
+|---|---|---|---|---|
+| TEST, model | **1 of 156** defective | 9 of 24 clean | 24 | 0.139 |
+| TEST, always FAIL | 0 | 24 | 0 | 0.133 |
+| TEST, always PASS | 156 | 0 | 0 | 8.667 |
+
+- Miss rate 0.6%, auto-FAIL precision 94%. At TEST's 87% defect prevalence, rejecting everything is
+  marginally cheaper — the data are not a realistic line.
+- **Prevalence sensitivity** (`06_cost_vs_prevalence.png`): with TEST rates, the model beats
+  always-FAIL for any prevalence below 86% (at 5%: 0.48 vs 0.95). At 1–5% prevalence, however,
+  the 37.5% false-reject rate dominates and always-PASS is as cheap or cheaper (0.10 at 1%) —
+  thresholds tuned on 81%-defective data are wrong for a real line and must be re-optimised for
+  the line's prevalence; and the false-reject rate is measured on edge frames, not good trays.
+
+### Alternative: scikit-learn image-level classifiers (TEST image-level AP, exact rule)
+
+| Target | Decision tree | SVM (RBF) | MLP | **YOLO11n** | no-skill |
+|---|---|---|---|---|---|
+| any defect | 0.903 | 0.941 | 0.959 | **0.980** (0.957–0.994) | 0.867 |
+| unsealed | 0.807 | 0.937 | 0.953 | **0.973** (0.930–0.999) | 0.261 |
+| packaging-error | 0.841 | 0.924 | 0.914 | **0.971** (0.946–0.991) | 0.611 |
+
+- The detector ranks images best for every target, most clearly for packaging-error (tiny
+  defects); the SVM/MLP are respectable at image level but cannot localise.
+- Cost: baseline ≈ 25 ms per image on one CPU core (features 23.6 ms + SVM 1.0 ms) and < 2 s to
+  train; detector 82 ms on Colab CPU / 7 ms on a T4, 23 min GPU training.
+
+### Speed (T4; forward pass, 100 timed runs after 20 warm-up)
+
+| Setting | median ms | images/s | TFLOP/s achieved | share of peak |
+|---|---|---|---|---|
+| batch 1, 640, FP32 | 7.06 | 142 | 0.68 | 8.4% |
+| batch 1, 640, FP16 | 8.52 | 117 | 0.56 | 0.9% |
+| batch 32, 640, FP32 | 93.9 | 341 | 1.63 | 20% |
+| batch 32, 640, FP16 | 48.8 | 655 | 3.14 | 4.8% |
+| batch 1, CPU (Colab, 1 thread), 640 | 81.9 | 12 | — | — |
+
+- Batch-1 latency is **flat (7.0–7.5 ms) from 320 to 800 px** although FLOPs grow 6× (1.3 → 7.6
+  GFLOP): at batch 1 the GPU is limited by per-layer overhead (≈ 88 small convolutions → kernel
+  launches), not by arithmetic or memory bandwidth. Achieved 0.17–1.1 TFLOP/s, far below both
+  roofs; profiler: convolution kernels take 75% of GPU time, element-wise add/SiLU the rest.
+- FP16 helps only once batches are large enough to fill the GPU (2× throughput at batch ≥ 8);
+  at batch 1 it is slower (extra casts, no saturation). Memory 63 MB at batch 1.
+- Intensity ≈ 37 FLOP/byte (FP32, upper bound) > T4 machine balance 25 → compute-bound in
+  principle; with FP16 tensor cores the balance rises to 203 → memory-bound in principle. Neither
+  roof is approached at batch 1, which is the line's operating point.
+- **All settings, including CPU-only, meet the 250 ms budget** (end-to-end TEST p95 16.6 ms on T4).
+
+### Resolution and precision (VALID, paired Δ headline AP50 vs 640 FP32)
+
+| Input | Δ | 95% CI | packaging-error AP50 |
+|---|---|---|---|
+| 320 | −0.135 | −0.176 … −0.094 | 0.41 |
+| 480 | −0.030 | −0.079 … +0.023 | 0.60 |
+| **640 (trained)** | 0 | — | 0.69 |
+| 800 | −0.035 | −0.071 … −0.002 | 0.62 |
+| 960 | −0.074 | −0.118 … −0.025 | 0.58 |
+| 640 FP16 | −0.002 | −0.006 … 0.000 | 0.68 |
+
+Accuracy peaks at the training resolution; going smaller loses the tiny packaging-error boxes,
+going larger mismatches the scale learned in training. Since latency is flat, there is no speed
+reason to shrink the input. **Final design: 640 px, FP32, batch 1.**
+
+### Robustness (VALID, paired Δ headline AP50 vs clean)
+
+| Perturbation | mild | strong |
+|---|---|---|
+| exposure ×0.5 … ×1.5 | −0.002 … −0.013 (n.s.) | — |
+| blur σ 1 / 2 / 4 px | −0.006 / −0.021 (n.s.) | **−0.271** |
+| noise σ 10 / 25 | −0.037 | **−0.232** |
+| JPEG q 30 / 10 | −0.033 | **−0.206** |
+
+Robust to lighting changes of ±50%; sensitive to strong blur, noise and compression, almost
+entirely through packaging-error (tiny, low-contrast defects: 0.69 → 0.28–0.31). Engineering
+implication: control exposure time (motion blur) and avoid lossy compression on the camera link.

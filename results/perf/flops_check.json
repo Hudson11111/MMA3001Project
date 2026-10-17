@@ -1,0 +1,6 @@
+{
+ "ours_gflops_640x640": 6.3802624,
+ "ultralytics_gflops_640x640": 6.4417024,
+ "machine_balance_fp32": 25.3125,
+ "machine_balance_fp16": 203.125
+}

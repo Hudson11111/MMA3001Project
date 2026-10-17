@@ -100,3 +100,35 @@ def test_features_distinguish_images():
 def test_features_reject_bad_shape():
     with pytest.raises(ValueError):
         image_features(RGB[..., 0])
+
+
+# ---------- baseline models ----------
+
+def test_image_level_ap_perfect_and_random():
+    from porkqc.models.baseline import image_level_ap
+    y = np.array([1, 1, 0, 0])
+    assert image_level_ap(y, np.array([0.9, 0.8, 0.2, 0.1])) == pytest.approx(1.0)
+    # worst ranking: precision 1/3 at recall .5 and 2/4 at recall 1; the envelope lifts both to 0.5
+    assert image_level_ap(y, np.array([0.1, 0.2, 0.8, 0.9])) == pytest.approx(0.5)
+    assert np.isnan(image_level_ap(np.zeros(3), np.ones(3)))
+
+
+def test_select_on_validation_learns_a_separable_problem():
+    pytest.importorskip("sklearn")
+    from porkqc.models.baseline import select_on_validation
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(200, 5)); y = (X[:, 0] + 0.1 * rng.normal(size=200) > 0).astype(int)
+    small = {"tree": ("tree", [{"max_depth": 3}]), "svm": ("svm", [{"C": 1, "gamma": "scale"}]),
+             "mlp": ("mlp", [{"hidden_layer_sizes": (64,), "alpha": 1e-3}])}
+    # note: a (16,) MLP stops after ~30 epochs here because early stopping uses only 15 internal
+    # validation samples - a reminder that early stopping needs enough validation data
+    res = select_on_validation(X[:150], y[:150], X[150:], y[150:], small)
+    assert [r["family"] for r in res] == ["tree", "svm", "mlp"]
+    assert all(r["valid_ap"] > 0.85 for r in res)
+
+
+def test_make_pipeline_unknown_kind():
+    pytest.importorskip("sklearn")
+    from porkqc.models.baseline import make_pipeline
+    with pytest.raises(ValueError):
+        make_pipeline("knn", {})
