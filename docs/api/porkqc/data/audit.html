@@ -558,7 +558,7 @@ training copies.</p>
                 <section id="IMAGE_EXTENSIONS">
                     <div class="attr variable">
             <span class="name">IMAGE_EXTENSIONS</span><span class="annotation">: frozenset[str]</span>        =
-<span class="default_value">frozenset({&#39;.jpg&#39;, &#39;.jpeg&#39;, &#39;.bmp&#39;, &#39;.png&#39;})</span>
+<span class="default_value">frozenset({&#39;.bmp&#39;, &#39;.jpeg&#39;, &#39;.jpg&#39;, &#39;.png&#39;})</span>
 
         
     </div>
@@ -847,7 +847,7 @@ Human-readable problems found (missing/invalid labels), capped in length.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">original_stem</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
+        <span class="name">original_stem</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
                 <label class="view-source-button" for="original_stem-view-source"><span>View Source</span></label>
 
@@ -909,7 +909,7 @@ plain stem (<code>"tray_012"</code> for <code>"tray_012.jpg"</code>).</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">frame_number</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span></span><span class="return-annotation">) -> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>:</span></span>
+        <span class="name">frame_number</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span></span><span class="return-annotation">) -> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>:</span></span>
 
                 <label class="view-source-button" for="frame_number-view-source"><span>View Source</span></label>
 
@@ -967,7 +967,7 @@ Roboflow export name or original stem.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">list_images</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">images_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span></span><span class="return-annotation">) -> <span class="nb">list</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span>:</span></span>
+        <span class="name">list_images</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">images_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span></span><span class="return-annotation">) -> <span class="nb">list</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="list_images-view-source"><span>View Source</span></label>
 
@@ -1028,7 +1028,7 @@ Folder to scan (not recursive).</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">summarise_split</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">split_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">max_issues</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span></span><span class="return-annotation">) -> <span class="n"><a href="#SplitSummary">SplitSummary</a></span>:</span></span>
+        <span class="name">summarise_split</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">split_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">max_issues</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span></span><span class="return-annotation">) -> <span class="n"><a href="#SplitSummary">SplitSummary</a></span>:</span></span>
 
                 <label class="view-source-button" for="summarise_split-view-source"><span>View Source</span></label>
 
@@ -1143,7 +1143,7 @@ of the audit.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">box_table</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">split_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>:</span></span>
+        <span class="name">box_table</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">split_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="box_table-view-source"><span>View Source</span></label>
 
@@ -1219,7 +1219,7 @@ normalised units). Images with missing or invalid labels are skipped
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">image_classes</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">split_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">) -> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>:</span></span>
+        <span class="name">image_classes</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">split_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>, </span><span class="param"><span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">) -> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>:</span></span>
 
                 <label class="view-source-button" for="image_classes-view-source"><span>View Source</span></label>
 
@@ -1280,7 +1280,7 @@ Images with missing/invalid labels are omitted.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">summarise_dataset</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">splits</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="s1">'valid'</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">)</span></span><span class="return-annotation">) -> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n"><a href="#SplitSummary">SplitSummary</a></span><span class="p">]</span>:</span></span>
+        <span class="name">summarise_dataset</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">splits</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="s1">'valid'</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">)</span></span><span class="return-annotation">) -> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n"><a href="#SplitSummary">SplitSummary</a></span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="summarise_dataset-view-source"><span>View Source</span></label>
 
@@ -1338,7 +1338,7 @@ Split folder names to include.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">make_dev_sample</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">out_zip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">class_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">n_per_split</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span><span class="return-annotation">) -> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span>:</span></span>
+        <span class="name">make_dev_sample</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">out_zip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>,</span><span class="param">	<span class="n">class_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">n_per_split</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span><span class="return-annotation">) -> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>:</span></span>
 
                 <label class="view-source-button" for="make_dev_sample-view-source"><span>View Source</span></label>
 

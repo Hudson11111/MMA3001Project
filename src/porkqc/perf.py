@@ -43,8 +43,9 @@ __all__ = [
     "T4_SPECS",
 ]
 
-#: NVIDIA Tesla T4 datasheet peak figures (dense): FP32 8.1 TFLOP/s, FP16 with
-#: tensor cores 65 TFLOP/s, GDDR6 bandwidth 320 GB/s.
+#: NVIDIA Tesla T4 peak figures (product page): FP32 8.1 TFLOP/s, FP16 with
+#: tensor cores 65 TFLOP/s, GDDR6 bandwidth "320+ GB/s". The PDF datasheet lists 300 GB/s,
+#: which raises the FP32 machine balance from 25 to 27 FLOP/byte (no conclusion changes; V20).
 T4_SPECS = {"fp32_flops": 8.1e12, "fp16_flops": 65e12, "bandwidth": 320e9}
 
 

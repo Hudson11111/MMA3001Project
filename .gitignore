@@ -30,3 +30,6 @@ dist/
 .vscode/
 .idea/
 .DS_Store
+
+# Selected trained model (5.2 MB) is committed for reproducibility (D-027)
+!/models/yolo11n_640_blocked.pt
