@@ -6,9 +6,9 @@ Topic names are short labels for each notebook's objectives in the unit's
 
 **Use:** 🟢 Core (evidenced) · 🟡 Partial/supporting · ⚪ Not used (with reason — deliberate, not an omission)
 
-| # | Topic | Plan | How it appears in this project | Evidence |
+| # | Topic | Use | How it appears in this project | Evidence |
 |---|---|---|---|---|
-| 01 | Testing, debugging & validation | 🟢 | pytest positive + negative cases on synthetic fixtures; a regression test for every bug found; verification against trusted implementations (Ultralytics metrics, THOP FLOPs); documentation test; CI on every push; testing vs validation kept distinct | `tests/` (244 tests, 93% line coverage), `reports/test_report.html`, `docs/VERIFICATION_LOG.md` V1–V17 |
+| 01 | Testing, debugging & validation | 🟢 | pytest positive + negative cases on synthetic fixtures; a regression test for every bug found; verification against trusted implementations (Ultralytics metrics, THOP FLOPs); documentation test; CI on every push; testing vs validation kept distinct | `tests/` (249 tests, 95% line coverage), `reports/test_report.html`, `docs/VERIFICATION_LOG.md` V1–V20 |
 | 02 | Numerical performance (FLOPs, bandwidth, machine balance, arithmetic intensity, profiling) | 🟢 | Colab GPU peak FLOP/s & bandwidth → machine balance; model GFLOPs → arithmetic intensity; latency vs batch/resolution; profiler breakdown; real-time feasibility | `porkqc/perf.py`, notebook 04 §6–7, notebook 06 §4: T4 machine balance 25 (FP32) / 203 (FP16) FLOP/byte; intensity ≈ 37; achieved 0.2–3.1 TFLOP/s; batch-1 latency flat 320–800 px (overhead-bound); profiler 75% convolution; RESULTS_LOG R6 |
 | 03 | Measurement uncertainty & floating point | 🟢 | FP32 vs FP16 inference (accuracy and speed); timing spread over repeated synchronised runs; bootstrap uncertainty of metrics; sensitivity of IoU to pixel errors on tiny boxes | FP16 vs FP32: Δ headline AP50 −0.002, FP16 slower at batch 1 but 2× throughput at batch ≥ 8 (R6); timing median/IQR over 100 synchronised runs; bootstrap CIs; IoU sensitivity of tiny boxes (failure modes, notebook 06 §7) |
 | 04 | Linear systems | ⚪ | No linear system arises naturally in this problem. (Possible stretch: principal-axis orientation via 2×2 covariance eigenvectors.) | — |

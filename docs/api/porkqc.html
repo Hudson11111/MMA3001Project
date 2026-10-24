@@ -59,29 +59,45 @@
                     <h1 class="modulename">
 porkqc    </h1>
 
-                        <div class="docstring"><p>porkqc — automated inspection of pork-rasher packaging images.</p>
+                        <div class="docstring"><p>porkqc: automated inspection of pork-rasher packaging images.</p>
 
-<p>MMA3001 Numerical Methods and Machine Learning, individual project.</p>
+<p>MMA3001 Numerical Methods and Machine Learning, individual project
+(Monash University, 2026). Repository:
+<a href="https://github.com/Hudson11111/MMA3001Project">https://github.com/Hudson11111/MMA3001Project</a></p>
 
-<p>The package holds all reusable, tested code. Colab notebooks in <code>notebooks/</code>
-import it to run experiments, so that every function used to produce a reported
-result has a docstring and (where practical) a unit test.</p>
+<p>The package holds all reusable, tested code. The notebooks in <code>notebooks/</code>
+import it, so every function behind a reported result has a docstring and,
+where practical, a unit test.</p>
 
-<h6 id="subpackages">Subpackages</h6>
+<h6 id="pipeline">Pipeline</h6>
 
-<p><a href="porkqc/env.html">porkqc.env</a>
-    Environment helpers (reading secrets locally or in Google Colab).
-<a href="porkqc/config.html">porkqc.config</a>
-    Loading and checking YAML configuration files.
-<a href="porkqc/data.html">porkqc.data</a>
-    Dataset download, YOLO label parsing/validation and dataset audit.
+<p>image -> <code><a href="porkqc/models/detector.html">porkqc.models.detector</a></code> (YOLO11n boxes)
+-> <code><a href="porkqc/decision.html">porkqc.decision</a></code> (FAIL / REVIEW / PASS)
+-> <code><a href="porkqc/metrics.html">porkqc.metrics</a></code> (evaluation against labels, with bootstrap intervals).
+<code><a href="porkqc/cli.html">porkqc.cli</a></code> runs the first two steps on image files.</p>
+
+<h6 id="modules">Modules</h6>
+
+<p><a href="porkqc/data.html">porkqc.data</a>
+    Dataset download, strict label parsing, audit, copy detection and the
+    time-blocked re-split that removes temporal leakage.
+<a href="porkqc/models.html">porkqc.models</a>
+    YOLO training/prediction wrapper and the scikit-learn baseline.
 <a href="porkqc/metrics.html">porkqc.metrics</a>
-    Detection metrics (IoU now; matching, precision-recall and average
-    precision to follow in work package WP2).</p>
-
-<p>Planned (see <code>docs/PROJECT_PLAN.md</code>): detector wrappers, scikit-learn
-baselines, the tray-level PASS/FAIL/REVIEW decision, performance benchmarking
-and robustness tests.</p>
+    IoU, matching, average precision under several integration rules,
+    quadrature, dataset-level evaluation and bootstrap.
+<a href="porkqc/decision.html">porkqc.decision</a>
+    Cost-based FAIL / REVIEW / PASS rule and threshold search.
+<a href="porkqc/perf.html">porkqc.perf</a>
+    FLOP counting, arithmetic intensity, machine balance and timing.
+<a href="porkqc/robustness.html">porkqc.robustness</a>
+    Controlled image perturbations.
+<a href="porkqc/predictions.html">porkqc.predictions</a>
+    Ground-truth and prediction JSON files used for CPU-side evaluation.
+<a href="porkqc/cli.html">porkqc.cli</a>
+    Command line: <code>python -m <a href="porkqc/cli.html">porkqc.cli</a> frame.jpg</code>.
+<a href="porkqc/config.html">porkqc.config</a>, <a href="porkqc/env.html">porkqc.env</a>, <a href="porkqc/colab_utils.html">porkqc.colab_utils</a>, <a href="porkqc/plotting.html">porkqc.plotting</a>
+    Configuration, secrets, Colab helpers and figure style.</p>
 </div>
 
                         <input id="mod-porkqc-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -89,43 +105,59 @@ and robustness tests.</p>
                         <label class="view-source-button" for="mod-porkqc-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">"""</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">porkqc — automated inspection of pork-rasher packaging images.</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">porkqc: automated inspection of pork-rasher packaging images.</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">MMA3001 Numerical Methods and Machine Learning, individual project.</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">The package holds all reusable, tested code. Colab notebooks in ``notebooks/``</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">import it to run experiments, so that every function used to produce a reported</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">result has a docstring and (where practical) a unit test.</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">Subpackages</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">-----------</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">porkqc.env</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">    Environment helpers (reading secrets locally or in Google Colab).</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">porkqc.config</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    Loading and checking YAML configuration files.</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">porkqc.data</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">    Dataset download, YOLO label parsing/validation and dataset audit.</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">porkqc.metrics</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">    Detection metrics (IoU now; matching, precision-recall and average</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">    precision to follow in work package WP2).</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">Planned (see ``docs/PROJECT_PLAN.md``): detector wrappers, scikit-learn</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">baselines, the tray-level PASS/FAIL/REVIEW decision, performance benchmarking</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">and robustness tests.</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">"""</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="n">__version__</span> <span class="o">=</span> <span class="s2">"0.1.0"</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="c1">#: Defect classes in the Roboflow v4 export, in class-id order.</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="c1">#: Verified against the downloaded ``data.yaml`` by</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="c1">#: :func:`porkqc.config.check_class_names`.</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="n">CLASS_NAMES</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="s2">"loose-meat"</span><span class="p">,</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="s2">"packaging-error"</span><span class="p">,</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="s2">"twisted-meat"</span><span class="p">,</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="s2">"unsealed"</span><span class="p">,</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="s2">"wrinkle"</span><span class="p">,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="p">)</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">MMA3001 Numerical Methods and Machine Learning, individual project</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">(Monash University, 2026). Repository:</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">https://github.com/Hudson11111/MMA3001Project</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">The package holds all reusable, tested code. The notebooks in ``notebooks/``</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">import it, so every function behind a reported result has a docstring and,</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">where practical, a unit test.</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">Pipeline</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">--------</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">image -&gt; :mod:`porkqc.models.detector` (YOLO11n boxes)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">-&gt; :mod:`porkqc.decision` (FAIL / REVIEW / PASS)</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">-&gt; :mod:`porkqc.metrics` (evaluation against labels, with bootstrap intervals).</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">:mod:`porkqc.cli` runs the first two steps on image files.</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">Modules</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">-------</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">porkqc.data</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">    Dataset download, strict label parsing, audit, copy detection and the</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">    time-blocked re-split that removes temporal leakage.</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">porkqc.models</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">    YOLO training/prediction wrapper and the scikit-learn baseline.</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">porkqc.metrics</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">    IoU, matching, average precision under several integration rules,</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">    quadrature, dataset-level evaluation and bootstrap.</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">porkqc.decision</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">    Cost-based FAIL / REVIEW / PASS rule and threshold search.</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">porkqc.perf</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">    FLOP counting, arithmetic intensity, machine balance and timing.</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">porkqc.robustness</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">    Controlled image perturbations.</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">porkqc.predictions</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">    Ground-truth and prediction JSON files used for CPU-side evaluation.</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">porkqc.cli</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">    Command line: ``python -m porkqc.cli frame.jpg``.</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">porkqc.config, porkqc.env, porkqc.colab_utils, porkqc.plotting</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">    Configuration, secrets, Colab helpers and figure style.</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">"""</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="n">__version__</span> <span class="o">=</span> <span class="s2">"1.0.0"</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="c1">#: Defect classes in the Roboflow v4 export, in class-id order.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="c1">#: Verified against the downloaded ``data.yaml`` by</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="c1">#: :func:`porkqc.config.check_class_names`.</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="n">CLASS_NAMES</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="s2">"loose-meat"</span><span class="p">,</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="s2">"packaging-error"</span><span class="p">,</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="s2">"twisted-meat"</span><span class="p">,</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>    <span class="s2">"unsealed"</span><span class="p">,</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="s2">"wrinkle"</span><span class="p">,</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="p">)</span>
 </span></pre></div>
 
 

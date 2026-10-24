@@ -1,14 +1,14 @@
 """
 Dataset audit: what is actually in each split?
 
-Answers the questions the project plan cannot answer from the Roboflow web page:
+Answers the questions the Roboflow web page cannot:
 how many objects of each class there are, how many images have no defects
 ("null" images — needed to validate a PASS decision), whether label files are
 missing or malformed, and how many *original* images sit behind the augmented
 training copies.
 
-This module only reads file names and label files; image-content checks
-(sizes, near-duplicates) are added in work package WP1.
+This module only reads file names and label files; image-content checks are in
+:mod:`porkqc.data.duplicates` and :mod:`porkqc.data.resplit`.
 """
 
 from __future__ import annotations

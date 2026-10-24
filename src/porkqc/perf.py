@@ -1,5 +1,5 @@
 r"""
-Performance analysis: FLOP counts, arithmetic intensity, timing (WP6).
+Performance analysis: FLOP counts, arithmetic intensity, timing.
 
 Roofline reasoning
 ------------------

@@ -1,155 +1,153 @@
-# Automated Inspection of Pork-Rasher Packaging
+# Pork-Rasher Packaging Inspection
 
-**MMA3001 Numerical Methods and Machine Learning — Individual Project, Monash University, 2026**
-Author: Hudson · Licence: [AGPL-3.0](LICENSE) · [![tests](https://github.com/Hudson11111/MMA3001Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Hudson11111/MMA3001Project/actions/workflows/ci.yml)
+**Computer-vision quality inspection for a meat-packaging line, with a validated, real-time evaluation.**
 
-A computer-vision inspection system for a meat-packaging line: it finds packaging defects in
-camera images of bacon trays, decides per tray whether to **FAIL**, **REVIEW** or **PASS** it,
-and is evaluated for accuracy, robustness and real-time speed.
+[![CI](https://github.com/Hudson11111/MMA3001Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Hudson11111/MMA3001Project/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+[![Licence: AGPL-3.0](https://img.shields.io/badge/licence-AGPL--3.0-green)](LICENSE)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230)](https://docs.astral.sh/ruff/)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/00_colab_setup_and_first_look.ipynb)
 
-| | |
-|---|---|
-| **Written report** | [`docs/REPORT.md`](docs/REPORT.md) (snapshot of the submitted document) |
-| **Results, with numbers** | [`docs/RESULTS_LOG.md`](docs/RESULTS_LOG.md) |
-| **Why each choice was made** | [`docs/DECISION_LOG.md`](docs/DECISION_LOG.md) |
-| **How correctness was verified (bugs found and fixed)** | [`docs/VERIFICATION_LOG.md`](docs/VERIFICATION_LOG.md) |
-| **Inputs and outputs** | [`docs/IO_SPECIFICATION.md`](docs/IO_SPECIFICATION.md) |
-| **API documentation (HTML)** | [`docs/api/index.html`](docs/api/index.html) (pdoc; open locally or via the docs link below) |
-| **Test report (HTML)** | [`reports/test_report.html`](reports/test_report.html) (pytest-html) |
-| **AI use** | [`docs/AI_USAGE_LOG.md`](docs/AI_USAGE_LOG.md) |
-| **Learning objectives evidenced** | [`docs/LEARNING_OBJECTIVES_MAP.md`](docs/LEARNING_OBJECTIVES_MAP.md) |
+MMA3001 Numerical Methods and Machine Learning · Individual project · Monash University, 2026 · Hudson
 
-To browse the HTML files rendered: <https://htmlpreview.github.io/?https://github.com/Hudson11111/MMA3001Project/blob/main/docs/api/index.html>
+![Model output on two held-out frames](docs/assets/demo.jpg)
 
-## 1. Engineering problem
+Bacon rashers are packed in film-sealed trays that pass under an overhead camera. This project
+detects packaging defects in a single camera frame, turns the detections into a **FAIL / REVIEW /
+PASS** decision for the tray, and tests whether the method is accurate, robust and fast enough
+for a line running at 120 trays per minute.
 
-Bacon rashers are packed in clear trays, film-sealed and conveyed past an overhead camera.
-Unsealed or lifted film, loose or twisted rashers, wrinkles and other packaging errors must be
-removed before distribution; manual inspection of a fast line is tiring and inconsistent. This
-is a **manufacturing-systems / automated quality-inspection** problem: it sits inside a
-production line whose throughput (trays per minute), reject actuator timing and inspection
-cost define the engineering requirements.
+## Key results
 
-**Goal:** from one 720 × 540 RGB frame, (i) detect and localise five defect types, (ii) output
-FAIL / REVIEW / PASS, (iii) meet **120 trays/min → ≤ 250 ms per image**, with a missed defect
-costed at **10×** a false reject (assumptions and sensitivity: DECISION_LOG D-007).
-Out of scope: meat-quality grading (no ground truth), seal-strength measurement, other lines.
-
-## 2. Headline results
-
-| Finding | Number | Source |
+| Question | Answer | Where |
 |---|---|---|
-| Roboflow's random split leaks (neighbouring video frames in train and test) | optimism **+0.27 mAP50** (95% CI +0.06…+0.35), same model on identical images | R4 |
-| **One-shot TEST** (time-blocked split, YOLO11n) | AP50 unsealed **0.91**, packaging-error **0.58**; headline mean **0.75** (CI 0.68–0.84) | R6 |
-| Decision layer on TEST (thresholds frozen on VALID before TEST existed) | **1 miss in 156** defective images; 94% of automatic FAILs correct | R6, D-026 |
-| Alternative: scikit-learn tree / SVM / MLP on hand-crafted features | image-level AP 0.81–0.96 vs detector 0.97–0.98 | R6 |
-| Speed | **7 ms** per image (T4 GPU), 82 ms (CPU) — both far inside 250 ms; batch-1 latency is overhead-bound, not FLOP-bound | R6 |
-| AP as a numerical integral | trapezoid/Simpson drop from O(h²)/O(h⁴) to ≈ O(h) on the step-function PR envelope; Romberg fails | R5 |
-| Robustness | unaffected by ±50% exposure; blur σ 4 px, noise σ 25, JPEG q 10 cost 0.21–0.27 AP50 | R6 |
+| Can the dataset's own split be trusted? | **No.** Its splits interleave neighbouring video frames; scored on identical images, this inflates mAP50 by **+0.27** (95% CI +0.06 to +0.35). All results use a time-blocked re-split. | Report §2, §4.2 |
+| How accurate is the detector on held-out data? | One-shot TEST: headline AP50 **0.748** (CI 0.68–0.84); unsealed **0.91**, packaging-error **0.58** | Report §4.3 |
+| How good are the tray decisions? | **1 miss in 156** defective trays; 94% of automatic FAILs are correct. Thresholds were frozen before TEST. | Report §4.4 |
+| Is deep learning needed? | The detector outranks a decision tree, an SVM and an MLP on hand-crafted features for every target, most clearly on small defects | Report §5.2 |
+| Is it fast enough? | p95 **16.6 ms** per image end to end on a T4 GPU and an 82 ms forward pass on one CPU thread, against a 250 ms budget. Batch-1 latency is limited by per-layer overhead, not FLOPs. | Report §5.3 |
+| Does the integration rule for AP matter? | Rules that are O(h²) or O(h⁴) on smooth integrands fall to about O(h) on the step-shaped precision envelope, and Romberg fails, but the spread between rules is 17× smaller than the bootstrap CI | Report §5.4 |
 
-Main limitations: no fully visible good trays in the data (PASS cannot be validated), wrinkle has
-no validation/test instances, labels miss some partly visible defects, single line and camera.
+**Main limitation:** the data contain almost no fully visible good trays, so PASS accuracy and the
+false-reject rate on a real line are not yet validated (report §6).
 
-## 3. Repository layout
-
-```
-├── configs/            dataset + time-blocked split, experiment settings, frozen decision thresholds
-├── models/             selected trained model (yolo11n_640_blocked.pt) + model card
-├── docs/               report draft, results/decision/verification/AI logs, I/O spec, api/ (HTML docs)
-├── notebooks/          00–04: Colab (data, training, GPU studies) · 05–06: CPU analysis, executed with outputs
-├── reports/            test_report.html (pytest-html)
-├── results/            every number in the report: JSON/CSV predictions, metrics, figures
-├── scripts/            run_tests.sh, build_docs.sh
-├── src/porkqc/         the Python package (all reusable code; NumPy-style docstrings)
-│   ├── data/           download, label validation, audit, duplicates, time-blocked re-split
-│   ├── metrics/        IoU, matching, AP integration rules, quadrature, evaluation + bootstrap
-│   ├── models/         YOLO wrapper (train/resume/predict), scikit-learn baseline
-│   ├── decision.py     FAIL / REVIEW / PASS rule and cost-based threshold search
-│   ├── cli.py          command line: image(s) -> detections + FAIL / REVIEW / PASS
-│   ├── perf.py         FLOPs, arithmetic intensity, machine balance, timing
-│   └── robustness.py   controlled image perturbations
-└── tests/              pytest suite (unit, regression and verification-against-library tests)
-```
-
-## 4. Workflow and how to reproduce
-
-The dataset is **not** stored in the repository (size; CC BY 4.0 attribution below). It is
-downloaded at run time from Roboflow with your own free API key. The **selected model** is committed
-in `models/` (5.2 MB, model card + SHA-256, D-027); other runs' weights live on Google Drive
-(`MyDrive/MMA3001Project/runs/`). All predictions are committed in `results/`, so every analysis can
-be re-run on CPU without a GPU or the dataset.
-
-**Try the model on an image** (CPU is fine):
+## Quick start
 
 ```bash
-pip install -e ".[detector]"
-python -m porkqc.cli path/to/frame.jpg      # -> FAIL / REVIEW / PASS, score, top detections
+git clone https://github.com/Hudson11111/MMA3001Project.git
+cd MMA3001Project
+python -m venv .venv && source .venv/bin/activate
+
+pip install -e ".[detector]"                 # package + Ultralytics (CPU is fine)
+porkqc path/to/frame.jpg                     # -> FAIL / REVIEW / PASS, score, top detections
 ```
 
-| Step | Notebook | Runtime | Produces |
-|---|---|---|---|
-| 0 | `00_colab_setup_and_first_look` | Colab CPU | download check, class counts, development sample |
-| 1 | `01_data_audit` | Colab CPU | leakage audit, scenes, unlabelled-image review sheet, blocked split |
-| 2 | `02_train_detector` (run 3×: see table in notebook) | Colab T4 | trained weights on Drive, curves, VALID predictions |
-| 3 | `03_cross_evaluate` | Colab T4 | every model on identical images (leakage measurement) |
-| 4 | `04_test_performance_robustness` | Colab T4 | one-shot TEST, latency/FLOPs, resolution/FP16, robustness, baseline features |
-| 5 | `05_ap_as_integral` | local CPU | numerical-integration study |
-| 6 | `06_final_analysis` | local CPU | TEST metrics, decisions, baseline, roofline, robustness, failure modes |
+The committed model (`models/yolo11n_640_blocked.pt`, see its [model card](models/README.md)) and
+the frozen thresholds (`configs/decision.yaml`) are used by default.
 
-Open any notebook in Colab from GitHub:
-`https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/<name>.ipynb`
+Run the tests and rebuild the documentation:
+
+```bash
+pip install -e ".[dev,analysis]"
+bash scripts/run_tests.sh                    # pytest + coverage -> reports/test_report.html
+bash scripts/build_docs.sh                   # pdoc -> docs/api/index.html
+ruff check src tests                         # lint
+```
+
+## Documentation
+
+| Document | Contents |
+|---|---|
+| [Written report](docs/REPORT.md) | Snapshot of the submitted report |
+| [API documentation](https://htmlpreview.github.io/?https://github.com/Hudson11111/MMA3001Project/blob/main/docs/api/index.html) | HTML generated by pdoc from NumPy-style docstrings ([source](docs/api/index.html)) |
+| [Test report](https://htmlpreview.github.io/?https://github.com/Hudson11111/MMA3001Project/blob/main/reports/test_report.html) | pytest-html: 249 tests, 95% line coverage ([source](reports/test_report.html)) |
+| [Input/output specification](docs/IO_SPECIFICATION.md) | Formats, units, domains and handling of invalid input |
+| [Results log](docs/RESULTS_LOG.md) | Every reported number, with its source file |
+| [Decision log](docs/DECISION_LOG.md) | Why each choice was made, and by whom |
+| [Verification log](docs/VERIFICATION_LOG.md) | How correctness was checked; every bug found and fixed |
+| [AI usage log](docs/AI_USAGE_LOG.md) | Disclosure of AI assistance, session by session |
+| [Learning objectives map](docs/LEARNING_OBJECTIVES_MAP.md) | Which unit learning objectives the project evidences |
+| [Project plan](docs/PROJECT_PLAN.md) | The original plan (12 Oct), with a plan-versus-actual summary |
+
+## Repository structure
+
+```
+MMA3001Project/
+├── src/porkqc/          Python package: all reusable code, NumPy-style docstrings
+│   ├── data/            download, label validation, audit, copy detection, time-blocked re-split
+│   ├── metrics/         IoU, matching, average precision, quadrature, evaluation and bootstrap
+│   ├── models/          YOLO wrapper (train / resume / predict) and scikit-learn baseline
+│   ├── decision.py      FAIL / REVIEW / PASS rule and cost-based threshold search
+│   ├── perf.py          FLOP counting, arithmetic intensity, machine balance, timing
+│   ├── robustness.py    controlled image perturbations
+│   └── cli.py           command line: image(s) -> detections and decision
+├── tests/               pytest suite: unit, regression and verification-against-library tests
+├── notebooks/           00–04 run on Colab; 05–06 run on CPU and are committed with outputs
+├── configs/             dataset and split, training runs, frozen decision thresholds
+├── models/              selected trained model and model card
+├── results/             every prediction, metric and figure behind the report (JSON / CSV / PNG)
+├── docs/                report, logs, I/O specification, HTML API documentation
+├── reports/             HTML test report
+└── scripts/             run_tests.sh, build_docs.sh
+```
+
+## Reproducing the results
+
+All predictions are committed in `results/`, so every table and figure in the report can be
+regenerated on a CPU without the dataset or a GPU (notebooks 05–06). The full pipeline runs on
+Google Colab's free tier:
+
+| | Notebook | Runtime | Produces |
+|---|---|---|---|
+| 0 | [`00_colab_setup_and_first_look`](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/00_colab_setup_and_first_look.ipynb) | Colab CPU | dataset download check, class counts, development sample |
+| 1 | [`01_data_audit`](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/01_data_audit.ipynb) | Colab CPU | leakage audit, scene detection, unlabelled-image review, time-blocked split |
+| 2 | [`02_train_detector`](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/02_train_detector.ipynb) | Colab T4 | three training runs, curves, validation predictions |
+| 3 | [`03_cross_evaluate`](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/03_cross_evaluate.ipynb) | Colab T4 | every model on identical images (leakage measurement) |
+| 4 | [`04_test_performance_robustness`](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/04_test_performance_robustness.ipynb) | Colab T4 | one-shot TEST, latency and FLOPs, resolution and FP16, robustness, baseline features |
+| 5 | [`05_ap_as_integral`](notebooks/05_ap_as_integral.ipynb) | CPU, < 1 min | numerical-integration study |
+| 6 | [`06_final_analysis`](notebooks/06_final_analysis.ipynb) | CPU, ~2 min | TEST metrics, decisions, baseline, roofline, robustness, failure modes |
 
 **One-time Colab setup**
-1. Free account at [roboflow.com](https://roboflow.com) → Settings → API Keys → copy the private key.
-2. Colab → key icon → add secret `ROBOFLOW_API_KEY`, enable *Notebook access* (never paste keys into cells).
-3. *Runtime → Change runtime type → T4 GPU* for notebooks 02–04.
-4. Optional: secret `GITHUB_TOKEN` (fine-grained, this repo only, Contents read/write) lets notebooks
-   push results to a `colab-results` branch; otherwise they download a zip.
 
-Notebooks 00–04 run on Colab against the full dataset; their outputs are the files in `results/`
-(each run also records library versions, GPU and git commit). Notebooks 05–06 are committed
-**executed**, so their tables and figures are visible on GitHub.
+1. Create a free account at [roboflow.com](https://roboflow.com) and copy your private API key
+   (Settings → API Keys).
+2. In Colab, open the key icon and add a secret named `ROBOFLOW_API_KEY` with *Notebook access*
+   enabled. Never paste keys into cells.
+3. For notebooks 02–04, choose *Runtime → Change runtime type → T4 GPU*.
 
-### Local development (tests, docs, CPU analysis)
+Each Colab run records its library versions, GPU and git commit next to its results.
 
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev,analysis]"          # numpy, pyyaml, pillow + pytest, pdoc, scipy, scikit-learn, pandas, matplotlib
-bash scripts/run_tests.sh                 # pytest + coverage + reports/test_report.html
-bash scripts/build_docs.sh                # HTML API docs into docs/api/
-jupyter nbconvert --to notebook --execute --inplace notebooks/06_final_analysis.ipynb
-```
+**Environment**
 
-Tests need no dataset or GPU (synthetic fixtures). Tests that compare against Ultralytics or need
-PyTorch are skipped automatically unless `pip install -e ".[detector]"` is also installed; the
-committed test report was generated with them installed. GitHub Actions runs the suite on every
-push (Python 3.11 and 3.12).
-
-### Environment and dependencies
-
-| Where | Python | Key packages (pinned where results depend on them) |
+| Where | Python | Key packages |
 |---|---|---|
-| Colab (GPU work) | 3.13 | `ultralytics==8.4.175`, `roboflow==1.7.1` (`requirements-colab.txt`); torch 2.11 + CUDA (Colab default, recorded per run) |
-| Local / CI | ≥ 3.10 | `pyproject.toml` extras: `dev`, `analysis`, `detector`, `data` |
+| Colab (GPU work) | 3.13 | `ultralytics==8.4.175`, `roboflow==1.7.1` ([`requirements-colab.txt`](requirements-colab.txt)); PyTorch and CUDA as provided by Colab |
+| Local and CI | ≥ 3.10 | `pyproject.toml` extras: `detector`, `dev`, `analysis`, `data` |
 
-## 5. Data
+## Data
 
-*Pork Rasher Error (Packaging)* computer-vision dataset, version 4, Roboflow Universe workspace
-"Hello" (`hello-2aqe0`), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/):
-<https://universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging/dataset/4>.
-3,349 / 120 / 80 images (1,411 distinct scenes) of 720 × 540 px with box labels for
-loose-meat, packaging-error, twisted-meat, unsealed and wrinkle. All conclusions use a
-**time-blocked re-split** (938 / 196 / 180 scenes; D-008) because the provided split leaks.
+[*Pork Rasher Error (Packaging)*](https://universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging/dataset/4),
+version 4, Roboflow Universe workspace `hello-2aqe0`, licensed
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). It contains 3,349 / 120 / 80 images at
+720 × 540 px, with boxes for loose-meat, packaging-error, twisted-meat, unsealed and wrinkle. The
+dataset is downloaded at run time and is not redistributed here, apart from the two cropped,
+annotated frames in `docs/assets/demo.jpg`.
 
-## 6. AI use
+## AI use
 
-AI assistance (Claude, Anthropic) was used throughout and is disclosed in
-[`docs/AI_USAGE_LOG.md`](docs/AI_USAGE_LOG.md). Every change arrived as a pull request that I
-reviewed and merged; commits written by the assistant are authored "Claude". AI errors found
-during the project are recorded in the verification log (e.g. V1, V8, V9, V10).
+AI assistance (Claude, Anthropic) was used throughout and is disclosed in the
+[AI usage log](docs/AI_USAGE_LOG.md) and the report. Commits written by the assistant are authored
+"Claude"; every change reached `main` through a pull request that I reviewed and merged. Errors
+made by the AI and caught during the project are recorded in the
+[verification log](docs/VERIFICATION_LOG.md).
 
-## 7. Licence and acknowledgements
+## Citation
 
-Code © 2026 Hudson, licensed under the **GNU AGPL-3.0** ([LICENSE](LICENSE)), chosen for
-compatibility with Ultralytics YOLO (AGPL-3.0), which this project imports. The dataset is
-licensed separately (CC BY 4.0) and is not redistributed here.
+If you use this work, please cite it using the metadata in [`CITATION.cff`](CITATION.cff)
+(GitHub's *Cite this repository* button).
+
+## Licence
+
+Code © 2026 Hudson, released under the [GNU AGPL-3.0](LICENSE), chosen for compatibility with
+Ultralytics YOLO (AGPL-3.0), which this project uses. The dataset is licensed separately under
+CC BY 4.0.

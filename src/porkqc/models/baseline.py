@@ -1,5 +1,5 @@
 """
-Hand-crafted image features for the scikit-learn baseline (WP4, DECISION_LOG D-006).
+Hand-crafted image features for the scikit-learn baseline (DECISION_LOG D-006).
 
 The baseline answers "do we even need a deep detector?": a classical pipeline
 (`StandardScaler` → decision tree / RBF SVM / MLP) predicts, per image, whether a

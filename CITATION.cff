@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Pork-Rasher Packaging Inspection: computer-vision quality inspection with a validated, real-time evaluation"
+type: software
+authors:
+  - given-names: Hudson
+    affiliation: "Monash University"
+version: 1.0.0
+date-released: "2026-10-24"
+license: AGPL-3.0-only
+repository-code: "https://github.com/Hudson11111/MMA3001Project"
+keywords:
+  - computer vision
+  - object detection
+  - quality inspection
+  - numerical methods
+  - YOLO
+references:
+  - type: data
+    title: "Pork Rasher Error (Packaging), version 4"
+    authors:
+      - name: "hello-2aqe0 (Roboflow Universe)"
+    url: "https://universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging/dataset/4"
+    license: CC-BY-4.0
+  - type: software
+    title: "Ultralytics YOLO11"
+    authors:
+      - family-names: Jocher
+        given-names: Glenn
+      - family-names: Qiu
+        given-names: Jing
+    version: "11.0.0"
+    year: 2024
+    url: "https://github.com/ultralytics/ultralytics"
+    license: AGPL-3.0-only

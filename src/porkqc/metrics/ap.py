@@ -23,8 +23,8 @@ numerical integration: libraries instead use sampled rules —
   interpolated* envelope (Ultralytics 8.4.175 ``compute_ap``).
 
 These are different quadrature rules applied to a discontinuous integrand, so
-they give different numbers for the same predictions. Work package WP8 measures
-how different, and why the classical error theory of Newton–Cotes rules (which
+they give different numbers for the same predictions. Notebook 05 measures how
+different, and why the classical error theory of Newton–Cotes rules (which
 assumes a smooth integrand) does not apply.
 """
 

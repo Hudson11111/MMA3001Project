@@ -1,5 +1,5 @@
 """
-Controlled image perturbations for robustness / sensitivity testing (WP7).
+Controlled image perturbations for robustness and sensitivity testing.
 
 Each perturbation models a plausible change on a real line:
 
