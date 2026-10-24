@@ -3,7 +3,8 @@ message: "If you use this work, please cite it as below."
 title: "Pork-Rasher Packaging Inspection: computer-vision quality inspection with a validated, real-time evaluation"
 type: software
 authors:
-  - given-names: Hudson
+  - family-names: Woods
+    given-names: Hudson
     affiliation: "Monash University"
 version: 1.0.0
 date-released: "2026-10-24"

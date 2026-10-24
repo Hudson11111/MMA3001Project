@@ -8,7 +8,7 @@
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230)](https://docs.astral.sh/ruff/)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hudson11111/MMA3001Project/blob/main/notebooks/00_colab_setup_and_first_look.ipynb)
 
-MMA3001 Numerical Methods and Machine Learning · Individual project · Monash University, 2026 · Hudson
+MMA3001 Numerical Methods and Machine Learning · Individual project · Monash University, 2026 · Hudson Woods (student ID 36137286)
 
 ![Model output on two held-out frames](docs/assets/demo.jpg)
 
@@ -148,6 +148,6 @@ If you use this work, please cite it using the metadata in [`CITATION.cff`](CITA
 
 ## Licence
 
-Code © 2026 Hudson, released under the [GNU AGPL-3.0](LICENSE), chosen for compatibility with
+Code © 2026 Hudson Woods, released under the [GNU AGPL-3.0](LICENSE), chosen for compatibility with
 Ultralytics YOLO (AGPL-3.0), which this project uses. The dataset is licensed separately under
 CC BY 4.0.
