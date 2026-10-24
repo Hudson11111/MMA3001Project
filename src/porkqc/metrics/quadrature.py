@@ -1,5 +1,5 @@
 r"""
-Numerical integration rules on an interval, for the AP-as-integral study (WP8).
+Numerical integration rules on an interval, for the AP-as-integral study (report Section 5.4).
 
 All rules approximate :math:`I = \int_a^b f(x)\,dx` for a vectorised callable
 ``f``. They are implemented here (rather than imported) so that each one can be
@@ -25,7 +25,7 @@ rests on an error expansion in even powers of h that no longer exists.
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 

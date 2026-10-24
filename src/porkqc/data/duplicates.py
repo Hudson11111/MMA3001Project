@@ -23,14 +23,20 @@ and a *negative control* (pairs of different photos).
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from pathlib import Path
-from typing import Iterable, Sequence
 
 import numpy as np
 
 __all__ = [
-    "dhash", "hash_images", "hamming_distance", "paired_hamming", "nearest_neighbours", "group_by_threshold",
-    "grey_thumbnail", "thumbnail_correlation",
+    "dhash",
+    "hash_images",
+    "hamming_distance",
+    "paired_hamming",
+    "nearest_neighbours",
+    "group_by_threshold",
+    "grey_thumbnail",
+    "thumbnail_correlation",
 ]
 
 # popcount lookup table for one byte
@@ -59,7 +65,9 @@ def dhash(image, hash_size: int = 8) -> np.ndarray:
         with Image.open(image) as im:
             grey = im.convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
     elif isinstance(image, np.ndarray):
-        grey = Image.fromarray(image).convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
+        grey = (
+            Image.fromarray(image).convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
+        )
     else:
         grey = image.convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
     px = np.asarray(grey, dtype=np.int16)
@@ -162,12 +170,12 @@ def nearest_neighbours(
     dist = np.empty(k, dtype=np.int32)
     idx = np.empty(k, dtype=np.int64)
     for start in range(0, k, chunk):
-        d = hamming_distance(query[start:start + chunk], reference)
+        d = hamming_distance(query[start : start + chunk], reference)
         if same_set:
             rows = np.arange(d.shape[0])
             d[rows, start + rows] = np.iinfo(np.int32).max
-        idx[start:start + chunk] = d.argmin(axis=1)
-        dist[start:start + chunk] = d.min(axis=1)
+        idx[start : start + chunk] = d.argmin(axis=1)
+        dist[start : start + chunk] = d.min(axis=1)
     return dist, idx
 
 
@@ -211,8 +219,8 @@ def group_by_threshold(hashes: np.ndarray, threshold: int, labels: Sequence[str]
             parent[rj] = ri
 
     for start in range(0, k, 512):
-        d = hamming_distance(hashes[start:start + 512], hashes)
-        for r, c in zip(*np.nonzero(d <= threshold)):
+        d = hamming_distance(hashes[start : start + 512], hashes)
+        for r, c in zip(*np.nonzero(d <= threshold), strict=True):
             if start + r < c:
                 union(start + r, int(c))
     if labels is not None:

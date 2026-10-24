@@ -68,7 +68,7 @@ def test_experiment_configs_load_and_are_comparable(name):
 def test_both_experiments_share_training_settings():
     a = load_experiment(REPO / "configs" / "experiments" / "yolo11n_640.yaml")
     b = load_experiment(REPO / "configs" / "experiments" / "yolo26n_640.yaml")
-    assert a["train"] == b["train"]      # fair comparison: only the model differs
+    assert a["train"] == b["train"]  # fair comparison: only the model differs
     assert a["predict"] == b["predict"]
 
 

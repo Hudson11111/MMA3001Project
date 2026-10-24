@@ -1,6 +1,7 @@
 """Tests for the committed model file and the command-line tool."""
 
 import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -34,10 +35,10 @@ def test_cli_end_to_end_on_a_synthetic_image(tmp_path):
     pytest.importorskip("ultralytics")
     import numpy as np
     from PIL import Image
+
     p = tmp_path / "frame.jpg"
-    Image.fromarray(np.full((540, 720, 3), 30, np.uint8)).save(p)   # empty dark conveyor
+    Image.fromarray(np.full((540, 720, 3), 30, np.uint8)).save(p)  # empty dark conveyor
     out = tmp_path / "r.json"
     assert main([str(p), "--out", str(out)]) == 0
-    import json
     r = json.loads(out.read_text())[0]
     assert r["decision"] in {"PASS", "REVIEW", "FAIL"} and r["file"] == "frame.jpg"

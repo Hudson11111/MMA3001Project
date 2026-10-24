@@ -23,8 +23,12 @@ def test_docstrings_present_and_numpy_style(path):
             doc = ast.get_docstring(node)
             if not doc:
                 problems.append(f"{node.name} (line {node.lineno}): no docstring")
-            elif (isinstance(node, ast.FunctionDef) and not node.name.startswith("_")
-                  and node.col_offset == 0 and [a for a in node.args.args if a.arg != "self"]
-                  and "Parameters" not in doc):
+            elif (
+                isinstance(node, ast.FunctionDef)
+                and not node.name.startswith("_")
+                and node.col_offset == 0
+                and [a for a in node.args.args if a.arg != "self"]
+                and "Parameters" not in doc
+            ):
                 problems.append(f"{node.name} (line {node.lineno}): no 'Parameters' section")
     assert not problems, f"{path}:\n" + "\n".join(problems)

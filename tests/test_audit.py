@@ -43,7 +43,7 @@ def test_list_images_missing_folder(tmp_path):
 def test_train_split_counts(synthetic_dataset):
     s = summarise_split(synthetic_dataset / "train", N_CLASSES)
     assert s.n_images == 5
-    assert s.n_unique_originals == 4          # two copies of 'a_jpg'
+    assert s.n_unique_originals == 4  # two copies of 'a_jpg'
     assert s.n_null_images == 1
     assert s.n_missing_labels == 1
     assert s.n_invalid_label_files == 0

@@ -26,16 +26,20 @@ def split():
     """Class 'a': 2 GT, found once at high confidence plus one FP.
     Class 'b': 1 GT, found. Class 'c': no GT anywhere (AP undefined).
     img3 has no GT (a 'good' tray) but one false positive."""
-    gt = {"images": [
-        img("img1_jpg.rf.x.jpg", [[0, 10, 10, 30, 30], [1, 50, 50, 70, 70]]),
-        img("img2_jpg.rf.y.jpg", [[0, 10, 10, 30, 30]]),
-        img("img3_jpg.rf.z.jpg", []),
-    ]}
-    pred = {"images": [
-        pimg("img1_jpg.rf.x.jpg", [[0, 0.9, 10, 10, 30, 30], [1, 0.8, 50, 50, 70, 70]]),
-        pimg("img3_jpg.rf.z.jpg", [[0, 0.6, 0, 0, 20, 20]]),
-        # img2: no predictions at all (missed defect)
-    ]}
+    gt = {
+        "images": [
+            img("img1_jpg.rf.x.jpg", [[0, 10, 10, 30, 30], [1, 50, 50, 70, 70]]),
+            img("img2_jpg.rf.y.jpg", [[0, 10, 10, 30, 30]]),
+            img("img3_jpg.rf.z.jpg", []),
+        ]
+    }
+    pred = {
+        "images": [
+            pimg("img1_jpg.rf.x.jpg", [[0, 0.9, 10, 10, 30, 30], [1, 0.8, 50, 50, 70, 70]]),
+            pimg("img3_jpg.rf.z.jpg", [[0, 0.6, 0, 0, 20, 20]]),
+            # img2: no predictions at all (missed defect)
+        ]
+    }
     return gt, pred
 
 
@@ -43,8 +47,8 @@ def test_match_dataset_structure(split):
     gt, pred = split
     m = match_dataset(gt, pred, n_classes=3)
     assert [x.file for x in m] == [e["file"] for e in gt["images"]]
-    assert m[0].tp.shape == (2, 10) and m[0].tp.all()   # perfect boxes: TP at all IoUs
-    assert m[1].tp.shape == (0, 10)                       # no predictions
+    assert m[0].tp.shape == (2, 10) and m[0].tp.all()  # perfect boxes: TP at all IoUs
+    assert m[1].tp.shape == (0, 10)  # no predictions
     assert m[2].n_gt.tolist() == [0, 0, 0]
     assert m[0].group == "img1_jpg"
 
@@ -66,7 +70,7 @@ def test_counts_at_confidence(split):
     m = match_dataset(gt, pred, 3)
     c = counts_at_confidence(m, 3, conf=0.7)
     assert c["tp"].tolist() == [1, 1, 0]
-    assert c["fp"].tolist() == [0, 0, 0]       # the 0.6 FP is below threshold
+    assert c["fp"].tolist() == [0, 0, 0]  # the 0.6 FP is below threshold
     assert c["fn"].tolist() == [1, 0, 0]
     c2 = counts_at_confidence(m, 3, conf=0.5)
     assert c2["fp"].tolist() == [1, 0, 0]
@@ -101,20 +105,29 @@ def test_bootstrap_is_reproducible_and_brackets_point(split):
 
 def test_grouped_bootstrap_keeps_groups_together():
     # Two copies of one photo + one other photo: grouped resampling has 2 units.
-    gt = {"images": [img("p_jpg.rf.1.jpg", [[0, 0, 0, 10, 10]]),
-                     img("p_jpg.rf.2.jpg", [[0, 0, 0, 10, 10]]),
-                     img("q_jpg.rf.3.jpg", [[0, 0, 0, 10, 10]])]}
-    pred = {"images": [pimg("p_jpg.rf.1.jpg", [[0, 0.9, 0, 0, 10, 10]]),
-                       pimg("p_jpg.rf.2.jpg", [[0, 0.9, 0, 0, 10, 10]])]}
+    gt = {
+        "images": [
+            img("p_jpg.rf.1.jpg", [[0, 0, 0, 10, 10]]),
+            img("p_jpg.rf.2.jpg", [[0, 0, 0, 10, 10]]),
+            img("q_jpg.rf.3.jpg", [[0, 0, 0, 10, 10]]),
+        ]
+    }
+    pred = {
+        "images": [
+            pimg("p_jpg.rf.1.jpg", [[0, 0.9, 0, 0, 10, 10]]),
+            pimg("p_jpg.rf.2.jpg", [[0, 0.9, 0, 0, 10, 10]]),
+        ]
+    }
     m = match_dataset(gt, pred, 1)
     n_images = lambda mm: float(len(mm))  # noqa: E731
     r = bootstrap(m, n_images, n_boot=300, seed=0, grouped=True)
     # resample size is 2 groups -> 2, 3 or 4 images; never 1 (copies stay together)
-    assert 2.0 <= r["low"] and r["high"] <= 4.0
+    assert r["low"] >= 2.0 and r["high"] <= 4.0
 
 
 def test_paired_bootstrap_identical_models_give_zero(split):
     from porkqc.metrics.evaluate import paired_bootstrap
+
     gt, pred = split
     m = match_dataset(gt, pred, 3)
     r = paired_bootstrap(m, m, lambda mm: summarise(mm, NAMES)["map50"], n_boot=100)
@@ -123,8 +136,9 @@ def test_paired_bootstrap_identical_models_give_zero(split):
 
 def test_paired_bootstrap_detects_better_model(split):
     from porkqc.metrics.evaluate import paired_bootstrap
+
     gt, pred = split
-    worse = {"images": [dict(e, pred=[]) for e in pred["images"]]}   # predicts nothing
+    worse = {"images": [dict(e, pred=[]) for e in pred["images"]]}  # predicts nothing
     a, b = match_dataset(gt, pred, 3), match_dataset(gt, worse, 3)
     r = paired_bootstrap(a, b, lambda mm: summarise(mm, NAMES)["map50"], n_boot=200)
     # with only 3 images many resamples contain no detectable box (difference 0), so only
@@ -134,6 +148,7 @@ def test_paired_bootstrap_detects_better_model(split):
 
 def test_paired_bootstrap_requires_same_images(split):
     from porkqc.metrics.evaluate import paired_bootstrap
+
     gt, pred = split
     m = match_dataset(gt, pred, 3)
     with pytest.raises(ValueError):

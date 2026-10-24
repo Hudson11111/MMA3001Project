@@ -1,4 +1,4 @@
-name: tests
+name: CI
 
 on:
   push:
@@ -6,7 +6,20 @@ on:
   pull_request:
 
 jobs:
-  pytest:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "ruff==0.17.2"
+      - run: ruff check src tests
+      - run: ruff format --check src tests
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,7 +29,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install package and dev tools (no GPU / dataset needed)
+      - name: Install package and dev tools (no GPU or dataset needed)
         run: pip install -e ".[dev]"
       - name: Run tests
         run: >

@@ -25,7 +25,9 @@ DEFAULT_WEIGHTS = ROOT / "models" / "yolo11n_640_blocked.pt"
 DEFAULT_DECISION = ROOT / "configs" / "decision.yaml"
 
 
-def inspect_images(paths, weights=DEFAULT_WEIGHTS, decision_cfg=DEFAULT_DECISION, device: str = "cpu") -> list[dict]:
+def inspect_images(
+    paths, weights=DEFAULT_WEIGHTS, decision_cfg=DEFAULT_DECISION, device: str = "cpu"
+) -> list[dict]:
     """
     Run the detector and the decision rule on image files.
 
@@ -54,18 +56,18 @@ def inspect_images(paths, weights=DEFAULT_WEIGHTS, decision_cfg=DEFAULT_DECISION
     ValueError
         If a file is not a readable image.
     """
+    from PIL import Image, UnidentifiedImageError
+
     from . import CLASS_NAMES
     from .config import load_yaml
     from .decision import decide
     from .models.detector import predict_images
 
-    from PIL import Image, UnidentifiedImageError
-
     paths = [Path(p) for p in paths]
     for p in [*paths, Path(weights)]:
         if not p.is_file():
             raise FileNotFoundError(p)
-    for p in paths:                       # reject non-images before loading the model
+    for p in paths:  # reject non-images before loading the model
         try:
             with Image.open(p) as im:
                 im.verify()
@@ -74,19 +76,33 @@ def inspect_images(paths, weights=DEFAULT_WEIGHTS, decision_cfg=DEFAULT_DECISION
         except (UnidentifiedImageError, OSError, ImportError) as exc:
             raise ValueError(f"{p} is not a readable image") from exc
     cfg = load_yaml(decision_cfg)
-    pred = predict_images(weights, paths, "yolo11n_640_blocked", "cli",
-                          imgsz=640, conf=0.001, iou=0.7, max_det=300, device=device)
+    pred = predict_images(
+        weights,
+        paths,
+        "yolo11n_640_blocked",
+        "cli",
+        imgsz=640,
+        conf=0.001,
+        iou=0.7,
+        max_det=300,
+        device=device,
+    )
     out = []
     for e in pred["images"]:
         score = max((b[1] for b in e["pred"]), default=0.0)
-        out.append({
-            "file": e["file"],
-            "decision": str(decide([score], cfg["t_review"], cfg["t_fail"])[0]),
-            "score": round(score, 4),
-            "detections": [{"class": CLASS_NAMES[b[0]], "confidence": b[1], "box_xyxy": b[2:]}
-                           for b in e["pred"] if b[1] >= cfg["t_review"]],
-            "ms": e["speed_ms"],
-        })
+        out.append(
+            {
+                "file": e["file"],
+                "decision": str(decide([score], cfg["t_review"], cfg["t_fail"])[0]),
+                "score": round(score, 4),
+                "detections": [
+                    {"class": CLASS_NAMES[b[0]], "confidence": b[1], "box_xyxy": b[2:]}
+                    for b in e["pred"]
+                    if b[1] >= cfg["t_review"]
+                ],
+                "ms": e["speed_ms"],
+            }
+        )
     return out
 
 

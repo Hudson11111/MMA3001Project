@@ -15,8 +15,9 @@ from __future__ import annotations
 
 import platform
 import time
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from ..config import load_yaml
 from ..predictions import load_json, save_json
@@ -66,8 +67,9 @@ def _environment() -> dict[str, Any]:
         import torch
         import ultralytics
 
-        env.update(torch=torch.__version__, ultralytics=ultralytics.__version__,
-                   cuda=torch.cuda.is_available())
+        env.update(
+            torch=torch.__version__, ultralytics=ultralytics.__version__, cuda=torch.cuda.is_available()
+        )
         if torch.cuda.is_available():
             env["gpu"] = torch.cuda.get_device_name(0)
     except ImportError:
@@ -224,16 +226,17 @@ def predict_images(
         xyxy = boxes.xyxy.cpu().numpy()
         order = conf.argsort()[::-1]
         pred = [
-            [int(cls[i]), round(float(conf[i]), 5), *(round(float(v), 2) for v in xyxy[i])]
-            for i in order
+            [int(cls[i]), round(float(conf[i]), 5), *(round(float(v), 2) for v in xyxy[i])] for i in order
         ]
-        images.append({
-            "file": Path(path).name,
-            "width": int(w),
-            "height": int(h),
-            "speed_ms": {k: round(float(v), 3) for k, v in res.speed.items()},
-            "pred": pred,
-        })
+        images.append(
+            {
+                "file": Path(path).name,
+                "width": int(w),
+                "height": int(h),
+                "speed_ms": {k: round(float(v), 3) for k, v in res.speed.items()},
+                "pred": pred,
+            }
+        )
     return {
         "model": model_name,
         "weights": str(weights),
@@ -244,7 +247,9 @@ def predict_images(
     }
 
 
-def validate_detector(weights: str | Path, data_yaml: str | Path, split: str = "val", **val_kwargs: Any) -> dict:
+def validate_detector(
+    weights: str | Path, data_yaml: str | Path, split: str = "val", **val_kwargs: Any
+) -> dict:
     """
     Ultralytics' own validation, used only as an independent cross-check.
 

@@ -1,5 +1,5 @@
 r"""
-Performance analysis: FLOP counts, arithmetic intensity, timing (WP6).
+Performance analysis: FLOP counts, arithmetic intensity, timing.
 
 Roofline reasoning
 ------------------
@@ -113,11 +113,21 @@ def count_conv_costs(model, input_shape: tuple[int, ...], bytes_per_element: int
             flops = 2 * mod.in_features * out.numel()
             kind = "linear"
         w = sum(p.numel() for p in mod.parameters(recurse=False))
-        costs.append(LayerCost(names.get(mod, "?"), kind, float(flops), float(w * bytes_per_element),
-                               float((x.numel() + out.numel()) * bytes_per_element)))
+        costs.append(
+            LayerCost(
+                names.get(mod, "?"),
+                kind,
+                float(flops),
+                float(w * bytes_per_element),
+                float((x.numel() + out.numel()) * bytes_per_element),
+            )
+        )
 
-    handles = [m.register_forward_hook(hook) for m in model.modules()
-               if isinstance(m, (torch.nn.Conv2d, torch.nn.Linear))]
+    handles = [
+        m.register_forward_hook(hook)
+        for m in model.modules()
+        if isinstance(m, (torch.nn.Conv2d, torch.nn.Linear))
+    ]
     try:
         model.eval()
         p = next(model.parameters())
@@ -150,10 +160,13 @@ def summarise_costs(costs: list[LayerCost], balance: float | None = None) -> dic
     """
     f = np.array([c.flops for c in costs])
     b = np.array([c.bytes for c in costs])
-    out = {"gflops": float(f.sum() / 1e9), "mbytes": float(b.sum() / 1e6),
-           "intensity": float(f.sum() / b.sum()) if b.sum() else float("nan"),
-           "n_layers": len(costs),
-           "median_layer_intensity": float(np.median(f / b)) if len(costs) else float("nan")}
+    out = {
+        "gflops": float(f.sum() / 1e9),
+        "mbytes": float(b.sum() / 1e6),
+        "intensity": float(f.sum() / b.sum()) if b.sum() else float("nan"),
+        "n_layers": len(costs),
+        "median_layer_intensity": float(np.median(f / b)) if len(costs) else float("nan"),
+    }
     if balance is not None and len(costs):
         mem = (f / b) < balance
         out["memory_bound_layers"] = int(mem.sum())
@@ -245,5 +258,11 @@ def timing_summary(times_ms: np.ndarray) -> dict:
         only ever add time).
     """
     t = np.asarray(times_ms, dtype=float)
-    return {"median": float(np.median(t)), "q25": float(np.percentile(t, 25)), "q75": float(np.percentile(t, 75)),
-            "p95": float(np.percentile(t, 95)), "min": float(t.min()), "n": int(t.size)}
+    return {
+        "median": float(np.median(t)),
+        "q25": float(np.percentile(t, 25)),
+        "q75": float(np.percentile(t, 75)),
+        "p95": float(np.percentile(t, 95)),
+        "min": float(t.min()),
+        "n": int(t.size),
+    }

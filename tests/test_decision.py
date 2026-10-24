@@ -9,7 +9,7 @@ from porkqc.decision import DecisionCosts, choose_thresholds, decide, evaluate_d
 def test_decide_bands():
     out = decide(np.array([0.05, 0.3, 0.6, 0.9]), t_review=0.2, t_fail=0.6)
     assert out.tolist() == ["PASS", "REVIEW", "FAIL", "FAIL"]
-    assert decide(np.array([0.5]), 0.5, 0.5).tolist() == ["FAIL"]   # no review band
+    assert decide(np.array([0.5]), 0.5, 0.5).tolist() == ["FAIL"]  # no review band
 
 
 @pytest.mark.parametrize("tr, tf", [(0.6, 0.2), (-0.1, 0.5), (0.2, 1.1)])
@@ -48,7 +48,12 @@ def test_choose_thresholds_uses_review_band_when_scores_overlap():
 
 def test_image_scores_class_filter():
     gt = {"images": [{"file": "a", "boxes": [[1, 0, 0, 1, 1]]}, {"file": "b", "boxes": [[3, 0, 0, 1, 1]]}]}
-    pred = {"images": [{"file": "a", "pred": [[1, 0.7, 0, 0, 1, 1], [3, 0.9, 0, 0, 1, 1]]}, {"file": "b", "pred": []}]}
+    pred = {
+        "images": [
+            {"file": "a", "pred": [[1, 0.7, 0, 0, 1, 1], [3, 0.9, 0, 0, 1, 1]]},
+            {"file": "b", "pred": []},
+        ]
+    }
     s, y, f = image_scores(gt, pred)
     assert s.tolist() == [0.9, 0.0] and y.tolist() == [True, True] and f == ["a", "b"]
     s, y, _ = image_scores(gt, pred, classes=[1])

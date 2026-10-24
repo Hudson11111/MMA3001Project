@@ -1,4 +1,4 @@
-> **Snapshot of the written report** (17 Oct 2026). The editable master is a shared document exported to Word/PDF for Moodle; this copy keeps the report under version control next to the evidence it cites. Section 7 is written by Hudson.
+> **Snapshot of the written report** (24 Oct 2026). The submitted version is exported from the editable master document; this copy keeps the report under version control next to the evidence it cites. Section 7 is written by Hudson.
 
 # Automated Inspection of Pork-Rasher Packaging
 
@@ -24,7 +24,10 @@ validated, because the data contain almost no fully visible good trays.
 that pass under an overhead camera. Several kinds of defect must be
 removed before distribution: unsealed or lifted film, loose or twisted
 rashers, wrinkled film and other packaging errors. Manual inspection of
-a fast line is tiring and inconsistent.
+a fast line is tiring and inconsistent. This is a
+manufacturing-automation problem in mechanical engineering: the
+inspection must fit the line's throughput, the reject actuator's timing
+and the cost of each kind of error.
 
 Given one 720 × 540 RGB frame, the system must detect and localise five
 defect types and decide FAIL (reject), REVIEW (send to an inspector) or
@@ -75,10 +78,10 @@ version 4 \[1\], licensed CC BY 4.0. It has 3,349 / 120 / 80 train /
 validation / test images, with boxes for five classes. My audit
 (notebook 01) found four problems:
 
-1.  **The splits interleave consecutive video frames** (Figure 1). A tray
-    stays in view for 5–15 frames, yet validation and test frames lie a
-    median of 3 frames from a training frame. This is temporal leakage
-    \[13, 14\].
+1.  **The splits interleave consecutive video frames** (Figure 1). A
+    tray stays in view for 5–15 frames, yet validation and test frames
+    lie a median of 3 frames from a training frame. This is temporal
+    leakage \[13, 14\].
 
 2.  **File names are not unique: 128 are shared by different images.**
     Augmented copies were therefore identified by thumbnail correlation,
@@ -102,8 +105,8 @@ within 50 frames of training. Validation and test then come from only a
 few stretches of video, so uncertainty is estimated by resampling
 50-frame runs.
 
-![Figure 1a](../results/figures/01_split_timeline.png)
-![Figure 1b](../results/figures/01_blocked_split_timeline.png)
+![Figure 1, top](../results/figures/01_split_timeline.png)
+![Figure 1, bottom](../results/figures/01_blocked_split_timeline.png)
 
 *Figure 1. Frame positions of each split: the provided random split
 (top) and the time-blocked split (bottom).*
@@ -124,8 +127,8 @@ iterative fitting as an MLP.
 **Why it was chosen.** Operators need to see where a defect is. A
 one-stage “nano” model meets the latency budget even on a CPU. About
 1,000 training scenes are too few to learn features from scratch, so
-COCO-pretrained weights are fine-tuned (transfer learning). Each run
-also fits within a free Colab T4 session.
+COCO-pretrained weights \[7\] are fine-tuned (transfer learning). Each
+run also fits within a free Colab T4 session.
 
 **Assumptions.** The method assumes four things:
 
@@ -198,17 +201,18 @@ either in Colab or on CPU from the committed results (Appendix A).
 | Split validity   | Frame gaps between splits; scene detection with controls                           | No test frame within 50 frames of training | Provided split fails (100%); blocked split passes (0%)                                                       |
 | Accuracy         | Withheld TEST set (180 images, 30 runs), used once                                 | AP50 with CI; must beat the baselines      | 0.748 (0.68–0.84); beats all baselines (5.2)                                                                 |
 | Decisions        | Frozen thresholds on TEST                                                          | Misses; cost against trivial rules         | 1 miss in 156 (4.4)                                                                                          |
-| Speed            | Synchronised timing; profiler                                                      | R2, ≤ 250 ms                               | 16.6 ms (T4, p95); 82 ms forward pass on one CPU thread                                                                               |
+| Speed            | Synchronised timing; profiler                                                      | R2, ≤ 250 ms                               | 16.6 ms (T4, p95); 82 ms forward pass on one CPU thread                                                      |
 
 **Why these methods are appropriate.** Neighbouring frames are
 near-identical, so a held-out set is meaningful only if separated in
-time \[13\], and uncertainty must resample runs rather than frames. On
-validation, a frame bootstrap gives a CI of 0.54–0.71, against an honest
-0.51–0.79 from resampling runs.
+time \[13\], and uncertainty must resample runs rather than frames. For
+validation mAP50, a frame bootstrap gives a CI of 0.54–0.71, against an
+honest 0.51–0.79 from resampling runs.
 
 An early comparison scored on different validation sets pointed the
-wrong way (V12), so all comparisons use identical images. All 19 issues
-found in verification are covered by regression tests.
+wrong way (V12), so all comparisons use identical images. Verification
+recorded 21 findings; the code bugs among them are now guarded by tests
+or CI checks (Appendix D).
 
 ### 4.2 Leakage measured on identical images
 
@@ -368,9 +372,9 @@ batch 1**, with a p95 of 16.6 ms on TEST.
 
 ### 5.4 Average precision as a numerical integral
 
-Benchmarks approximate the AP integral with different rules, so I
-treated the choice as a quadrature problem (notebook 05; Appendix F,
-Figure A2).
+Benchmarks approximate the AP integral with different rules \[6, 7,
+16\], so I treated the choice as a quadrature problem (notebook 05;
+Appendix F, Figure A2).
 
 On a smooth control (eʳ), midpoint, trapezoid and Simpson show their
 textbook orders of 2, 2 and 4, which verifies the implementations
@@ -404,9 +408,8 @@ give zero misses on validation.
 
 ## 6. Limitations and lessons learned
 
-The system detects unsealed packs reliably and is fast enough for any
-realistic line, but it is not yet a validated accept/reject machine. The
-table below gives each remaining limit with a proposed improvement.
+The system is accurate on unsealed packs and fast enough for any
+realistic line, but it is not yet a validated accept/reject machine:
 
 | Limitation                                                                | Proposed improvement and justification                                                                                                            |
 |---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -418,7 +421,8 @@ table below gives each remaining limit with a proposed improvement.
 **Lessons learned.**
 
 1.  **Audit the data before trusting a score.** Training straight away
-    would have produced a convincing mAP50 of 0.66, on a split that inflates scores by about 0.27.
+    would have produced a convincing mAP50 of 0.66, on a split that
+    inflates scores by about 0.27.
 
 2.  **Calibrate methods on real data, compare on identical data, and
     resample the independent unit.** Hashing worked on synthetic tests
@@ -436,8 +440,10 @@ table below gives each remaining limit with a proposed improvement.
 
 ## 7. AI use and reflection
 
-*\[Hudson to write in his own words. The eight headings below are the points the brief requires. Aim for about 300 words to keep Sections 1–7 within 10 pages. Delete this note and the evidence list at the
-end when done.\]*
+*\[Hudson to write in his own words. The eight headings below are the
+points the brief requires. Aim for about 250 words to keep Sections 1–7
+within 10 pages. Delete this note and the evidence list at the end when
+done.\]*
 
 **Which AI tools were used.** \[ \]
 
@@ -457,7 +463,7 @@ end when done.\]*
 
 *Evidence available in the repository (delete before submission):*
 
-- `docs/AI_USAGE_LOG.md` has one row per session (sessions 1–8); the
+- `docs/AI_USAGE_LOG.md` has one row per session (sessions 1–10); the
   “Your verification” column still needs filling.
 
 - `docs/DECISION_LOG.md` gives the provenance of each decision. Yours
@@ -475,14 +481,14 @@ end when done.\]*
   V15 (wrong expected values in two unit tests) and V19 (a test-order
   bug).
 
-- The pull-request history (PRs \#1–#14) shows each change reviewed and
+- The pull-request history (PRs \#1–#15) shows each change reviewed and
   merged by you.
 
 ## 8. References
 
 1.  hello-2aqe0 (Roboflow Universe workspace), *Pork Rasher Error
     (Packaging)*, version 4, object-detection dataset, CC BY 4.0.
-    [universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging](https://universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging).
+    [universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging/dataset/4](https://universe.roboflow.com/hello-2aqe0/pork-rasher-error-packaging/dataset/4).
     Accessed 12 Oct 2026.
 
 2.  Pearson Packaging Systems, *Complete Line for Trays and Bags of
@@ -552,8 +558,8 @@ end when done.\]*
     Conference on Systems, Signals and Image Processing (IWSSIP)*, 2020.
 
 Project records (in the repository): `docs/RESULTS_LOG.md` (R1–R6),
-`docs/DECISION_LOG.md` (D-001–D-027), `docs/VERIFICATION_LOG.md`
-(V1–V19), `docs/AI_USAGE_LOG.md`, `docs/IO_SPECIFICATION.md`.
+`docs/DECISION_LOG.md` (D-001–D-028), `docs/VERIFICATION_LOG.md`
+(V1–V21), `docs/AI_USAGE_LOG.md`, `docs/IO_SPECIFICATION.md`.
 
 ## Appendix A. Repository and reproduction
 
@@ -562,14 +568,14 @@ Repository:
 licensed under AGPL-3.0 (the licence of the Ultralytics code it builds
 on).
 
-| Required item (brief)                           | Where                                                                                                                 |
-|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| README                                          | `README.md`: purpose, structure, workflow, environment, data handling, how to reproduce each result                   |
-| HTML documentation of the source code           | `docs/api/index.html`, generated by pdoc from NumPy-style docstrings (`scripts/build_docs.sh`)                        |
-| Licensing agreement                             | `LICENSE` (AGPL-3.0); the dataset is CC BY 4.0, attributed in the README                                              |
-| Source code with inline comments and docstrings | `src/porkqc/`. A test enforces a docstring with a Parameters section on every public function that takes arguments    |
-| Test functions and test report                  | `tests/` (249 tests, 95% line coverage) and `reports/test_report.html` (pytest-html), with CI on Python 3.11 and 3.12 |
-| Trained model                                   | `models/yolo11n_640_blocked.pt` with a model card and SHA-256 hash, checked by a test                                 |
+| Required item (brief)                           | Where                                                                                                                                                  |
+|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| README                                          | `README.md`: purpose, structure, workflow, environment, data handling, how to reproduce each result                                                    |
+| HTML documentation of the source code           | `docs/api/index.html`, generated by pdoc from NumPy-style docstrings (`scripts/build_docs.sh`)                                                         |
+| Licensing agreement                             | `LICENSE` (AGPL-3.0); the dataset is CC BY 4.0, attributed in the README                                                                               |
+| Source code with inline comments and docstrings | `src/porkqc/`. A test enforces a docstring with a Parameters section on every public function that takes arguments                                     |
+| Test functions and test report                  | `tests/` (249 tests, 95% line coverage) and `reports/test_report.html` (pytest-html), with CI on every push (ruff lint; tests on Python 3.11 and 3.12) |
+| Trained model                                   | `models/yolo11n_640_blocked.pt` with a model card and SHA-256 hash, checked by a test                                                                  |
 
 **Reproduction.**
 
@@ -653,8 +659,8 @@ are recorded in `docs/LEARNING_OBJECTIVES_MAP.md`.
     mAP50 because it uses multi-label NMS (V11). Only exported
     predictions are reported.
 
-- **Bugs found and fixed.** `docs/VERIFICATION_LOG.md` records all 19,
-  each with its cause, fix and regression test. Examples:
+- **Bugs found and fixed.** `docs/VERIFICATION_LOG.md` records all 21,
+  each with its cause, fix and lesson. Examples:
 
   - an ignore rule hid a code folder (caught by CI on a fresh clone);
 
@@ -670,7 +676,8 @@ are recorded in `docs/LEARNING_OBJECTIVES_MAP.md`.
 
   - two wrong expected values in unit tests;
 
-  - a test-order dependence.
+  - a test-order dependence; a hardware constant cited from the wrong
+    source; and a shared mutable default argument found by the linter.
 
 ## Appendix E. Alternatives on the brief's criteria
 
@@ -707,7 +714,7 @@ successive trapezoid error ratios were 3.2, 10.7, 3.6, 0.7, 4.0, 0.9,
 *Figure A1. Headline AP50 on validation under controlled perturbations
 (paired 95% CIs); the dashed line is the clean score.*
 
-![Figure 4](../results/figures/05_quadrature_convergence.png)
+![Figure A2](../results/figures/05_quadrature_convergence.png)
 
 *Figure A2. Integration error against the number of panels or nodes: the
 smooth control (left) and the AP envelope (right).*

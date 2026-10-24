@@ -23,6 +23,7 @@ def poly(deg):
 
 # ---------- polynomial exactness (degree of precision) ----------
 
+
 @pytest.mark.parametrize("deg", [0, 1])
 def test_trapezoid_and_midpoint_exact_for_linear(deg):
     f, exact = poly(deg)
@@ -56,6 +57,7 @@ def test_gauss_legendre_exact_to_degree_2n_minus_1(n):
 
 # ---------- convergence on a smooth integrand ----------
 
+
 def _orders(rule, f, exact, ns):
     errs = [rule(f, 0.0, 1.0, n) - exact for n in ns]
     return observed_order(1.0 / np.array(ns), errs)
@@ -80,6 +82,7 @@ def test_romberg_beats_trapezoid_on_smooth():
 
 # ---------- step function: high order is lost ----------
 
+
 def step(x):
     """1 on [0, 0.3), 0.6 on [0.3, 0.7), 0 beyond — integral 0.3 + 0.24 = 0.54."""
     return np.where(x < 0.3, 1.0, np.where(x < 0.7, 0.6, 0.0))
@@ -96,6 +99,7 @@ def test_step_function_first_order_only():
 
 
 # ---------- argument checks ----------
+
 
 def test_bad_arguments():
     with pytest.raises(ValueError):

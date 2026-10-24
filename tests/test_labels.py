@@ -15,6 +15,7 @@ N = 5
 
 # ---------- positive cases ----------
 
+
 def test_parse_valid_line():
     out = parse_label_line("3 0.5 0.4 0.2 0.1", N)
     np.testing.assert_allclose(out, [3, 0.5, 0.4, 0.2, 0.1])
@@ -63,20 +64,21 @@ def test_yolo_to_xyxy_empty():
 
 # ---------- negative cases ----------
 
+
 @pytest.mark.parametrize(
     "line",
     [
-        "0 0.5 0.5 0.2",                     # too few fields
+        "0 0.5 0.5 0.2",  # too few fields
         "0 0.1 0.1 0.2 0.1 0.2 0.2 0.1 0.2",  # polygon-style line
-        "0 0.5 abc 0.2 0.2",                 # non-numeric
-        "0 0.5 nan 0.2 0.2",                 # non-finite
-        "5 0.5 0.5 0.2 0.2",                 # class id == n_classes
-        "-1 0.5 0.5 0.2 0.2",                # negative class
-        "1.5 0.5 0.5 0.2 0.2",               # non-integer class
-        "0 0.5 0.5 0 0.2",                   # zero width
-        "0 0.5 0.5 0.2 -0.1",                # negative height
-        "0 0.95 0.5 0.2 0.2",                # right edge at 1.05
-        "0 1.5 0.5 0.2 0.2",                 # centre outside image
+        "0 0.5 abc 0.2 0.2",  # non-numeric
+        "0 0.5 nan 0.2 0.2",  # non-finite
+        "5 0.5 0.5 0.2 0.2",  # class id == n_classes
+        "-1 0.5 0.5 0.2 0.2",  # negative class
+        "1.5 0.5 0.5 0.2 0.2",  # non-integer class
+        "0 0.5 0.5 0 0.2",  # zero width
+        "0 0.5 0.5 0.2 -0.1",  # negative height
+        "0 0.95 0.5 0.2 0.2",  # right edge at 1.05
+        "0 1.5 0.5 0.2 0.2",  # centre outside image
     ],
 )
 def test_parse_rejects_invalid_lines(line):

@@ -36,7 +36,9 @@ __all__ = ["image_scores", "decide", "DecisionCosts", "evaluate_decisions", "cho
 PASS, REVIEW, FAIL = "PASS", "REVIEW", "FAIL"
 
 
-def image_scores(gt: dict, pred: dict, classes: list[int] | None = None) -> tuple[np.ndarray, np.ndarray, list[str]]:
+def image_scores(
+    gt: dict, pred: dict, classes: list[int] | None = None
+) -> tuple[np.ndarray, np.ndarray, list[str]]:
     """
     One defect score and one ground-truth flag per image.
 
@@ -109,7 +111,7 @@ def decide(scores: np.ndarray, t_review: float, t_fail: float) -> np.ndarray:
     return out
 
 
-@dataclass
+@dataclass(frozen=True)
 class DecisionCosts:
     """Relative costs of each outcome (DECISION_LOG D-007)."""
 
@@ -118,7 +120,9 @@ class DecisionCosts:
     c_review: float = 0.25
 
 
-def evaluate_decisions(decisions: np.ndarray, defective: np.ndarray, costs: DecisionCosts = DecisionCosts()) -> dict:
+def evaluate_decisions(
+    decisions: np.ndarray, defective: np.ndarray, costs: DecisionCosts | None = None
+) -> dict:
     """
     Count outcomes and the mean cost per image.
 
@@ -129,7 +133,7 @@ def evaluate_decisions(decisions: np.ndarray, defective: np.ndarray, costs: Deci
     defective : numpy.ndarray
         Ground-truth flags.
     costs : DecisionCosts, optional
-        Outcome costs.
+        Outcome costs (default: :class:`DecisionCosts`, i.e. 10 : 1 : 0.25).
 
     Returns
     -------
@@ -139,6 +143,7 @@ def evaluate_decisions(decisions: np.ndarray, defective: np.ndarray, costs: Deci
         ``false_reject_rate`` (false rejects / clean), ``review_rate``,
         ``auto_fail_precision`` (defective share of FAIL), ``cost_per_image``.
     """
+    costs = DecisionCosts() if costs is None else costs
     d = np.asarray(decisions)
     y = np.asarray(defective, dtype=bool)
     misses = int(np.sum((d == PASS) & y))
@@ -146,9 +151,15 @@ def evaluate_decisions(decisions: np.ndarray, defective: np.ndarray, costs: Deci
     reviews = int(np.sum(d == REVIEW))
     n, n_def = len(d), int(y.sum())
     n_fail = int(np.sum(d == FAIL))
-    cost = (costs.c_miss * misses + costs.c_false_reject * false_rejects + costs.c_review * reviews) / max(n, 1)
+    cost = (costs.c_miss * misses + costs.c_false_reject * false_rejects + costs.c_review * reviews) / max(
+        n, 1
+    )
     return {
-        "n": n, "n_defective": n_def, "misses": misses, "false_rejects": false_rejects, "reviews": reviews,
+        "n": n,
+        "n_defective": n_def,
+        "misses": misses,
+        "false_rejects": false_rejects,
+        "reviews": reviews,
         "miss_rate": misses / n_def if n_def else float("nan"),
         "false_reject_rate": false_rejects / (n - n_def) if n > n_def else float("nan"),
         "review_rate": reviews / n if n else float("nan"),
@@ -160,7 +171,7 @@ def evaluate_decisions(decisions: np.ndarray, defective: np.ndarray, costs: Deci
 def choose_thresholds(
     scores: np.ndarray,
     defective: np.ndarray,
-    costs: DecisionCosts = DecisionCosts(),
+    costs: DecisionCosts | None = None,
     grid: np.ndarray | None = None,
 ) -> dict:
     """
@@ -174,7 +185,7 @@ def choose_thresholds(
     scores, defective : numpy.ndarray
         From :func:`image_scores` on VALIDATION data.
     costs : DecisionCosts, optional
-        Outcome costs.
+        Outcome costs (default: :class:`DecisionCosts`, i.e. 10 : 1 : 0.25).
     grid : numpy.ndarray, optional
         Candidate threshold values (default 0.00, 0.01, …, 1.00).
 
@@ -184,6 +195,7 @@ def choose_thresholds(
         ``t_review``, ``t_fail``, ``costs`` and the outcome counts from
         :func:`evaluate_decisions` at the optimum.
     """
+    costs = DecisionCosts() if costs is None else costs
     grid = np.round(np.linspace(0, 1, 101), 2) if grid is None else np.asarray(grid, dtype=float)
     best_key, best = None, None
     for i, tr in enumerate(grid):

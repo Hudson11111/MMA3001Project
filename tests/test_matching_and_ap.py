@@ -24,6 +24,7 @@ def box(x, y, w=10, h=10):
 
 # ---------------------------------------------------------------- matching
 
+
 def test_single_match_depends_on_threshold():
     gt = np.array([box(0, 0)])
     pred = np.array([[2, 0, 12, 10]])  # IoU = 80 / 120 = 0.667
@@ -53,13 +54,14 @@ def test_confidence_and_ultralytics_rules_can_differ():
     # B best but also A above threshold.
     A, B = box(0, 0, 20, 10), box(20, 0, 20, 10)
     gt = np.array([A, B])
-    p1 = box(22, 0, 20, 10)          # IoU(B) = 18*10/(400-180)... high
-    p2 = [8, 0, 36, 10]              # spans part of A and most of B
+    p1 = box(22, 0, 20, 10)  # IoU(B) = 18*10/(400-180)... high
+    p2 = [8, 0, 36, 10]  # spans part of A and most of B
     preds = np.array([p1, p2])
     iou_tp_conf = match_image([0, 0], [0.9, 0.8], preds, [0, 0], gt, np.array([0.3]), rule="confidence")
     iou_tp_ul = match_image([0, 0], [0.9, 0.8], preds, [0, 0], gt, np.array([0.3]), rule="ultralytics")
     # Sanity: p2 overlaps both boxes above 0.3, with B the better match.
     from porkqc.metrics.iou import box_iou
+
     m = box_iou(gt, preds)
     assert m[1, 1] > m[0, 1] >= 0.3 and m[1, 0] > m[1, 1]
     # Confidence rule: p1 takes B, p2 falls back to A -> 2 TP.
@@ -76,6 +78,7 @@ def test_match_rejects_bad_input():
 
 
 # ---------------------------------------------------------------- PR curve and AP
+
 
 def test_pr_curve_known_values():
     r, p = pr_curve([1, 0, 1], [0.9, 0.8, 0.7], n_gt=2)
@@ -109,9 +112,9 @@ def test_interpolated_precision_step_function():
 
 def test_ap_rules_hand_computed():
     r, p = [0.5, 0.5, 1.0], [1.0, 0.5, 2 / 3]
-    assert ap_exact(r, p) == pytest.approx(0.5 * 1 + 0.5 * 2 / 3)          # 0.8333
+    assert ap_exact(r, p) == pytest.approx(0.5 * 1 + 0.5 * 2 / 3)  # 0.8333
     assert ap_coco101(r, p) == pytest.approx((51 * 1 + 50 * 2 / 3) / 101)  # 0.8350
-    assert ap_voc11(r, p) == pytest.approx((6 * 1 + 5 * 2 / 3) / 11)       # 0.8485
+    assert ap_voc11(r, p) == pytest.approx((6 * 1 + 5 * 2 / 3) / 11)  # 0.8485
 
 
 def test_ap_when_recall_never_reaches_one():

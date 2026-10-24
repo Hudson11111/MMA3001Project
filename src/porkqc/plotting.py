@@ -21,13 +21,28 @@ def apply_style() -> None:
     import matplotlib as mpl
     from cycler import cycler
 
-    mpl.rcParams.update({
-        "axes.prop_cycle": cycler(color=SERIES),
-        "axes.edgecolor": MUTED, "axes.labelcolor": INK, "axes.titlesize": 10, "axes.labelsize": 9,
-        "axes.spines.top": False, "axes.spines.right": False,
-        "axes.grid": True, "grid.color": GRID, "grid.linewidth": 0.6,
-        "xtick.color": MUTED, "ytick.color": MUTED, "xtick.labelsize": 8, "ytick.labelsize": 8,
-        "legend.fontsize": 8, "legend.frameon": False,
-        "lines.linewidth": 2.0, "lines.markersize": 6,
-        "figure.dpi": 110, "savefig.bbox": "tight", "font.size": 9,
-    })
+    mpl.rcParams.update(
+        {
+            "axes.prop_cycle": cycler(color=SERIES),
+            "axes.edgecolor": MUTED,
+            "axes.labelcolor": INK,
+            "axes.titlesize": 10,
+            "axes.labelsize": 9,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.grid": True,
+            "grid.color": GRID,
+            "grid.linewidth": 0.6,
+            "xtick.color": MUTED,
+            "ytick.color": MUTED,
+            "xtick.labelsize": 8,
+            "ytick.labelsize": 8,
+            "legend.fontsize": 8,
+            "legend.frameon": False,
+            "lines.linewidth": 2.0,
+            "lines.markersize": 6,
+            "figure.dpi": 110,
+            "savefig.bbox": "tight",
+            "font.size": 9,
+        }
+    )

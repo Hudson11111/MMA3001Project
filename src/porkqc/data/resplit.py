@@ -33,20 +33,29 @@ from __future__ import annotations
 
 import os
 from collections import Counter
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Mapping, Sequence
 
 import numpy as np
 import yaml
 
 from .audit import frame_number, list_images, original_stem
 
-__all__ = ["SPLIT_NAMES", "nearest_other_gap", "assign_time_blocks", "collect_frames", "scene_of", "materialise_split"]
+__all__ = [
+    "SPLIT_NAMES",
+    "nearest_other_gap",
+    "assign_time_blocks",
+    "collect_frames",
+    "scene_of",
+    "materialise_split",
+]
 
 SPLIT_NAMES = ("train", "valid", "test")
 
 
-def nearest_other_gap(frames: np.ndarray, splits: np.ndarray, target: str, other: Sequence[str]) -> np.ndarray:
+def nearest_other_gap(
+    frames: np.ndarray, splits: np.ndarray, target: str, other: Sequence[str]
+) -> np.ndarray:
     """
     For each image in split ``target``, the frame distance to the nearest image in ``other`` splits.
 
@@ -149,12 +158,14 @@ def assign_time_blocks(
                 continue
             ref = np.sort(ref)
             pos = np.searchsorted(ref, f[idx])
-            d = np.minimum(np.abs(f[idx] - ref[np.clip(pos - 1, 0, ref.size - 1)]),
-                           np.abs(ref[np.clip(pos, 0, ref.size - 1)] - f[idx]))
+            d = np.minimum(
+                np.abs(f[idx] - ref[np.clip(pos - 1, 0, ref.size - 1)]),
+                np.abs(ref[np.clip(pos, 0, ref.size - 1)] - f[idx]),
+            )
             keep[idx[d <= gap]] = False
         split = np.where(keep, split, None)
 
-    return {n: (None if s is None else str(s)) for n, s in zip(names, split)}
+    return {n: (None if s is None else str(s)) for n, s in zip(names, split, strict=True)}
 
 
 def collect_frames(
@@ -215,7 +226,7 @@ def collect_frames(
             groups, reps = [], []
             for p in paths:
                 t = grey_thumbnail(p)
-                for g, r in zip(groups, reps):
+                for g, r in zip(groups, reps, strict=True):
                     if thumbnail_correlation(t, r) >= copy_threshold:
                         g.append(p)
                         break
@@ -288,8 +299,10 @@ def materialise_split(
         chosen = files[stem] if split == "train" else files[stem][:1]
         for img in chosen:
             label = img.parent.parent / "labels" / f"{img.stem}.txt"
-            for src, dst in ((img, out_root / split / "images" / img.name),
-                             (label, out_root / split / "labels" / label.name)):
+            for src, dst in (
+                (img, out_root / split / "images" / img.name),
+                (label, out_root / split / "labels" / label.name),
+            ):
                 if dst.is_symlink() or dst.exists():
                     dst.unlink()
                 os.symlink(src.resolve(), dst)

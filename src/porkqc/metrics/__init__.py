@@ -1,5 +1,5 @@
 """
-Detection metrics, implemented explicitly and unit-tested (WP2).
+Detection metrics, implemented explicitly and verified against Ultralytics.
 
 porkqc.metrics.iou
     Box area and pairwise IoU.

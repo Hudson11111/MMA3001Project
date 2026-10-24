@@ -19,9 +19,10 @@ class FakeVersion:
     def download(self, fmt, location, overwrite=False):
         from pathlib import Path
 
-        self.log.append({"fmt": fmt, "location": location, "overwrite": overwrite,
-                         "existed": Path(location).exists()})
-        if Path(location).exists() and not overwrite:      # real roboflow 1.7.1 behaviour
+        self.log.append(
+            {"fmt": fmt, "location": location, "overwrite": overwrite, "existed": Path(location).exists()}
+        )
+        if Path(location).exists() and not overwrite:  # real roboflow 1.7.1 behaviour
             return types.SimpleNamespace(location=location)
         if self.not_ready_left:
             self.not_ready_left -= 1
@@ -39,11 +40,14 @@ def fake_roboflow(monkeypatch):
         version = FakeVersion(log, **kw)
         chain = types.SimpleNamespace(
             workspace=lambda w: types.SimpleNamespace(
-                project=lambda p: types.SimpleNamespace(version=lambda v: version)))
+                project=lambda p: types.SimpleNamespace(version=lambda v: version)
+            )
+        )
         module = types.ModuleType("roboflow")
         module.Roboflow = lambda api_key: chain
         monkeypatch.setitem(sys.modules, "roboflow", module)
         return log
+
     return install
 
 

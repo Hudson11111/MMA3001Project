@@ -26,8 +26,9 @@ the tray-level PASS decision.
 from __future__ import annotations
 
 import json
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 import numpy as np
 
@@ -78,7 +79,7 @@ def export_ground_truth(split_dir: str | Path, class_names: Sequence[str], split
             width, height = im.size
         labels = read_label_file(split_dir / "labels" / f"{img.stem}.txt", len(class_names))
         xyxy = yolo_to_xyxy(labels, width, height)
-        boxes = [[int(c), *(round(float(v), 2) for v in b)] for c, b in zip(labels[:, 0], xyxy)]
+        boxes = [[int(c), *(round(float(v), 2) for v in b)] for c, b in zip(labels[:, 0], xyxy, strict=True)]
         images.append({"file": img.name, "width": width, "height": height, "boxes": boxes})
     return {"split": split or split_dir.name, "class_names": list(class_names), "images": images}
 
