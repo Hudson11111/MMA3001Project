@@ -330,3 +330,9 @@ objection raised; the latter are noted "(no objection)".
   frozen decision rule — the deployed form of the system described in the I/O specification.
 - **Provenance:** file supplied by Hudson from Drive (17 Oct); checked before use (V18).
 
+### D-028 — Code style enforced in CI ✅
+- **Choice:** ruff for linting (pycodestyle, pyflakes, isort, bugbear, pyupgrade, simplify, pep8-naming)
+  and formatting, line length 110, checked by a separate CI job.
+- **Rationale:** consistent style across 43 files and early detection of latent bugs (V21). Upper-case
+  names such as `H`, `W`, `N` are allowed where they mirror the formulas in docstrings.
+- **Provenance:** proposed by Claude during submission polish (24 Oct), reviewed via pull request.
