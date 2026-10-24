@@ -16,9 +16,9 @@ from __future__ import annotations
 import random
 import re
 import zipfile
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Sequence
 
 import yaml
 
@@ -274,11 +274,20 @@ def box_table(split_dir: str | Path, n_classes: int, split: str | None = None) -
         except (FileNotFoundError, LabelFormatError):
             continue
         for c, cx, cy, w, h in labels:
-            rows.append({
-                "split": split or split_dir.name, "file": img.name, "original": original_stem(img),
-                "class_id": int(c), "cx": float(cx), "cy": float(cy), "w": float(w), "h": float(h),
-                "area_frac": float(w * h), "aspect": float(w / h),
-            })
+            rows.append(
+                {
+                    "split": split or split_dir.name,
+                    "file": img.name,
+                    "original": original_stem(img),
+                    "class_id": int(c),
+                    "cx": float(cx),
+                    "cy": float(cy),
+                    "w": float(w),
+                    "h": float(h),
+                    "area_frac": float(w * h),
+                    "aspect": float(w / h),
+                }
+            )
     return rows
 
 
@@ -402,8 +411,9 @@ def make_dev_sample(
 
             for img in chosen[:n_wanted]:
                 zf.write(img, f"dev_sample/{split}/images/{img.name}")
-                zf.write(root / split / "labels" / f"{img.stem}.txt",
-                         f"dev_sample/{split}/labels/{img.stem}.txt")
+                zf.write(
+                    root / split / "labels" / f"{img.stem}.txt", f"dev_sample/{split}/labels/{img.stem}.txt"
+                )
 
         data_yaml = {
             "path": ".",

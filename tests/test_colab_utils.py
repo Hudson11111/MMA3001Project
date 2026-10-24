@@ -23,8 +23,19 @@ def remote_and_clone(tmp_path):
     _git("clone", "-q", str(remote), str(seed), cwd=tmp_path)
     (seed / "README.md").write_text("hi\n")
     _git("add", ".", cwd=seed)
-    _git("-c", "user.name=t", "-c", "user.email=t@t", "-c", "commit.gpgsign=false",
-         "commit", "-q", "-m", "init", cwd=seed)
+    _git(
+        "-c",
+        "user.name=t",
+        "-c",
+        "user.email=t@t",
+        "-c",
+        "commit.gpgsign=false",
+        "commit",
+        "-q",
+        "-m",
+        "init",
+        cwd=seed,
+    )
     _git("push", "-q", "origin", "HEAD:main", cwd=seed)
     return remote, seed
 

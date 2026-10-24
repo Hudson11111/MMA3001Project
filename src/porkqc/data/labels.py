@@ -82,9 +82,7 @@ def parse_label_line(line: str, n_classes: int, tol: float = DEFAULT_TOL) -> np.
 
     cls, cx, cy, w, h = values
     if not cls.is_integer() or not (0 <= cls < n_classes):
-        raise LabelFormatError(
-            f"Class id must be an integer in [0, {n_classes - 1}], got {fields[0]!r}."
-        )
+        raise LabelFormatError(f"Class id must be an integer in [0, {n_classes - 1}], got {fields[0]!r}.")
     if w <= 0 or h <= 0:
         raise LabelFormatError(f"Box width and height must be positive: {line!r}")
 
@@ -93,9 +91,7 @@ def parse_label_line(line: str, n_classes: int, tol: float = DEFAULT_TOL) -> np.
     x1, x2 = cx - w / 2, cx + w / 2
     y1, y2 = cy - h / 2, cy + h / 2
     if min(x1, y1) < -tol or max(x2, y2) > 1 + tol:
-        raise LabelFormatError(
-            f"Box extends outside the normalised image [0, 1] (tol={tol}): {line!r}"
-        )
+        raise LabelFormatError(f"Box extends outside the normalised image [0, 1] (tol={tol}): {line!r}")
     return np.array(values, dtype=np.float64)
 
 

@@ -15,8 +15,8 @@ results, so bootstrapping (thousands of re-evaluations) stays cheap.
 
 from __future__ import annotations
 
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from typing import Callable, Sequence
 
 import numpy as np
 
@@ -113,7 +113,9 @@ def match_dataset(
     gt_files = {e["file"] for e in gt["images"]}
     extra = set(pred_by_file) - gt_files
     if extra:
-        raise ValueError(f"{len(extra)} predicted images are not in the ground truth, e.g. {sorted(extra)[:3]}")
+        raise ValueError(
+            f"{len(extra)} predicted images are not in the ground truth, e.g. {sorted(extra)[:3]}"
+        )
 
     thresholds = np.atleast_1d(np.asarray(iou_thresholds, dtype=np.float64))
     out = []
@@ -127,14 +129,16 @@ def match_dataset(
             )
         pc, ps, pb = pred_arrays(p)
         tp = match_image(pc, ps, pb, gc, gb, thresholds, rule=rule)
-        out.append(ImageMatches(
-            file=g["file"],
-            group=original_stem(g["file"]),
-            classes=pc,
-            scores=ps,
-            tp=tp,
-            n_gt=np.bincount(gc, minlength=n_classes)[:n_classes],
-        ))
+        out.append(
+            ImageMatches(
+                file=g["file"],
+                group=original_stem(g["file"]),
+                classes=pc,
+                scores=ps,
+                tp=tp,
+                n_gt=np.bincount(gc, minlength=n_classes)[:n_classes],
+            )
+        )
     return out
 
 
@@ -234,13 +238,15 @@ def summarise(
         n_gt = int(sum(m.n_gt[c] for m in matches))
         n_pred = int(sum(int((m.classes == c).sum()) for m in matches))
         defined = not np.isnan(table[c, 0])
-        per_class.append({
-            "class": name,
-            "n_gt": n_gt,
-            "n_pred": n_pred,
-            "ap50": float(table[c, 0]) if defined else None,
-            "ap50_95": float(per_class_5095[c]) if defined else None,
-        })
+        per_class.append(
+            {
+                "class": name,
+                "n_gt": n_gt,
+                "n_pred": n_pred,
+                "ap50": float(table[c, 0]) if defined else None,
+                "ap50_95": float(per_class_5095[c]) if defined else None,
+            }
+        )
     have = ~np.isnan(table[:, 0])
     return {
         "method": method,

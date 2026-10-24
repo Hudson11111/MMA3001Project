@@ -172,7 +172,7 @@
    "TEST AP": 0.9031602099,
    "TEST CI low": 0.8478814352,
    "TEST CI high": 0.9574471236,
-   "fit s": 0.209662652
+   "fit s": 0.167660609
   },
   {
    "target": "any defect",
@@ -182,7 +182,7 @@
    "TEST AP": 0.9409549274,
    "TEST CI low": 0.9074295369,
    "TEST CI high": 0.9735078821,
-   "fit s": 0.579555959
+   "fit s": 0.702797637
   },
   {
    "target": "any defect",
@@ -192,7 +192,7 @@
    "TEST AP": 0.959266385,
    "TEST CI low": 0.9311518165,
    "TEST CI high": 0.9806653986,
-   "fit s": 1.167230399
+   "fit s": 0.773077315
   },
   {
    "target": "any defect",
@@ -222,7 +222,7 @@
    "TEST AP": 0.8074530636,
    "TEST CI low": 0.6898071531,
    "TEST CI high": 0.8870636531,
-   "fit s": 0.350761433
+   "fit s": 0.352004273
   },
   {
    "target": "unsealed",
@@ -232,7 +232,7 @@
    "TEST AP": 0.9365082402,
    "TEST CI low": 0.8819981791,
    "TEST CI high": 0.9768450694,
-   "fit s": 0.369275494
+   "fit s": 0.42049382
   },
   {
    "target": "unsealed",
@@ -242,7 +242,7 @@
    "TEST AP": 0.9527503815,
    "TEST CI low": 0.9126617365,
    "TEST CI high": 0.9843054323,
-   "fit s": 1.754077279
+   "fit s": 1.280354994
   },
   {
    "target": "unsealed",
@@ -272,7 +272,7 @@
    "TEST AP": 0.8413751053,
    "TEST CI low": 0.7567666035,
    "TEST CI high": 0.9098530178,
-   "fit s": 0.16905938
+   "fit s": 0.125308936
   },
   {
    "target": "packaging-error",
@@ -282,7 +282,7 @@
    "TEST AP": 0.9236654866,
    "TEST CI low": 0.8785292753,
    "TEST CI high": 0.959284778,
-   "fit s": 0.433410559
+   "fit s": 0.467210635
   },
   {
    "target": "packaging-error",
@@ -292,7 +292,7 @@
    "TEST AP": 0.9142739264,
    "TEST CI low": 0.8663786865,
    "TEST CI high": 0.951248432,
-   "fit s": 0.7400984
+   "fit s": 0.684619857
   },
   {
    "target": "packaging-error",

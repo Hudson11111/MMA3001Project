@@ -16,8 +16,8 @@ from __future__ import annotations
 import shutil
 import subprocess
 import tempfile
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 __all__ = ["redact", "push_results"]
 
@@ -126,8 +126,9 @@ def push_results(
     for p in rel_paths:
         if not (repo_dir / p).exists():
             raise FileNotFoundError(repo_dir / p)
-    proc = subprocess.run(["git", "-C", str(repo_dir), "remote", "get-url", "origin"],
-                          capture_output=True, text=True)
+    proc = subprocess.run(
+        ["git", "-C", str(repo_dir), "remote", "get-url", "origin"], capture_output=True, text=True
+    )
     origin = proc.stdout.strip() if proc.returncode == 0 else ""
     if not origin or _normalise_remote(origin) != _normalise_remote(remote):
         raise ValueError(
@@ -154,8 +155,23 @@ def push_results(
                 shutil.copy2(src, dst)
         _git(["add", "--force", *[str(p) for p in rel_paths]], work, token)
         name, email = author
-        _git(["-c", f"user.name={name}", "-c", f"user.email={email}", "-c", "commit.gpgsign=false",
-              "commit", "-q", "--allow-empty", "-m", message], work, token)
+        _git(
+            [
+                "-c",
+                f"user.name={name}",
+                "-c",
+                f"user.email={email}",
+                "-c",
+                "commit.gpgsign=false",
+                "commit",
+                "-q",
+                "--allow-empty",
+                "-m",
+                message,
+            ],
+            work,
+            token,
+        )
         _git(["push", "-q", url, f"HEAD:refs/heads/{branch}"], work, token)
         return _git(["rev-parse", "HEAD"], work, token).strip()
     finally:

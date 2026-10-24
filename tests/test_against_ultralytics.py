@@ -42,7 +42,9 @@ def random_scene(rng, n_gt=6, n_pred=15, n_classes=3, size=200.0):
 def test_matching_reproduces_ultralytics(seed):
     rng = np.random.default_rng(seed)
     gt_cls, gt_boxes, pred_cls, scores, pred_boxes = random_scene(rng)
-    ours = match_image(pred_cls, scores, pred_boxes, gt_cls, gt_boxes, COCO_IOU_THRESHOLDS, rule="ultralytics")
+    ours = match_image(
+        pred_cls, scores, pred_boxes, gt_cls, gt_boxes, COCO_IOU_THRESHOLDS, rule="ultralytics"
+    )
     iou = torch.from_numpy(box_iou(gt_boxes, pred_boxes))
     fake_validator = SimpleNamespace(iouv=torch.from_numpy(COCO_IOU_THRESHOLDS))
     theirs = BaseValidator.match_predictions(
@@ -69,12 +71,19 @@ def test_ap_per_class_reproduces_ultralytics_end_to_end():
     matches, tps, confs, pcls, tcls = [], [], [], [], []
     for i in range(30):
         gt_cls, gt_boxes, pred_cls, scores, pred_boxes = random_scene(rng, n_classes=n_classes)
-        tp = match_image(pred_cls, scores, pred_boxes, gt_cls, gt_boxes, COCO_IOU_THRESHOLDS, rule="ultralytics")
-        matches.append(ImageMatches(f"{i}.jpg", str(i), pred_cls, scores, tp,
-                                    np.bincount(gt_cls, minlength=n_classes)))
-        tps.append(tp); confs.append(scores); pcls.append(pred_cls); tcls.append(gt_cls)
+        tp = match_image(
+            pred_cls, scores, pred_boxes, gt_cls, gt_boxes, COCO_IOU_THRESHOLDS, rule="ultralytics"
+        )
+        matches.append(
+            ImageMatches(f"{i}.jpg", str(i), pred_cls, scores, tp, np.bincount(gt_cls, minlength=n_classes))
+        )
+        tps.append(tp)
+        confs.append(scores)
+        pcls.append(pred_cls)
+        tcls.append(gt_cls)
     ours = ap_table(matches, n_classes, method="ultralytics")
-    out = ul_metrics.ap_per_class(np.concatenate(tps), np.concatenate(confs), np.concatenate(pcls),
-                                  np.concatenate(tcls))
+    out = ul_metrics.ap_per_class(
+        np.concatenate(tps), np.concatenate(confs), np.concatenate(pcls), np.concatenate(tcls)
+    )
     theirs, classes = out[5], out[6]
     np.testing.assert_allclose(ours[classes], theirs, atol=1e-9)

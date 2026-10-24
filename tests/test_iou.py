@@ -5,8 +5,8 @@ import pytest
 
 from porkqc.metrics.iou import box_area, box_iou
 
-
 # ---------- positive cases: values computed by hand ----------
+
 
 def test_identical_boxes_iou_one():
     b = np.array([[10, 20, 50, 80]])
@@ -67,6 +67,7 @@ def test_box_area():
 
 
 # ---------- negative cases ----------
+
 
 @pytest.mark.parametrize("bad", [np.zeros((2, 3)), np.zeros(4), np.zeros((1, 4, 1))])
 def test_rejects_wrong_shape(bad):

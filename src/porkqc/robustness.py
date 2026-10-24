@@ -76,7 +76,9 @@ def perturb(image: np.ndarray, kind: str, level: float, seed: int = 0) -> np.nda
         if level < 0:
             raise ValueError("noise sigma must be >= 0.")
         rng = np.random.default_rng(seed)
-        return np.clip(img.astype(np.float32) + rng.normal(0, level, img.shape), 0, 255).round().astype(np.uint8)
+        return (
+            np.clip(img.astype(np.float32) + rng.normal(0, level, img.shape), 0, 255).round().astype(np.uint8)
+        )
     if kind == "jpeg":
         q = int(level)
         if not 1 <= q <= 95:

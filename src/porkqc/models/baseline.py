@@ -25,8 +25,14 @@ from __future__ import annotations
 import numpy as np
 
 __all__ = [
-    "N_FEATURES", "feature_names", "image_features", "image_level_ap", "CANDIDATES",
-    "make_pipeline", "decision_scores", "select_on_validation",
+    "N_FEATURES",
+    "feature_names",
+    "image_features",
+    "image_level_ap",
+    "CANDIDATES",
+    "make_pipeline",
+    "decision_scores",
+    "select_on_validation",
 ]
 
 N_HSV = (8, 4, 4)
@@ -93,7 +99,7 @@ def image_features(image) -> np.ndarray:
     gy, gx = np.gradient(g)
     mag = np.hypot(gx, gy)
     h, w = mag.shape
-    edges = np.array([mag.mean(), mag[h // 2:].mean(), mag[:, w // 2:].mean(), (mag > 0.1).mean()])
+    edges = np.array([mag.mean(), mag[h // 2 :].mean(), mag[:, w // 2 :].mean(), (mag > 0.1).mean()])
     return np.concatenate([hist, thumb, edges]).astype(np.float32)
 
 
@@ -128,9 +134,15 @@ def image_level_ap(y_true: np.ndarray, scores: np.ndarray) -> float:
 
 #: Candidate models and hyperparameters, chosen on VALIDATION data only.
 CANDIDATES = {
-    "decision tree": ("tree", [{"max_depth": d, "min_samples_leaf": l} for d in (3, 5, 8, None) for l in (1, 5, 20)]),
+    "decision tree": (
+        "tree",
+        [{"max_depth": d, "min_samples_leaf": leaf} for d in (3, 5, 8, None) for leaf in (1, 5, 20)],
+    ),
     "SVM (RBF)": ("svm", [{"C": c, "gamma": g} for c in (0.3, 1, 3, 10) for g in ("scale", 0.001, 0.01)]),
-    "MLP": ("mlp", [{"hidden_layer_sizes": h, "alpha": a} for h in ((64,), (128, 64)) for a in (1e-4, 1e-2, 1.0)]),
+    "MLP": (
+        "mlp",
+        [{"hidden_layer_sizes": h, "alpha": a} for h in ((64,), (128, 64)) for a in (1e-4, 1e-2, 1.0)],
+    ),
 }
 
 
@@ -171,8 +183,11 @@ def make_pipeline(kind: str, params: dict, seed: int = 0):
     elif kind == "svm":
         clf = SVC(kernel="rbf", class_weight="balanced", **params)
     elif kind == "mlp":
-        # early stopping on an internal 10% split; patience 30 epochs so small problems are not stopped prematurely
-        clf = MLPClassifier(max_iter=1000, early_stopping=True, n_iter_no_change=30, random_state=seed, **params)
+        # Early stopping on an internal 10% split; patience 30 epochs so that small
+        # problems are not stopped prematurely (VERIFICATION_LOG V15).
+        clf = MLPClassifier(
+            max_iter=1000, early_stopping=True, n_iter_no_change=30, random_state=seed, **params
+        )
     else:
         raise ValueError(f"Unknown model kind {kind!r}.")
     return Pipeline([("scale", StandardScaler()), ("clf", clf)])
@@ -237,7 +252,13 @@ def select_on_validation(X_tr, y_tr, X_va, y_va, candidates: dict | None = None,
             fit_s = time.perf_counter() - t0
             ap = image_level_ap(y_va, decision_scores(pipe, X_va))
             if best is None or ap > best["valid_ap"]:
-                best = {"family": family, "kind": kind, "params": params, "valid_ap": ap,
-                        "fit_seconds": fit_s, "pipeline": pipe}
+                best = {
+                    "family": family,
+                    "kind": kind,
+                    "params": params,
+                    "valid_ap": ap,
+                    "fit_seconds": fit_s,
+                    "pipeline": pipe,
+                }
         out.append(best)
     return out
