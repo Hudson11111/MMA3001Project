@@ -9,7 +9,7 @@ description = "Computer-vision inspection of pork-rasher packaging: defect detec
 readme = "README.md"
 requires-python = ">=3.10"
 license = "AGPL-3.0-only"
-authors = [{ name = "Hudson" }]
+authors = [{ name = "Hudson Woods" }]
 keywords = ["computer vision", "object detection", "quality inspection", "YOLO", "numerical methods", "food packaging"]
 classifiers = [
     "Programming Language :: Python :: 3",

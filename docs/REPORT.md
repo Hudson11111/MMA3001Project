@@ -2,7 +2,7 @@
 
 # Automated Inspection of Pork-Rasher Packaging
 
-2026-10-17 · Hudson
+Hudson Woods · Student ID 36137286 · 2026-10-25
 
 MMA3001 Numerical Methods and Machine Learning — Individual Project.
 Repository:
