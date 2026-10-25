@@ -442,23 +442,22 @@ realistic line, but it is not yet a validated accept/reject machine:
 
 **What they were used for:** I used Claude to set up an initial skeleton
 plan, laying out potential solution paths and the pros/cons between
-different splits, methods and algorithmic intensity. I then moved to
-Claude Code to write the code and create the GitHub branches and
-documents. I then used another Claude session to independently audit the
-code for potential bias in the methods and overall readability.
+different splits, methods and computational cost. I then moved to Claude
+Code to write the code and create the GitHub branches and documents. I
+then used another Claude session to independently audit the code for
+potential bias in the methods and overall readability.
 
 **Approximate level of AI contribution.** Claude Code wrote 100% of the
-code and README files, minus the initial import of the dataset and any
-training runs. I ensured that Claude asked me for permission on any
-large decisions. Claude wrote the report based on my ~100-200 word
-prompt per section, which was then manually checked and edited by me.
-Claude did not write the AI use and reflection.
+code and README files; I ran the download and every training run in
+Colab myself. I ensured that Claude asked me for permission on any large
+decisions. Claude wrote the report based on my ~100-200 word prompt per
+section, which was then manually checked and edited by me. Claude did
+not write the AI use and reflection.
 
-**Why AI was used for those tasks:** Claude can compare similar public
-repositories and code for similar tasks and therefore had a deeper
-understanding of how different variables could affect the solution, so I
-used it to find specific pros and cons, which I then confirmed and
-implemented based on validation run results.
+**Why AI was used for those tasks:** Claude has broad knowledge of
+common methods and could read the Ultralytics source code and
+documentation directly, so I used it to find specific pros and cons,
+which I then confirmed and implemented based on validation run results.
 
 **How AI-generated material was checked:** I manually verified most, if
 not all, the sources Claude drew from, ensuring they were real. This led
@@ -476,12 +475,12 @@ the sensitivity for how much of each image is needed for a successful
 scan. I oversaw all the training and final tests, alongside the metrics
 they provided once run.
 
-**Errors, limitations or unhelpful suggestions produced by AI:** At
-first, Claude Code incorrectly drew from the dataset, somehow mixing
-training and validation splits, which I had to completely restart to
-ensure there was no leakage. It also gave a lot of unhelpful suggestions
-that could make it 1% more accurate at a much higher algorithmic
-intensity.
+**Errors, limitations or unhelpful suggestions produced by AI:**
+Claude's first plan trusted the dataset's own split until the audit
+found leakage, so I retrained everything on a time-blocked split. Its
+code also had errors, such as a download that silently did nothing in
+Colab. It also gave a lot of unhelpful suggestions that could make it 1%
+more accurate at a much higher computational cost.
 
 **How AI use affected my understanding and workflow:** It really shows
 how important it is to understand the AI’s workflow and solution, as AI
