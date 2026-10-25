@@ -1,8 +1,8 @@
-> **Snapshot of the written report** (24 Oct 2026). The submitted version is exported from the editable master document; this copy keeps the report under version control next to the evidence it cites. Section 7 is written by Hudson.
+> **Copy of the submitted written report** (MMA3001, October 2026), kept under version control next to the evidence it cites. Figures link to the files in `results/figures/`.
 
 # Automated Inspection of Pork-Rasher Packaging
 
-Hudson Woods · Student ID 36137286 · 2026-10-25
+Oct 17, 2026 · Hudson Woods · 36137286
 
 MMA3001 Numerical Methods and Machine Learning — Individual Project.
 Repository:
@@ -56,16 +56,16 @@ CPU, not on line hardware, and each frame is judged on its own.
 
 ## 2. Inputs, outputs and data
 
-| Item                   | Format, units and domain                                                                                                                                         | Meaning and use                                                             |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| **Input:** image       | JPEG/PNG or array `(H, W, 3)`, `uint8` RGB; pixel coordinates. Validated domain: 720 × 540 px from this line's camera and lighting, within the tolerances in 5.5 | One view of the conveyor; a tray may be only partly visible                 |
-| **Output:** detections | `[class, confidence, x1, y1, x2, y2]` per box; confidence in \[0, 1\]; pixels of the original image                                                              | Where each suspected defect is: for operators and for evaluation            |
-| **Output:** decision   | `FAIL` / `REVIEW` / `PASS` from the top confidence (FAIL ≥ 0.16, REVIEW ≥ 0.01)                                                                                  | Reject, send to an inspector, or “no defect found” (not a validated “good”) |
-| **Output:** timing     | ms per stage, per image                                                                                                                                          | Checked against R2                                                          |
+| Item                   | Format, units and domain                                                                                                                                     | Meaning and use                                                             |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| **Input:** image       | JPEG/PNG or array (H, W, 3), uint8 RGB; pixel coordinates. Validated domain: 720 × 540 px from this line's camera and lighting, within the tolerances in 5.5 | One view of the conveyor; a tray may be only partly visible                 |
+| **Output:** detections | \[class, confidence, x1, y1, x2, y2\] per box; confidence in \[0, 1\]; pixels of the original image                                                          | Where each suspected defect is: for operators and for evaluation            |
+| **Output:** decision   | FAIL / REVIEW / PASS from the top confidence (FAIL ≥ 0.16, REVIEW ≥ 0.01)                                                                                    | Reject, send to an inspector, or “no defect found” (not a validated “good”) |
+| **Output:** timing     | ms per stage, per image                                                                                                                                      | Checked against R2                                                          |
 
 **Function-level inputs and outputs** are given in NumPy-style
 docstrings, rendered as HTML by pdoc. The model runs from the command
-line with `python -m porkqc.cli frame.jpg`.
+line with python -m porkqc.cli frame.jpg.
 
 **Invalid input** is rejected with a specific error rather than
 processed silently. This covers missing files, non-images, wrong array
@@ -173,13 +173,11 @@ D-026).
 ### 3.3 Evaluation pipeline and implementation
 
 Predictions are exported once and scored by my own tested package
-`porkqc.metrics`. Matches are taken in confidence order at IoU ≥ 0.5 for
+porkqc.metrics. Matches are taken in confidence order at IoU ≥ 0.5 for
 AP50 and at 0.50–0.95 for mAP50-95. AP is the area under the precision
 envelope \[6\]:
 
-``` latex
-\mathrm{AP}=\int_0^1 p_{\mathrm{interp}}(r)\,dr,\qquad p_{\mathrm{interp}}(r)=\max_{k:\,r_k\ge r} p_k
-```
+$$\mathrm{AP}=\int_0^1 p_{\mathrm{interp}}(r)\,dr,\qquad p_{\mathrm{interp}}(r)=\max_{k:\,r_k\ge r} p_k$$
 
 The envelope is a monotone, shape-preserving interpolant and a step
 function, so it is integrated exactly; the alternative quadrature rules
@@ -187,7 +185,7 @@ are compared in 5.4. 95% CIs come from a percentile bootstrap over
 50-frame runs (1,000 resamples) \[10\]. Model differences use a paired
 bootstrap on identical images.
 
-**Implementation.** The package `porkqc` holds all the code. It has pdoc
+**Implementation.** The package porkqc holds all the code. It has pdoc
 HTML documentation, 249 tests with 95% coverage, and CI. Notebooks run
 either in Colab or on CPU from the committed results (Appendix A).
 
@@ -399,12 +397,12 @@ Strong degradation costs 0.21–0.27, almost all of it on packaging-error
 compression. Across miss costs of 3–50, the optimal thresholds still
 give zero misses on validation.
 
-| Aspect         | Original (run 1)                      | Final                                    | Evidence                              |
-|----------------|---------------------------------------|------------------------------------------|---------------------------------------|
-| Split          | Provided random split                 | Time-blocked                             | Removes +0.27 optimism (4.2)          |
-| Reported score | mAP50 0.66 from the library's `val()` | AP50 0.748 on a once-used TEST, with CI  | `val()` overstated by 0.03–0.11 (V11) |
-| Output         | Boxes                                 | Boxes plus cost-optimal FAIL/REVIEW/PASS | 4.4                                   |
-| Settings       | Library defaults                      | 640 px, FP32, batch 1, measured          | 5.3                                   |
+| Aspect         | Original (run 1)                    | Final                                    | Evidence                            |
+|----------------|-------------------------------------|------------------------------------------|-------------------------------------|
+| Split          | Provided random split               | Time-blocked                             | Removes +0.27 optimism (4.2)        |
+| Reported score | mAP50 0.66 from the library's val() | AP50 0.748 on a once-used TEST, with CI  | val() overstated by 0.03–0.11 (V11) |
+| Output         | Boxes                               | Boxes plus cost-optimal FAIL/REVIEW/PASS | 4.4                                 |
+| Settings       | Library defaults                    | 640 px, FP32, batch 1, measured          | 5.3                                 |
 
 ## 6. Limitations and lessons learned
 
@@ -440,49 +438,57 @@ realistic line, but it is not yet a validated accept/reject machine:
 
 ## 7. AI use and reflection
 
-*\[Hudson to write in his own words. The eight headings below are the
-points the brief requires. Aim for about 250 words to keep Sections 1–7
-within 10 pages. Delete this note and the evidence list at the end when
-done.\]*
+**Which AI tools were used:** Claude and Claude Code
 
-**Which AI tools were used.** \[ \]
+**What they were used for:** I used Claude to set up an initial skeleton
+plan, laying out potential solution paths and the pros/cons between
+different splits, methods and algorithmic intensity. I then moved to
+Claude Code to write the code and create the GitHub branches and
+documents. I then used another Claude session to independently audit the
+code for potential bias in the methods and overall readability.
 
-**What they were used for.** \[ \]
+**Approximate level of AI contribution.** Claude Code wrote 100% of the
+code and README files, minus the initial import of the dataset and any
+training runs. I ensured that Claude asked me for permission on any
+large decisions. Claude wrote the report based on my ~100-200 word
+prompt per section, which was then manually checked and edited by me.
+Claude did not write the AI use and reflection.
 
-**Approximate level of AI contribution.** \[ \]
+**Why AI was used for those tasks:** Claude can compare similar public
+repositories and code for similar tasks and therefore had a deeper
+understanding of how different variables could affect the solution, so I
+used it to find specific pros and cons, which I then confirmed and
+implemented based on validation run results.
 
-**Why AI was used for those tasks.** \[ \]
+**How AI-generated material was checked:** I manually verified most, if
+not all, the sources Claude drew from, ensuring they were real. This led
+to finding the very first run to be comprised of illegitimate results
+which Claude had generated to try and satisfy my prompt. To combat this,
+I used two different agents with the task to critique methods and ensure
+responsible coding practices. I read through reports and asked if I did
+not understand anything.
 
-**How AI-generated material was checked.** \[ \]
+**Which important decisions remained my responsibility:** Any decisions
+regarding underlying solution methods, such as a blocked training split
+compared to the provided split. I also verified solution problems, such
+as some samples being cut off and others being duplicated, where I set
+the sensitivity for how much of each image is needed for a successful
+scan. I oversaw all the training and final tests, alongside the metrics
+they provided once run.
 
-**Which important decisions remained my responsibility.** \[ \]
+**Errors, limitations or unhelpful suggestions produced by AI:** At
+first, Claude Code incorrectly drew from the dataset, somehow mixing
+training and validation splits, which I had to completely restart to
+ensure there was no leakage. It also gave a lot of unhelpful suggestions
+that could make it 1% more accurate at a much higher algorithmic
+intensity.
 
-**Errors, limitations or unhelpful suggestions produced by AI.** \[ \]
-
-**How AI use affected my understanding and workflow.** \[ \]
-
-*Evidence available in the repository (delete before submission):*
-
-- `docs/AI_USAGE_LOG.md` has one row per session (sessions 1–10); the
-  “Your verification” column still needs filling.
-
-- `docs/DECISION_LOG.md` gives the provenance of each decision. Yours
-  include the framing, the licence, the unlabelled-frame review (25 E /
-  1 M), re-coding the two G frames as E, and choosing YOLO11n for TEST
-  (D-025).
-
-- `docs/VERIFICATION_LOG.md` lists errors in AI-written code or plans
-  that were caught. Those caught on real data or in CI include V1 (an
-  ignore rule hid a code folder from the repository), V3 (a finished run
-  would have been silently retrained), V8 (a local dry run pushed fake
-  results to your repository), V9 (the download bug you found in Colab)
-  and V10 (the planned hashing method failed on real images). Those
-  found in Claude's own tests include V12 (a confounded run comparison),
-  V15 (wrong expected values in two unit tests) and V19 (a test-order
-  bug).
-
-- The pull-request history (PRs \#1–#15) shows each change reviewed and
-  merged by you.
+**How AI use affected my understanding and workflow:** It really shows
+how important it is to understand the AI’s workflow and solution, as AI
+likes to do very unnatural and unhelpful things, especially when coding.
+My understanding of how to implement AI to generate a good solution, and
+how to work alongside the AI rather than letting it do everything, is
+essential.
 
 ## 8. References
 
@@ -557,9 +563,9 @@ done.\]*
     Performance Metrics for Object-Detection Algorithms”, *International
     Conference on Systems, Signals and Image Processing (IWSSIP)*, 2020.
 
-Project records (in the repository): `docs/RESULTS_LOG.md` (R1–R6),
-`docs/DECISION_LOG.md` (D-001–D-028), `docs/VERIFICATION_LOG.md`
-(V1–V21), `docs/AI_USAGE_LOG.md`, `docs/IO_SPECIFICATION.md`.
+Project records (in the repository): docs/RESULTS_LOG.md (R1–R6),
+docs/DECISION_LOG.md (D-001–D-028), docs/VERIFICATION_LOG.md (V1–V21),
+docs/AI_USAGE_LOG.md, docs/IO_SPECIFICATION.md.
 
 ## Appendix A. Repository and reproduction
 
@@ -568,24 +574,24 @@ Repository:
 licensed under AGPL-3.0 (the licence of the Ultralytics code it builds
 on).
 
-| Required item (brief)                           | Where                                                                                                                                                  |
-|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| README                                          | `README.md`: purpose, structure, workflow, environment, data handling, how to reproduce each result                                                    |
-| HTML documentation of the source code           | `docs/api/index.html`, generated by pdoc from NumPy-style docstrings (`scripts/build_docs.sh`)                                                         |
-| Licensing agreement                             | `LICENSE` (AGPL-3.0); the dataset is CC BY 4.0, attributed in the README                                                                               |
-| Source code with inline comments and docstrings | `src/porkqc/`. A test enforces a docstring with a Parameters section on every public function that takes arguments                                     |
-| Test functions and test report                  | `tests/` (249 tests, 95% line coverage) and `reports/test_report.html` (pytest-html), with CI on every push (ruff lint; tests on Python 3.11 and 3.12) |
-| Trained model                                   | `models/yolo11n_640_blocked.pt` with a model card and SHA-256 hash, checked by a test                                                                  |
+| Required item (brief)                           | Where                                                                                                                                              |
+|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| README                                          | README.md: purpose, structure, workflow, environment, data handling, how to reproduce each result                                                  |
+| HTML documentation of the source code           | docs/api/index.html, generated by pdoc from NumPy-style docstrings (scripts/build_docs.sh)                                                         |
+| Licensing agreement                             | LICENSE (AGPL-3.0); the dataset is CC BY 4.0, attributed in the README                                                                             |
+| Source code with inline comments and docstrings | src/porkqc/. A test enforces a docstring with a Parameters section on every public function that takes arguments                                   |
+| Test functions and test report                  | tests/ (249 tests, 95% line coverage) and reports/test_report.html (pytest-html), with CI on every push (ruff lint; tests on Python 3.11 and 3.12) |
+| Trained model                                   | models/yolo11n_640_blocked.pt with a model card and SHA-256 hash, checked by a test                                                                |
 
 **Reproduction.**
 
-1.  Without a GPU or the dataset, `pip install -e ".[dev,analysis]"`
-    then `bash scripts/run_tests.sh` runs all tests. Executing notebooks
+1.  Without a GPU or the dataset, pip install -e ".\[dev,analysis\]"
+    then bash scripts/run_tests.sh runs all tests. Executing notebooks
     05–06 regenerates every table and figure in Sections 4–5 from the
-    committed files in `results/`.
+    committed files in results/.
 
-2.  To try the model on an image: `pip install -e ".[detector]"`, then
-    `python -m porkqc.cli frame.jpg`.
+2.  To try the model on an image: pip install -e ".\[detector\]", then
+    python -m porkqc.cli frame.jpg.
 
 3.  The full pipeline runs in Colab: notebooks 00 (data) and 01 (audit
     and split) on CPU, then 02 (training), 03 (cross-evaluation) and 04
@@ -611,21 +617,21 @@ on).
 
 The objectives not used (linear systems, regression, ODEs, PDEs, PINNs)
 have no natural role in a static image-inspection problem. The reasons
-are recorded in `docs/LEARNING_OBJECTIVES_MAP.md`.
+are recorded in docs/LEARNING_OBJECTIVES_MAP.md.
 
 ## Appendix C. Invalid, missing or unsupported input
 
-| Situation                                                                                    | Behaviour                                                                                     |
-|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| Missing image, label, config or weights file                                                 | `FileNotFoundError` naming the path; the command line exits with code 2                       |
-| File that is not a readable image                                                            | `ValueError`; exit code 2 before the model loads                                              |
-| Image array not `(H, W, 3)`, or not `uint8`                                                  | `ValueError` / `TypeError`                                                                    |
-| Label line with the wrong field count, NaN/inf, an unknown class, or a box outside the image | `LabelFormatError` with file and line number; the audit counts such files instead of stopping |
-| Class list in the dataset differs from the expected names or order                           | `ValueError` before training or evaluation                                                    |
-| Predictions for images missing from the ground truth, or image sizes that disagree           | `ValueError`, preventing comparisons across different coordinate frames                       |
-| Decision thresholds out of order or outside \[0, 1\]                                         | `ValueError`                                                                                  |
-| Missing Roboflow API key, or a download that produced no `data.yaml`                         | `RuntimeError` explaining the fix; retries while the export is not ready                      |
-| Image from another camera or line, or outside the robustness envelope                        | Processed, but the result is unvalidated (documented limitation)                              |
+| Situation                                                                                    | Behaviour                                                                                   |
+|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| Missing image, label, config or weights file                                                 | FileNotFoundError naming the path; the command line exits with code 2                       |
+| File that is not a readable image                                                            | ValueError; exit code 2 before the model loads                                              |
+| Image array not (H, W, 3), or not uint8                                                      | ValueError / TypeError                                                                      |
+| Label line with the wrong field count, NaN/inf, an unknown class, or a box outside the image | LabelFormatError with file and line number; the audit counts such files instead of stopping |
+| Class list in the dataset differs from the expected names or order                           | ValueError before training or evaluation                                                    |
+| Predictions for images missing from the ground truth, or image sizes that disagree           | ValueError, preventing comparisons across different coordinate frames                       |
+| Decision thresholds out of order or outside \[0, 1\]                                         | ValueError                                                                                  |
+| Missing Roboflow API key, or a download that produced no data.yaml                           | RuntimeError explaining the fix; retries while the export is not ready                      |
+| Image from another camera or line, or outside the robustness envelope                        | Processed, but the result is unvalidated (documented limitation)                            |
 
 ## Appendix D. Verification evidence
 
@@ -642,10 +648,10 @@ are recorded in `docs/LEARNING_OBJECTIVES_MAP.md`.
   rule's order.
 
 - **Trusted benchmarks.** On random scenes (20 seeds), my matching and
-  AP functions reproduce Ultralytics' `match_predictions`, `compute_ap`
-  and `ap_per_class` to 10⁻⁹. My FLOP counter gives 6.38 GFLOP against
-  THOP's 6.44 at 640 × 640 (−1.0%); the difference is non-convolution
-  work, which I deliberately do not count.
+  AP functions reproduce Ultralytics' match_predictions, compute_ap and
+  ap_per_class to 10⁻⁹. My FLOP counter gives 6.38 GFLOP against THOP's
+  6.44 at 640 × 640 (−1.0%); the difference is non-convolution work,
+  which I deliberately do not count.
 
 - **Reproducibility.**
 
@@ -655,11 +661,11 @@ are recorded in `docs/LEARNING_OBJECTIVES_MAP.md`.
 
   - Two Colab sessions give identical mAP50 (0.6091).
 
-  - The library's `val()` differs from exported predictions by 0.03–0.11
+  - The library's val() differs from exported predictions by 0.03–0.11
     mAP50 because it uses multi-label NMS (V11). Only exported
     predictions are reported.
 
-- **Bugs found and fixed.** `docs/VERIFICATION_LOG.md` records all 21,
+- **Bugs found and fixed.** docs/VERIFICATION_LOG.md records all 21,
   each with its cause, fix and lesson. Examples:
 
   - an ignore rule hid a code folder (caught by CI on a fresh clone);
