@@ -450,9 +450,9 @@ potential bias in the methods and overall readability.
 **Approximate level of AI contribution.** Claude Code wrote 100% of the
 code and README files; I ran the download and every training run in
 Colab myself. I ensured that Claude asked me for permission on any large
-decisions. Claude wrote the report based on my ~100-200 word prompt per
-section, which was then manually checked and edited by me. Claude did
-not write the AI use and reflection.
+decisions. Claude drafted the report from the assessment brief, the
+rubric and the project's logs, and I checked and edited every section.
+Claude did not write the AI use and reflection.
 
 **Why AI was used for those tasks:** Claude has broad knowledge of
 common methods and could read the Ultralytics source code and
@@ -460,12 +460,12 @@ documentation directly, so I used it to find specific pros and cons,
 which I then confirmed and implemented based on validation run results.
 
 **How AI-generated material was checked:** I manually verified most, if
-not all, the sources Claude drew from, ensuring they were real. This led
-to finding the very first run to be comprised of illegitimate results
-which Claude had generated to try and satisfy my prompt. To combat this,
-I used two different agents with the task to critique methods and ensure
-responsible coding practices. I read through reports and asked if I did
-not understand anything.
+not all, the sources Claude drew from, ensuring they were real, and I
+didn't take its output on trust. Early on, one of its test runs pushed
+fake, synthetic results into my repository; we found it, deleted them,
+and added a safeguard. To catch problems like this, I used two different
+agents to critique the methods and coding practices, and I asked about
+anything I didn't understand.
 
 **Which important decisions remained my responsibility:** Any decisions
 regarding underlying solution methods, such as a blocked training split
