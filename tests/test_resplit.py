@@ -1,5 +1,7 @@
 """Tests for frame parsing and the time-blocked re-split."""
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 import yaml
@@ -156,9 +158,25 @@ def test_materialise_split_links_and_dedupes_eval_copies(framed_dataset, tmp_pat
     counts = materialise_split(framed_dataset, out, assignment, ["a"], files=files)
     assert counts == {"train": 1, "valid": 2, "test": 1}  # 3 copies of frame 1 -> 1 in test
     linked = list((out / "test" / "images").iterdir())
-    assert len(linked) == 1 and linked[0].is_symlink()
+    assert len(linked) == 1 and linked[0].is_file()  # a symlink, or a copy where links are not allowed
     assert (out / "test" / "labels" / f"{linked[0].stem}.txt").read_text().startswith("0 ")
     data = yaml.safe_load((out / "data.yaml").read_text())
-    assert data["names"] == ["a"] and data["val"].endswith("valid/images")
+    assert data["names"] == ["a"] and Path(data["val"]).parts[-2:] == ("valid", "images")
     # re-running replaces links instead of failing
     assert materialise_split(framed_dataset, out, assignment, ["a"], files=files) == counts
+
+
+def test_materialise_split_copies_when_symlinks_are_not_allowed(framed_dataset, tmp_path, monkeypatch):
+    """Windows without Developer Mode refuses symlinks; files must be copied instead."""
+    import porkqc.data.resplit as rs
+
+    def refuse(*args, **kwargs):
+        raise OSError("symbolic link privilege not held")
+
+    monkeypatch.setattr(rs.os, "symlink", refuse)
+    _, files, _ = collect_frames(framed_dataset)
+    out = tmp_path / "copied"
+    counts = materialise_split(framed_dataset, out, {"frame_with_red_1_jpg": "test"}, ["a"], files=files)
+    linked = list((out / "test" / "images").iterdir())
+    assert counts["test"] == 1 and len(linked) == 1
+    assert linked[0].is_file() and not linked[0].is_symlink()

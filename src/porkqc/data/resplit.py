@@ -32,6 +32,7 @@ counted twice in an evaluation.
 from __future__ import annotations
 
 import os
+import shutil
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -290,7 +291,7 @@ def materialise_split(
     Returns
     -------
     dict of str to int
-        Number of images linked per split.
+        Number of images linked (or copied) per split.
     """
     out_root = Path(out_root)
     if files is None:
@@ -311,7 +312,12 @@ def materialise_split(
             ):
                 if dst.is_symlink() or dst.exists():
                     dst.unlink()
-                os.symlink(src.resolve(), dst)
+                # Links avoid duplicating the dataset on disk. Windows only allows
+                # symlinks with Developer Mode or admin rights, so fall back to a copy.
+                try:
+                    os.symlink(src.resolve(), dst)
+                except OSError:
+                    shutil.copy2(src, dst)
             counts[split] += 1
     data = {
         "path": str(out_root.resolve()),
