@@ -20,14 +20,14 @@ from pathlib import Path
 
 __all__ = ["DEFAULT_WEIGHTS", "DEFAULT_DECISION", "inspect_images", "main"]
 
-ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_WEIGHTS = ROOT / "models" / "yolo11n_640_blocked.pt"
-DEFAULT_DECISION = ROOT / "configs" / "decision.yaml"
+ROOT = Path(__file__).resolve().parents[2]  # repository root (editable install)
+#: Selected trained model, relative to the repository root.
+DEFAULT_WEIGHTS = "models/yolo11n_640_blocked.pt"
+#: Frozen decision thresholds (DECISION_LOG D-026), relative to the repository root.
+DEFAULT_DECISION = "configs/decision.yaml"
 
 
-def inspect_images(
-    paths, weights=DEFAULT_WEIGHTS, decision_cfg=DEFAULT_DECISION, device: str = "cpu"
-) -> list[dict]:
+def inspect_images(paths, weights=None, decision_cfg=None, device: str = "cpu") -> list[dict]:
     """
     Run the detector and the decision rule on image files.
 
@@ -36,9 +36,9 @@ def inspect_images(
     paths : sequence of path-like
         Image files (JPEG/PNG, RGB; validated at 720 × 540).
     weights : path-like, optional
-        Trained YOLO weights (default: the committed selected model).
+        Trained YOLO weights (default: :data:`DEFAULT_WEIGHTS` in the repository).
     decision_cfg : path-like, optional
-        YAML with ``t_review`` and ``t_fail`` (default: frozen thresholds).
+        YAML with ``t_review`` and ``t_fail`` (default: :data:`DEFAULT_DECISION`).
     device : str, optional
         ``"cpu"`` (default) or ``"cuda"``/``"0"``.
 
@@ -63,8 +63,10 @@ def inspect_images(
     from .decision import decide
     from .models.detector import predict_images
 
+    weights = ROOT / DEFAULT_WEIGHTS if weights is None else Path(weights)
+    decision_cfg = ROOT / DEFAULT_DECISION if decision_cfg is None else Path(decision_cfg)
     paths = [Path(p) for p in paths]
-    for p in [*paths, Path(weights)]:
+    for p in [*paths, weights]:
         if not p.is_file():
             raise FileNotFoundError(p)
     for p in paths:  # reject non-images before loading the model
@@ -122,8 +124,8 @@ def main(argv: list[str] | None = None) -> int:
     """
     ap = argparse.ArgumentParser(description="Inspect pork-rasher tray images: FAIL / REVIEW / PASS.")
     ap.add_argument("images", nargs="+", help="image files")
-    ap.add_argument("--weights", default=str(DEFAULT_WEIGHTS), help="YOLO weights (.pt)")
-    ap.add_argument("--decision", default=str(DEFAULT_DECISION), help="decision thresholds YAML")
+    ap.add_argument("--weights", help=f"YOLO weights (.pt); default: {DEFAULT_WEIGHTS}")
+    ap.add_argument("--decision", help=f"decision thresholds YAML; default: {DEFAULT_DECISION}")
     ap.add_argument("--device", default="cpu", help="cpu or cuda device id")
     ap.add_argument("--out", help="write full results as JSON to this file")
     args = ap.parse_args(argv)

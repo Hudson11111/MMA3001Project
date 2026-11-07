@@ -14,8 +14,9 @@ SHA256 = "02e6a2275fa1292b5d07c7100ab2fe0c1e0dbae54db7156cd347c8bf1406a7ee"
 
 def test_committed_weights_match_recorded_hash():
     """The model in the repo is exactly the one that produced the TEST results (models/README.md)."""
-    assert DEFAULT_WEIGHTS.is_file()
-    assert hashlib.sha256(DEFAULT_WEIGHTS.read_bytes()).hexdigest() == SHA256
+    weights = ROOT / DEFAULT_WEIGHTS
+    assert weights.is_file()
+    assert hashlib.sha256(weights.read_bytes()).hexdigest() == SHA256
 
 
 def test_cli_missing_image_returns_error_code(capsys):
