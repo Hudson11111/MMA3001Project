@@ -132,6 +132,9 @@ def assign_time_blocks(
 
     names = sorted(frames)
     f = np.array([frames[n] for n in names])
+    # Whole blocks of consecutive frames move together, so one tray (visible for
+    # ~5-15 frames) can only end up in one split. Blocks are shuffled with a fixed
+    # seed so the split is random in time but reproducible.
     blocks = f // block_size
     unique_blocks = np.unique(blocks)
     rng = np.random.default_rng(seed)
@@ -142,6 +145,7 @@ def assign_time_blocks(
     targets = np.cumsum(fractions) * total
     block_split: dict[int, str] = {}
     filled = 0
+    # Fill train, then valid, then test up to their target share of frames.
     for b in unique_blocks:
         k = int(np.searchsorted(targets, filled, side="right"))
         block_split[int(b)] = SPLIT_NAMES[min(k, 2)]
@@ -156,6 +160,8 @@ def assign_time_blocks(
             ref = f[(split != s) & np.isin(split, others) & keep]
             if ref.size == 0 or idx.size == 0:
                 continue
+            # Distance from each frame to the nearest kept frame of a higher-priority
+            # split: binary search in the sorted reference, then check both neighbours.
             ref = np.sort(ref)
             pos = np.searchsorted(ref, f[idx])
             d = np.minimum(

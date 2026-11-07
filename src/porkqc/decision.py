@@ -105,6 +105,8 @@ def decide(scores: np.ndarray, t_review: float, t_fail: float) -> np.ndarray:
     if not (0.0 <= t_review <= t_fail <= 1.0):
         raise ValueError(f"Need 0 <= t_review <= t_fail <= 1, got {t_review}, {t_fail}.")
     s = np.asarray(scores, dtype=float)
+    # Start from PASS and escalate: FAIL is applied last, so it wins over REVIEW
+    # for scores above both thresholds.
     out = np.full(s.shape, PASS, dtype=object)
     out[s >= t_review] = REVIEW
     out[s >= t_fail] = FAIL
@@ -198,9 +200,14 @@ def choose_thresholds(
     costs = DecisionCosts() if costs is None else costs
     grid = np.round(np.linspace(0, 1, 101), 2) if grid is None else np.asarray(grid, dtype=float)
     best_key, best = None, None
+    # Exhaustive search: the cost is a step function of the thresholds (it only
+    # changes when a threshold crosses an image score), so it has no useful
+    # gradient, and 5,151 pairs are cheap to evaluate exactly.
     for i, tr in enumerate(grid):
-        for tf in grid[i:]:
+        for tf in grid[i:]:  # enforce t_review <= t_fail
             r = evaluate_decisions(decide(scores, tr, tf), defective, costs)
+            # Lowest cost first; ties -> fewer reviews, then less automatic rejection.
+            # Rounding stops floating-point noise from deciding a tie.
             key = (round(r["cost_per_image"], 12), r["reviews"], -tf, -tr)
             if best_key is None or key < best_key:
                 best_key, best = key, {"t_review": float(tr), "t_fail": float(tf), **r}

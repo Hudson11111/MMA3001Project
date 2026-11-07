@@ -158,6 +158,8 @@ def ap_exact(recall: np.ndarray, precision: np.ndarray) -> float:
     if recall.size == 0:
         return 0.0
     env = precision_envelope(precision)
+    # The envelope is constant between consecutive recall values, so the integral
+    # is a sum of rectangles: exact, with no discretisation error (unlike sampled rules).
     widths = np.diff(np.concatenate(([0.0], recall)))
     return float(np.sum(widths * env))
 
